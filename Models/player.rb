@@ -69,13 +69,13 @@ class Player
   ## INSTANCE METHODS
   #
 
-  def initialize(name:, species:, type:, password:) # type = player class
+  def initialize(options={}) # type = player class
     @id          = object_id
-    @name        = name
-    @password    = password
+    @name        = options[:name]
+    @password    = options[:password]
 
-    @species     = species
-    @type        = type
+    @species     = options[:species]
+    @type        = options[:type]
 
     @level       = 1
     @current_exp = 0

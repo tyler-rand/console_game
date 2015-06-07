@@ -6,7 +6,7 @@ describe Map do
     map = build(:map)
   end
 
-  it 'should load a maps mobs' do
+  it 'should load mobs ary for map' do
   	map = build(:map)
   	map.load_current_map
   	map.load_mobs

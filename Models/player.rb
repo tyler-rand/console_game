@@ -1,7 +1,7 @@
 # tracks player stats and skills
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-   :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory
+   :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location
 
   #
   ## CLASS METHODS
@@ -87,6 +87,7 @@ class Player
     @damage      = 5
     @crit_chance = 0
 
+    @location    = []
     @equipped    = Equipped.new(player: self) 
     @inventory   = Inventory.new(player: self)
   end
@@ -94,6 +95,10 @@ class Player
   def save
     File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
     puts "SAVED!".colorize(92)
+  end
+
+  def set_loc(current_map)
+    self.location = find_player_loc(current_map)
   end
 
   def update_stats # refresh stats after changing equipped items

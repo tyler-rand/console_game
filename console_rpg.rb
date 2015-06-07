@@ -77,17 +77,18 @@ while @game.state == 1 do
   #
   if user_input == 'MAP'
     @map = @game.load_map
+    @player.set_loc(@map.current_map)
+    puts "ploc:#{@player.location}"
 
     @map.print_colorized
     
     # Get input and move player loop
-    while @map.current_map.join().include?('P') do
-      player_loc, new_player_loc = @map.new_player_loc_from_input(@player)
+    while @player.location != []
+      new_player_loc = @map.new_player_loc_from_input(@player)
 
-      unless @map.current_map[player_loc[0]][player_loc[1]] == '.'
-        @map.move_player(player: @player, player_loc: player_loc, new_player_loc: new_player_loc)
-        @map.show_map_for_player
-        
+      unless @player.location == []
+        @map.move_player(player: @player, new_player_loc: new_player_loc)
+        @map.show_map_for_player   
       end
     end
 

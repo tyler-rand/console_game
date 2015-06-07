@@ -69,18 +69,18 @@ class Map
   end
 
   def new_player_loc_from_input(player) # rename, rewrite
-    player_loc  = find_player_loc(current_map)  
     input_state = 0  
 
     while input_state == 0
       user_input = STDIN.getch
 
       if %w(w a s d).include?(user_input)
-        new_player_loc = find_new_player_loc(user_input, player_loc, current_map)
+        new_player_loc = find_new_player_loc(user_input, player.location, current_map)
         input_state    = 1
       elsif user_input == 'c'
-        current_map[player_loc[0]][player_loc[1]] = '.'
-        new_player_loc = player_loc
+        player.location = []
+        # current_map[player.location[0]][player.location[1]] = '.'
+        new_player_loc = player.location
         input_state    = 1
       else
         puts 'Error, command not recognized.'.colorize(101)
@@ -88,7 +88,7 @@ class Map
       end
     end
 
-    return player_loc, new_player_loc
+    new_player_loc
   end
 
   def show_map_for_player
@@ -99,26 +99,27 @@ class Map
     puts '--'
   end
 
-  def move_player(player:, player_loc:, new_player_loc:)
+  def move_player(player:, new_player_loc:)
     case current_map[new_player_loc[0]][new_player_loc[1]]
     when '.'
-      current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
-      current_map[player_loc[0]][player_loc[1]]         = '.'
+      current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
+      current_map[player.location[0]][player.location[1]] = '.'
     when 'c'
       player.inventory.add_items(level)
-      current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
-      current_map[player_loc[0]][player_loc[1]]         = '.'
+      current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
+      current_map[player.location[0]][player.location[1]] = '.'
     when '$'
       player.inventory.add_money(10)
-      current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
-      current_map[player_loc[0]][player_loc[1]]         = '.'
+      current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
+      current_map[player.location[0]][player.location[1]] = '.'
     when 'm'
-      player.engage_mob(self, player_loc, new_player_loc)
+      player.engage_mob(self, player.location, new_player_loc)
     when 'x'
       puts 'Can\'t move to spaces with \'x\''.colorize(101)
     else
       # exception
     end
+    player.location = find_player_loc(current_map)
     print '-->'
   end
 

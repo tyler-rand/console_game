@@ -1,18 +1,17 @@
 # battle between player and mob
 class Battle
-  attr_accessor :id, :state, :player, :mob, :player_loc, :mob_loc
+  attr_accessor :id, :state, :player, :mob, :map
 
   #
   ## CLASS METHODS
   #
 
-  def initialize(player, mob, player_loc, mob_loc)
+  def initialize(player, mob, map)
     @id     = object_id
     @state  = 0
     @player = player
     @mob    = mob
-    @player_loc = player_loc
-    @mob_loc = mob_loc
+    @map    = map
   end
 
   def ask_user_battle_input
@@ -34,9 +33,9 @@ class Battle
     puts "You hit #{mob.name} for #{player.damage}!".colorize(93)
 
  	if mob.health <= 0 && player.health > 0
-      # Player kills mob 	
-      mob.map.current_map[mob_loc[0]][mob_loc[1]]       = 'P'
-      mob.map.current_map[player_loc[0]][player_loc[1]] = '.'
+      # Player kills mob
+      map.current_map[mob.location[0]][mob.location[1]]       = 'P'
+      map.current_map[player.location[0]][player.location[1]] = '.'
 
       player.update_exp(mob.level)
       puts "you killed it, gained #{mob.level} exp.".colorize(92)
@@ -56,7 +55,7 @@ class Battle
       puts 'you died'.colorize(91)
       self.state = 1
       player.health = 0
-      find_new_player_loc('c', player_loc, current_map)
+      player.find_new_loc('c', current_map)
     end
   end
 

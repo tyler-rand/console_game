@@ -41,7 +41,7 @@ class Game
   ## INSTANCE METHODS
   #
 
-  def initialize()
+  def initialize
     @id     = object_id
     @state  = 0
     @player = nil

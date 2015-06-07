@@ -97,8 +97,25 @@ class Player
     puts "SAVED!".colorize(92)
   end
 
-  def set_loc(current_map)
-    self.location = find_player_loc(current_map)
+  def set_location(current_map)
+    current_map.map do |line| 
+      self.location = [current_map.index(line), line.index('P')] if line.include?('P')
+    end
+  end
+
+  def find_new_loc(user_input, current_map)
+    case user_input
+    when 'w' # move up 1
+      new_player_loc = [location[0] - 1, location[1]]
+    when 'a' # move left 1
+      new_player_loc = [location[0], location[1] - 1]
+    when 's' # move down 1
+      new_player_loc = [location[0] + 1, location[1]]
+    when 'd' # move right 1
+      new_player_loc = [location[0], location[1] + 1]
+    end
+  
+    new_player_loc
   end
 
   def update_stats # refresh stats after changing equipped items
@@ -128,12 +145,16 @@ class Player
     end
   end
 
-  def engage_mob(map, player_loc, new_player_loc) # REFACTOR
-    mob = map.mobs[new_player_loc]
+  def engage_mob(map, new_player_loc) # REFACTOR
+    mob = nil
+    map.mobs.each do |m|
+      mob = m if m.location == new_player_loc
+    end
+
     puts 'A MOB APPEARS! KILL IT!'
     puts '----'
 
-    battle = Battle.new(self, mob, player_loc, new_player_loc)
+    battle = Battle.new(self, mob, map)
   
     while battle.state == 0
       user_input = battle.ask_user_battle_input

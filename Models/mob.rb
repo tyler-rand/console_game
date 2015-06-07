@@ -1,19 +1,18 @@
 # npc monster
 class Mob
-  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :map_id, :movement_type
+  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :map_id, :movement_type, :location
 
   #
   ## CLASS METHODS
   #
 
-  def self.roll_new(map)
-    name   = 'welp'
-    type   = 'typefsd'
-    level  = map.level
+  def self.roll_new(map, location)
+    name   = %w(terror vicious bloodthirsty).sample
+    type   = %w(dragon zombie bear).sample
     damage = map.level*2
     max_health = map.level*10
 
-    mob = Mob.new(name: name, type: type, level: level, damage: damage, max_health: max_health, map_id: map.id, movement_type: 0)
+    mob = Mob.new(name: name, type: type, level: map.level, damage: damage, max_health: max_health, map_id: map.id, movement_type: 0, location: location)
     mob
   end
 
@@ -21,15 +20,16 @@ class Mob
   ## INSTANCE METHODS
   #
 
-  def initialize(name:, type:, level:, max_health:, damage:, map_id:, movement_type:)
+  def initialize(options={})
     @id            = object_id
-    @name          = name
-    @type          = type
-    @level         = level
-    @health        = max_health
-    @max_health    = max_health
-    @damage        = damage
-    @map_id        = map_id
-    @movement_type = movement_type
+    @name          = options[:name]
+    @type          = options[:type]
+    @level         = options[:level]
+    @health        = options[:max_health]
+    @max_health    = options[:max_health]
+    @damage        = options[:damage]
+    @map_id        = options[:map_id]
+    @movement_type = options[:movement_type]
+    @location      = options[:location]
   end
 end

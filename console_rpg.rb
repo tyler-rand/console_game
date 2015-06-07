@@ -16,8 +16,6 @@ end
 ### RUN GAME ###
 ##################
 
-n=-80; 1.upto(120) do |n| puts "sdjkgdsjkl, #{n}".colorize(n) end
-
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
 @game = Game.new() # Game started, no player loaded
@@ -77,9 +75,7 @@ while @game.state == 1 do
   #
   if user_input == 'MAP'
     @map = @game.load_map
-    @player.set_loc(@map.current_map)
-    puts "ploc:#{@player.location}"
-
+    @player.set_location(@map.current_map)
     @map.print_colorized
     
     # Get input and move player loop

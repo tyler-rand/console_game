@@ -24,10 +24,10 @@ class Map
   def initialize(options={})
     @id          = object_id
     @name        = options[:name]
-    @level       = options[:level]
+    @level       = options[:level].to_i
     @file        = options[:file]
-    @current_map = []
-    @mobs        = []
+    @current_map = load_current_map
+    @mobs        = load_mobs
   end
 
   def save
@@ -40,7 +40,7 @@ class Map
 
   def load_mobs
     mob_positions = []
-    mob_objects   = []
+    mobs          = []
 
     self.current_map.map do |line|
       line_num = current_map.index(line)
@@ -48,10 +48,13 @@ class Map
       line.split('').each_with_index.select { |c| mob_positions << [line_num,c[1]] if c[0] == 'm' }
     end
 
-    mob_positions.length.times { mob_objects << Mob.roll_new(self) }
-    self.mobs = mob_positions.zip(mob_objects).to_h
+    mob_positions.each do |pos|
+      mobs << Mob.roll_new(self, pos)
+    end
+    
+    self.mobs = mobs
 
-    mobs
+    self.mobs
   end
 
   def print_colorized
@@ -75,11 +78,10 @@ class Map
       user_input = STDIN.getch
 
       if %w(w a s d).include?(user_input)
-        new_player_loc = find_new_player_loc(user_input, player.location, current_map)
+        new_player_loc = player.find_new_loc(user_input, current_map)
         input_state    = 1
       elsif user_input == 'c'
         player.location = []
-        # current_map[player.location[0]][player.location[1]] = '.'
         new_player_loc = player.location
         input_state    = 1
       else
@@ -113,13 +115,13 @@ class Map
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
     when 'm'
-      player.engage_mob(self, player.location, new_player_loc)
+      player.engage_mob(self, new_player_loc)
     when 'x'
       puts 'Can\'t move to spaces with \'x\''.colorize(101)
     else
       # exception
     end
-    player.location = find_player_loc(current_map)
+    player.set_location(current_map)
     print '-->'
   end
 

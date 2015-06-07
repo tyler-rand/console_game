@@ -14,9 +14,9 @@ class Game
     if user_input[0..1].map(&:upcase) == %w(NEW MAP)
       name    = user_input[2].split('_').map(&:capitalize).join(' ')
       level   = user_input[3]
-      grid    = user_input[4]
+      file    = user_input[4]
 
-      new_map = Map.new(name: name, level: level, grid: "maps/#{grid}.txt")
+      new_map = Map.new(name: name, level: level, file: "maps/#{file}.txt")
       new_map.save
 
     elsif user_input[0, 1] == %w(NEW ITEM)

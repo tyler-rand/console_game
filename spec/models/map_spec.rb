@@ -2,10 +2,16 @@ require 'spec_helper'
 
 describe Map do
 
-  it 'should create a new map' do
+  it 'should build a new map' do
+    map = build(:map)
   end
 
-  it 'should load a map' do
+  it 'should load a maps mobs' do
+  	map = build(:map)
+  	map.load_current_map
+  	map.load_mobs
+
+  	expect(map.mobs.first[1].class).to eql(Mob)
   end
 
   it 'should move a player' do

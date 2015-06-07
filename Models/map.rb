@@ -1,6 +1,6 @@
 # map
 class Map
-  attr_accessor :id, :name, :level, :grid, :current_map, :mobs
+  attr_accessor :id, :name, :level, :file, :current_map, :mobs
 
   #
   ## CLASS METHODS
@@ -21,17 +21,21 @@ class Map
   ## INSTANCE METHODS
   #
 
-  def initialize(name:, level:, grid:)
+  def initialize(options={})
     @id          = object_id
-    @name        = name
-    @level       = level.to_i
-    @grid        = grid
-    @current_map = YAML.load(File.open(grid)).split(' ')
-    @mobs        = load_mobs
+    @name        = options[:name]
+    @level       = options[:level]
+    @file        = options[:file]
+    @current_map = []
+    @mobs        = []
   end
 
   def save
     File.open('MapsDB.yml', 'a') { |f| f.write(to_yaml) }
+  end
+
+  def load_current_map
+    self.current_map = YAML.load(File.open(file)).split(' ')
   end
 
   def load_mobs
@@ -45,7 +49,7 @@ class Map
     end
 
     mob_positions.length.times { mob_objects << Mob.roll_new(self) }
-    mobs = mob_positions.zip(mob_objects).to_h
+    self.mobs = mob_positions.zip(mob_objects).to_h
 
     mobs
   end

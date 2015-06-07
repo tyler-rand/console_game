@@ -7,15 +7,29 @@ describe Player do
   end
 
   it 'should load a player by login info' do
-    # player.load_by_credentials
+    player = build(:player)
+    player.save
+
+    loaded = Player.load_by_credentials(player.name, player.password)
   end
 
   it 'should load a saved player by id' do
-    # player.load_by_id
+    player = build(:player)
+    player.save
+
+    loaded = Player.load_by_id(player.id)
   end
 
   it 'should update a players exp' do
-    # player.update_exp
+    player = build(:player)
+    exp    = player.current_exp
+    n      = [*1..5].sample
+
+    player.update_exp(n)
+
+    new_exp = player.current_exp
+
+    expect(exp+n).to eql(new_exp)
   end
 
   it 'should update a players stats' do

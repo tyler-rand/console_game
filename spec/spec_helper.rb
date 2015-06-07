@@ -1,5 +1,12 @@
 require 'rubygems'
 require 'factory_girl'
+require 'YAML'
+
+class String
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
+end
 
 FactoryGirl.find_definitions
 

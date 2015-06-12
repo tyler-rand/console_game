@@ -37,9 +37,7 @@ class Player
     message       = ''
 
     # first try to match input name
-    players.map do |p|
-      unauth_player = p if p.name == input_name
-    end
+    players.each { |p| unauth_player = p if p.name == input_name }
 
     if unauth_player.nil?
       message = 'Name not found'.colorize(101)
@@ -59,23 +57,21 @@ class Player
   def self.load_by_id(player_id)
     players = YAML.load_stream(open('PlayersDB.yml'))
     player  = nil
-    
-    players.map do |p|
-      player = p if p.id == player_id
-    end
+
+    players.each { |p| player = p if p.id == player_id }
   end
 
   #
   ## INSTANCE METHODS
   #
 
-  def initialize(options={}) # type = player class
-    @id          = object_id
-    @name        = options[:name]
-    @password    = options[:password]
+  def initialize(options = {}) # type = players in-game class
+    @id       = object_id
+    @name     = options[:name]
+    @password = options[:password]
 
-    @species     = options[:species]
-    @type        = options[:type]
+    @species = options[:species]
+    @type    = options[:type]
 
     @level       = 1
     @current_exp = 0
@@ -83,22 +79,26 @@ class Player
     @health      = 100
     @max_health  = 100
 
+    @strength     = 1
+    @agility      = 1
+    @intelligence = 1
+
     @armor       = 0
     @damage      = 5
     @crit_chance = 0
 
-    @location    = []
-    @equipped    = Equipped.new(player: self) 
-    @inventory   = Inventory.new(player: self)
+    @location  = []
+    @equipped  = Equipped.new(player: self)
+    @inventory = Inventory.new(player: self)
   end
 
   def save
     File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
-    puts "SAVED!".colorize(92)
+    puts 'SAVED!'.colorize(92)
   end
 
   def set_location(current_map)
-    current_map.map do |line| 
+    current_map.each do |line|
       self.location = [current_map.index(line), line.index('P')] if line.include?('P')
     end
   end
@@ -114,12 +114,12 @@ class Player
     when 'd' # move right 1
       new_player_loc = [location[0], location[1] + 1]
     end
-  
+
     new_player_loc
   end
 
-  def update_stats # refresh stats after changing equipped items
-  # NEEDS REFACTOR
+  # refresh stats after changing equipped items
+  def update_stats # NEEDS REFACTOR
     armor = 0
     armor += equipped.chest.attributes[:armor] unless equipped.chest.nil?
     armor += equipped.pants.attributes[:armor] unless equipped.pants.nil?
@@ -128,34 +128,36 @@ class Player
     armor += equipped.boots.attributes[:armor] unless equipped.boots.nil?
     self.armor = armor
     self.damage = (equipped.weapon.attributes[:damage] * equipped.weapon.attributes[:speed]).round(1) unless equipped.weapon.nil?
-    puts "armor:#{self.armor}, dmg:#{self.damage}"
-    self.save
+    puts "armor:#{self.armor}, dmg:#{damage}"
+    save
   end
 
-  def update_exp(exp) # add to exp after a mob kill or quest completion
+  # add to exp after a mob kill or quest completion
+  def update_exp(exp)
     self.current_exp += exp
 
-    if current_exp >= max_exp
-      self.level      += 1
-      self.current_exp = current_exp - max_exp
-      max_exp     = levels_exp(level)
+    level_up if current_exp >= max_exp
 
-      puts "LEVEL UP! You're now level #{self.level}"
-      save
-    end
+    save
+  end
+
+  def level_up
+    self.level += 1
+    self.current_exp = current_exp - max_exp
+    max_exp = levels_exp(level)
+
+    puts "LEVEL UP! You're now level #{level}"
   end
 
   def engage_mob(map, new_player_loc) # REFACTOR
     mob = nil
-    map.mobs.each do |m|
-      mob = m if m.location == new_player_loc
-    end
+    map.mobs.each { |m| mob = m if m.location == new_player_loc }
 
     puts 'A MOB APPEARS! KILL IT!'
     puts '----'
 
     battle = Battle.new(self, mob, map)
-  
+
     while battle.state == 0
       user_input = battle.ask_user_battle_input
 

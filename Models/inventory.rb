@@ -42,13 +42,14 @@ class Inventory
     20.times do
       index += 1
       item = Item.roll_new(map_level)
-      items << [item, index] # check if need self?
+      items << [item, index]
     end
 
     player.save
   end
 
-  def interact_with_item(command, item_num) # equip, use, or drop an item in inventory
+  # equip, use, or drop an item in inventory
+  def interact_with_item(command, item_num)
     case command
     when 'EQUIP'
       item = nil
@@ -58,7 +59,8 @@ class Inventory
       item_type     = item.type
       equipped_item = player.equipped.send(item_type)
 
-      unless equipped_item.nil? # query user to replace equipped item
+      unless equipped_item.nil?
+        # query user to replace equipped item
         state = 0
 
         while state == 0
@@ -101,10 +103,10 @@ class Inventory
   end
 
   def equip_item(item_num)
-    items.map do |item, i|
+    items.each do |item, i|
       if item_num == i
         player.equipped.send("#{item.type}=", item)
-        
+
         items.slice!(i - 1)
         refresh_inventory_indexes
         player.update_stats
@@ -116,7 +118,7 @@ class Inventory
   end
 
   def drop_item(item_num)
-    items.map do |_, i|
+    items.each do |_, i|
       items.slice!(i - 1) if item_num == i
     end
 

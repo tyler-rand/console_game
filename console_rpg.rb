@@ -1,3 +1,4 @@
+require 'curses'
 require 'io/console'
 require 'YAML'
 
@@ -76,16 +77,43 @@ while @game.state == 1 do
   if user_input == 'MAP'
     @map = @game.load_map
     @player.set_location(@map.current_map)
-    @map.print_colorized
-    
-    # Get input and move player loop
-    while @player.location != []
-      new_player_loc = @map.new_player_loc_from_input(@player)
 
-      unless @player.location == []
-        @map.move_player(player: @player, new_player_loc: new_player_loc)
-        @map.show_map_for_player   
+    Curses.noecho
+    Curses.init_screen
+
+    begin
+      Curses.crmode
+
+      win = Curses::Window.new(36, 100, 0, 0)
+      map_with_index = @map.current_map.each_with_index.map{ |line,i| [line, i] }
+
+      map_with_index.each do |line, i|
+        win.setpos(i, 2)
+        win.addstr("#{line}\n")
       end
+
+      # get input and move player loop
+      while @player.location != []
+        user_input     = win.getch
+        new_player_loc = @map.new_player_loc_from_input(@player, user_input)
+
+        unless @player.location == []
+          @map.move_player(player: @player, new_player_loc: new_player_loc)
+
+          map_with_index = @map.current_map.each_with_index.map{ |line,i| [line, i] }
+
+          map_with_index.each do |line, i|
+            win.setpos(i, 2)
+            win.addstr("#{line}\n")
+          end
+        end
+      end
+
+      win.close
+
+      Curses.refresh
+    ensure
+      Curses.close_screen
     end
 
   #

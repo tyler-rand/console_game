@@ -29,5 +29,4 @@ class Equipped
     puts !boots.nil? ? " Boots: #{boots.name}, armor: #{boots.attributes[:armor]}" : 'Boots not equipped'
     puts '--------------'
   end
-
 end

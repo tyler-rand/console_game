@@ -21,7 +21,7 @@ class Map
   ## INSTANCE METHODS
   #
 
-  def initialize(options={})
+  def initialize(options = {})
     @id          = object_id
     @name        = options[:name]
     @level       = options[:level].to_i
@@ -42,41 +42,37 @@ class Map
     mob_positions = []
     mobs          = []
 
-    self.current_map.map do |line|
+    current_map.each do |line|
       line_num = current_map.index(line)
 
-      line.split('').each_with_index.select { |c| mob_positions << [line_num,c[1]] if c[0] == 'm' }
+      line.split('').each_with_index.select { |c| mob_positions << [line_num, c[1]] if c[0] == 'm' }
     end
 
-    mob_positions.each do |pos|
-      mobs << Mob.roll_new(self, pos)
-    end
-    
+    mob_positions.each { |pos| mobs << Mob.roll_new(self, pos) }
     self.mobs = mobs
 
     self.mobs
   end
 
-  def print_colorized
+  def colorize
     x_color  = 'x'.colorize(34)
     m_color  = 'm'.colorize(91)
-    #$$ = '$'.colorize(93)
+    # $$ = '$'.colorize(93)
     c_color  = 'c'.colorize(93)
     p_color  = 'p'.colorize(92)
     o_color  = 'o'.colorize(34)
 
-    colorized_map = current_map.map do |line| 
+    colorized_map = current_map.map do |line|
       line.gsub(/[xmcoP]/, 'x' => x_color, 'm' => m_color, 'c' => c_color, 'o' => o_color, 'P' => p_color)
     end
-    puts colorized_map
+
+    colorized_map
   end
 
-  def new_player_loc_from_input(player) # rename, rewrite
-    input_state = 0  
+  def new_player_loc_from_input(player, user_input) # rename, rewrite
+    input_state = 0
 
     while input_state == 0
-      user_input = STDIN.getch
-
       if %w(w a s d).include?(user_input)
         new_player_loc = player.find_new_loc(user_input, current_map)
         input_state    = 1
@@ -95,7 +91,7 @@ class Map
 
   def show_map_for_player
     puts "\n"
-    print_colorized
+    puts colorize
     puts '--'
     puts "#{'WASD'.colorize(93)} to move, #{'C'.colorize(91)} to exit"
     puts '--'
@@ -124,5 +120,4 @@ class Map
     player.set_location(current_map)
     print '-->'
   end
-
 end

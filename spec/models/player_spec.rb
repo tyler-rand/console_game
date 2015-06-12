@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Player do
-
   it 'should build a new player' do
     player = build(:player)
+    p player
   end
 
   it 'should load a player by login info' do
@@ -29,11 +29,10 @@ describe Player do
 
     new_exp = player.current_exp
 
-    expect(exp+n).to eql(new_exp)
+    expect(exp + n).to eql(new_exp)
   end
 
   it 'should update a players stats' do
     # player.update_stats
   end
-
 end

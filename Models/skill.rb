@@ -4,5 +4,5 @@ class Skill
   #
   ## INSTANCE METHODS
   #
-  
+
 end

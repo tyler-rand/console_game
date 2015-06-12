@@ -1,6 +1,7 @@
 # npc monster
 class Mob
-  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :map_id, :movement_type, :location
+  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :map_id, :movement_type,
+                :location
 
   #
   ## CLASS METHODS
@@ -9,10 +10,11 @@ class Mob
   def self.roll_new(map, location)
     name   = %w(terror vicious bloodthirsty).sample
     type   = %w(dragon zombie bear).sample
-    damage = map.level*2
-    max_health = map.level*10
+    damage = map.level * 2
+    max_health = map.level * 10
 
-    mob = Mob.new(name: name, type: type, level: map.level, damage: damage, max_health: max_health, map_id: map.id, movement_type: 0, location: location)
+    mob = Mob.new(name: name, type: type, level: map.level, damage: damage, max_health: max_health,
+                  map_id: map.id, movement_type: 0, location: location)
     mob
   end
 
@@ -20,11 +22,11 @@ class Mob
   ## INSTANCE METHODS
   #
 
-  def initialize(options={})
+  def initialize(options = {})
     @id            = object_id
     @name          = options[:name]
     @type          = options[:type]
-    @level         = options[:level]
+    @level         = options[:level].to_i
     @health        = options[:max_health]
     @max_health    = options[:max_health]
     @damage        = options[:damage]

@@ -153,9 +153,6 @@ class Player
     mob = nil
     map.mobs.each { |m| mob = m if m.location == new_player_loc }
 
-    puts 'A MOB APPEARS! KILL IT!'
-    puts '----'
-
     battle = Battle.new(self, mob, map)
 
     while battle.state == 0

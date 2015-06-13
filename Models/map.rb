@@ -113,6 +113,7 @@ class Map
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
     when 'm'
+      message = 'A mob appears! Kill it!'
       player.engage_mob(self, new_player_loc)
     when 'x'
       message = 'Can\'t move to spaces with \'x\''

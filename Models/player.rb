@@ -144,7 +144,7 @@ class Player
   def level_up
     self.level += 1
     self.current_exp = current_exp - max_exp
-    max_exp = levels_exp(level)
+    max_exp = level_exp(level)
 
     puts "LEVEL UP! You're now level #{level}"
   end

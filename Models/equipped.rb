@@ -21,12 +21,12 @@ class Equipped
     puts ' -------------'
     puts " --- #{player.name.upcase}'S EQUIPPED ITEMS ----"
     puts ' -------------'
-    puts !weapon.nil? ? " Weapon: #{weapon.name}, dmg: #{weapon.attributes[:damage]}, speed: #{weapon.attributes[:speed]}" : 'Weapon not equipped'
-    puts !chest.nil? ? " Chest Armor: #{chest.name}, armor: #{chest.attributes[:armor]}" : 'Chest not equipped'
-    puts !pants.nil? ? " Pants: #{pants.name}, armor: #{pants.attributes[:armor]}" : 'Pants not equipped'
-    puts !helm.nil? ? " Helm: #{helm.name}, armor: #{helm.attributes[:armor]}" : 'Helm not equipped'
-    puts !gloves.nil? ? " Gloves: #{gloves.name}, armor: #{gloves.attributes[:armor]}" : 'Gloves not equipped'
-    puts !boots.nil? ? " Boots: #{boots.name}, armor: #{boots.attributes[:armor]}" : 'Boots not equipped'
+    puts !weapon.nil? ? " Weapon: #{colorize_item_name(weapon)}, dmg: #{weapon.attributes[:damage]}, speed: #{weapon.attributes[:speed]}" : 'Weapon not equipped'
+    puts !chest.nil? ? " Chest Armor: #{colorize_item_name(chest)}, armor: #{chest.attributes[:armor]}" : 'Chest not equipped'
+    puts !pants.nil? ? " Pants: #{colorize_item_name(pants)}, armor: #{pants.attributes[:armor]}" : 'Pants not equipped'
+    puts !helm.nil? ? " Helm: #{colorize_item_name(helm)}, armor: #{helm.attributes[:armor]}" : 'Helm not equipped'
+    puts !gloves.nil? ? " Gloves: #{colorize_item_name(gloves)}, armor: #{gloves.attributes[:armor]}" : 'Gloves not equipped'
+    puts !boots.nil? ? " Boots: #{colorize_item_name(boots)}, armor: #{boots.attributes[:armor]}" : 'Boots not equipped'
     puts '--------------'
   end
 end

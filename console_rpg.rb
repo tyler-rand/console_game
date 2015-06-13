@@ -80,9 +80,17 @@ while @game.state == 1 do
 
     Curses.noecho
     Curses.init_screen
+    Curses.start_color
 
     begin
       Curses.crmode
+      Curses.init_pair(Curses::COLOR_GREEN, Curses::COLOR_GREEN, Curses::COLOR_BLACK)
+      Curses.init_pair(Curses::COLOR_WHITE, Curses::COLOR_WHITE, Curses::COLOR_BLACK)
+      Curses.init_pair(Curses::COLOR_YELLOW, Curses::COLOR_YELLOW, Curses::COLOR_BLACK)
+      Curses.init_pair(Curses::COLOR_BLUE, Curses::COLOR_WHITE, Curses::COLOR_BLUE)
+      Curses.init_pair(Curses::COLOR_RED, Curses::COLOR_RED, Curses::COLOR_BLACK)
+      Curses.init_pair(Curses::COLOR_BLACK, Curses::COLOR_BLACK, Curses::COLOR_BLACK)
+      Curses.init_pair(Curses::COLOR_CYAN, Curses::COLOR_WHITE, Curses::COLOR_RED)
 
       win = Curses::Window.new(36, 100, 0, 0)
       map_with_index = @map.current_map.each_with_index.map{ |line,i| [line, i] }
@@ -99,13 +107,45 @@ while @game.state == 1 do
 
         unless @player.location == []
           @map.move_player(player: @player, new_player_loc: new_player_loc)
+          win.addstr('-->')
 
-          map_with_index = @map.current_map.each_with_index.map{ |line,i| [line, i] }
+          map_with_index = @map.current_map.each_with_index.map{ |line, i| [line, i] }
 
           map_with_index.each do |line, i|
             win.setpos(i, 2)
-            win.addstr("#{line}\n")
+            line_ary = line.split('')
+            line_ary.each do |c|
+              case c
+              when '.'
+                win.attron(Curses.color_pair(Curses::COLOR_GREEN)) {
+                  win.addch(c)
+                }
+              when 'P'
+                win.attron(Curses.color_pair(Curses::COLOR_BLUE)) {
+                  win.addch(c)
+                }
+              when '$'
+                win.attron(Curses.color_pair(Curses::COLOR_WHITE)) {
+                  win.addch(c)
+                }
+              when 'x'
+                win.attron(Curses.color_pair(Curses::COLOR_RED)) {
+                  win.addch(c)
+                }
+              when 'c'
+                win.attron(Curses.color_pair(Curses::COLOR_YELLOW)) {
+                  win.addch(c)
+                }
+              when 'm'
+                win.attron(Curses.color_pair(Curses::COLOR_CYAN)) {
+                  win.addch(c)
+                }
+              else
+                win.addch(c)
+              end
+            end
           end
+
         end
       end
 

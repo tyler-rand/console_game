@@ -113,11 +113,10 @@ class Map
     when 'm'
       player.engage_mob(self, new_player_loc)
     when 'x'
-      puts 'Can\'t move to spaces with \'x\''.colorize(101)
+      Curses.addstr('Can\'t move to spaces with \'x\'')
     else
       # exception
     end
     player.set_location(current_map)
-    print '-->'
   end
 end

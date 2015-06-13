@@ -112,6 +112,7 @@ while @game.state == 1 do
       third_win.box('|', '-')
       third_win.setpos(1, 3)
       third_win.addstr('Stats/Equipped')
+      third_win.setpos(3, 3)
       third_win.refresh
 
       map_with_index = @map.current_map.each_with_index.map{ |line,i| [line, i] }
@@ -145,36 +146,7 @@ while @game.state == 1 do
             map_win.setpos(i + 3, 3)
             line_ary = line.split('')
             line_ary.each do |c|
-              ### refactored version not working
-              # map_win.attron(Curses.color_pair(colors_hash(c))) { map_win.addch(c) }
-              case c
-              when '.'
-                map_win.attron(Curses.color_pair(Curses::COLOR_GREEN)) {
-                  map_win.addch(c)
-                }
-              when 'P'
-                map_win.attron(Curses.color_pair(Curses::COLOR_BLUE)) {
-                  map_win.addch(c)
-                }
-              when '$'
-                map_win.attron(Curses.color_pair(Curses::COLOR_WHITE)) {
-                  map_win.addch(c)
-                }
-              when 'x'
-                map_win.attron(Curses.color_pair(Curses::COLOR_RED)) {
-                  map_win.addch(c)
-                }
-              when 'c'
-                map_win.attron(Curses.color_pair(Curses::COLOR_YELLOW)) {
-                  map_win.addch(c)
-                }
-              when 'm'
-                map_win.attron(Curses.color_pair(Curses::COLOR_CYAN)) {
-                  map_win.addch(c)
-                }
-              else
-                map_win.addch(c)
-              end
+              map_win.attron(Curses.color_pair(map_colors_hash(c))) { map_win.addch(c) }
             end
           end
 

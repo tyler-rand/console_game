@@ -30,9 +30,10 @@ def levels_exp(level)
   levels_with_exp[level]
 end
 
-def colors_hash(c)
+def map_colors_hash(c)
   colors_hash = {'.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE,
                  '$' => Curses::COLOR_WHITE, 'x' => Curses::COLOR_RED,
-                 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_CYAN}
+                 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_CYAN,
+                 'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL}
   colors_hash[c]
 end

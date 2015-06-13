@@ -98,6 +98,8 @@ class Map
   end
 
   def move_player(player:, new_player_loc:)
+    message = nil
+
     case current_map[new_player_loc[0]][new_player_loc[1]]
     when '.'
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
@@ -113,10 +115,11 @@ class Map
     when 'm'
       player.engage_mob(self, new_player_loc)
     when 'x'
-      Curses.addstr('Can\'t move to spaces with \'x\'')
+      message = 'Can\'t move to spaces with \'x\''
     else
       # exception
     end
     player.set_location(current_map)
+    message
   end
 end

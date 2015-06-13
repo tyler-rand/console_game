@@ -92,65 +92,97 @@ while @game.state == 1 do
       Curses.init_pair(Curses::COLOR_BLACK, Curses::COLOR_BLACK, Curses::COLOR_BLACK)
       Curses.init_pair(Curses::COLOR_CYAN, Curses::COLOR_WHITE, Curses::COLOR_RED)
 
-      win = Curses::Window.new(36, 100, 0, 0)
+      map_win = Curses::Window.new(26, 70, 0, 0)
+      map_win.setpos(1, 3)
+      map_win.addstr("Map - #{@map.name}")
+      map_win.setpos(22, 3)
+      map_win.addstr("WASD to move, C to exit")
+      map_win.setpos(23, 3)
+      map_win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
+      map_win.refresh
+
+      messages_win = Curses::Window.new(7, 70, 26, 0)
+      messages_win.box('|', '-')
+      messages_win.setpos(1, 3)
+      messages_win.addstr('Messages')
+      messages_win.setpos(2, 3)
+      messages_win.refresh
+
+      third_win = Curses::Window.new(33, 30, 0, 70)
+      third_win.box('|', '-')
+      third_win.setpos(1, 3)
+      third_win.addstr('Stats/Equipped')
+      third_win.refresh
+
       map_with_index = @map.current_map.each_with_index.map{ |line,i| [line, i] }
 
       map_with_index.each do |line, i|
-        win.setpos(i, 2)
-        win.addstr("#{line}\n")
+        map_win.setpos(i + 3, 3)
+        map_win.addstr("#{line}\n")
       end
+
+      map_win.box('|', '-')
+      map_win.setpos(20, 3)
 
       # get input and move player loop
       while @player.location != []
-        user_input     = win.getch
+        messages_win.refresh
+        user_input     = map_win.getch
         new_player_loc = @map.new_player_loc_from_input(@player, user_input)
 
         unless @player.location == []
-          @map.move_player(player: @player, new_player_loc: new_player_loc)
-          win.addstr('-->')
+          message = @map.move_player(player: @player, new_player_loc: new_player_loc)
+          messages_win.deleteln
+          messages_win.insertln
+          messages_win.box('|', '-')
+          messages_win.setpos(2, 3)
+          messages_win.addstr(message)
+          messages_win.refresh
 
           map_with_index = @map.current_map.each_with_index.map{ |line, i| [line, i] }
 
           map_with_index.each do |line, i|
-            win.setpos(i, 2)
+            map_win.setpos(i + 3, 3)
             line_ary = line.split('')
             line_ary.each do |c|
+              ### refactored version not working
+              # map_win.attron(Curses.color_pair(colors_hash(c))) { map_win.addch(c) }
               case c
               when '.'
-                win.attron(Curses.color_pair(Curses::COLOR_GREEN)) {
-                  win.addch(c)
+                map_win.attron(Curses.color_pair(Curses::COLOR_GREEN)) {
+                  map_win.addch(c)
                 }
               when 'P'
-                win.attron(Curses.color_pair(Curses::COLOR_BLUE)) {
-                  win.addch(c)
+                map_win.attron(Curses.color_pair(Curses::COLOR_BLUE)) {
+                  map_win.addch(c)
                 }
               when '$'
-                win.attron(Curses.color_pair(Curses::COLOR_WHITE)) {
-                  win.addch(c)
+                map_win.attron(Curses.color_pair(Curses::COLOR_WHITE)) {
+                  map_win.addch(c)
                 }
               when 'x'
-                win.attron(Curses.color_pair(Curses::COLOR_RED)) {
-                  win.addch(c)
+                map_win.attron(Curses.color_pair(Curses::COLOR_RED)) {
+                  map_win.addch(c)
                 }
               when 'c'
-                win.attron(Curses.color_pair(Curses::COLOR_YELLOW)) {
-                  win.addch(c)
+                map_win.attron(Curses.color_pair(Curses::COLOR_YELLOW)) {
+                  map_win.addch(c)
                 }
               when 'm'
-                win.attron(Curses.color_pair(Curses::COLOR_CYAN)) {
-                  win.addch(c)
+                map_win.attron(Curses.color_pair(Curses::COLOR_CYAN)) {
+                  map_win.addch(c)
                 }
               else
-                win.addch(c)
+                map_win.addch(c)
               end
             end
           end
 
+          map_win.setpos(20,3)
         end
       end
 
-      win.close
-
+      map_win.close
       Curses.refresh
     ensure
       Curses.close_screen

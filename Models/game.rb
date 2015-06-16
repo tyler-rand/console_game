@@ -85,21 +85,12 @@ class Game
     player
   end
 
-  def load_map
-    maps = Map.list_all
+  def load_map(user_input)
     map  = nil
+    maps = Map.all
 
-    while map.nil? do
-      puts "\nEnter a map name to load"
-      print '-->'
-
-      user_input = gets.chomp
-
-      maps.map do |m|
+    maps.map do |m|
         map = m if m.name.upcase == user_input.upcase
-      end
-
-      puts 'Map name not recognized.'.colorize(101) if map == nil
     end
 
     map

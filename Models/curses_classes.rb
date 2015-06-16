@@ -4,31 +4,23 @@ require 'curses'
 class CursesScreen
 
   def initialize
-    Curses.noecho
     Curses.init_screen
     Curses.crmode
     Curses.start_color
-	  Curses.init_pair(Curses::COLOR_GREEN, Curses::COLOR_GREEN, Curses::COLOR_BLACK)
-	  Curses.init_pair(Curses::COLOR_WHITE, Curses::COLOR_WHITE, Curses::COLOR_BLACK)
-	  Curses.init_pair(Curses::COLOR_YELLOW, Curses::COLOR_YELLOW, Curses::COLOR_BLACK)
-	  Curses.init_pair(Curses::COLOR_BLUE, Curses::COLOR_WHITE, Curses::COLOR_BLUE)
-	  Curses.init_pair(Curses::COLOR_RED, Curses::COLOR_RED, Curses::COLOR_BLACK)
-	  Curses.init_pair(Curses::COLOR_MAGENTA, Curses::COLOR_WHITE, Curses::COLOR_RED)
+    Curses.init_pair(Curses::COLOR_GREEN, Curses::COLOR_GREEN, Curses::COLOR_BLACK)
+    Curses.init_pair(Curses::COLOR_WHITE, Curses::COLOR_WHITE, Curses::COLOR_BLACK)
+    Curses.init_pair(Curses::COLOR_YELLOW, Curses::COLOR_YELLOW, Curses::COLOR_BLACK)
+    Curses.init_pair(Curses::COLOR_BLUE, Curses::COLOR_WHITE, Curses::COLOR_BLUE)
+    Curses.init_pair(Curses::COLOR_RED, Curses::COLOR_RED, Curses::COLOR_BLACK)
+    Curses.init_pair(Curses::COLOR_MAGENTA, Curses::COLOR_WHITE, Curses::COLOR_RED)
   end
 
-  def build_display(map)
-    @map_win = MapWindow.new(map)
+  def build_display
+    @map_win = MapWindow.new
     @messages_win = MessagesWindow.new
     @right_win = RightWindow.new
 
-    map_with_index = map.current_map.each_with_index.map{ |line,i| [line, i] }
-
-    map_with_index.each do |line, i|
-      @map_win.win.setpos(i + 3, 3)
-      @map_win.win.addstr("#{line}\n")
-    end
-
-    @map_win.win.box('|', '-')
+    @map_win.win.box('j', '~')
     @map_win.win.setpos(20, 3)
 
     return @map_win, @messages_win, @right_win
@@ -38,16 +30,33 @@ end
 class MapWindow
   attr_accessor :win
 
-  def initialize(map)
+  def initialize
     @win = Curses::Window.new(26, 70, 0, 0)
-    @win.setpos(1, 3)
-    @win.addstr("Map - #{map.name}")
-    @win.setpos(22, 3)
-    @win.addstr("WASD to move, C to exit")
-    @win.setpos(23, 3)
-    @win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
     @win.refresh
   end
+
+  def build_map(map)
+    win.setpos(20, 3)
+    win.addstr('WASD to move, C to exit')
+    win.setpos(22, 3)
+    win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
+
+    indexed_map = map.current_map.each_with_index.map{ |line,i| [line, i] }
+
+    indexed_map.each do |line, i|
+      win.setpos(i + 1, 2)
+      line_ary = line.split('')
+
+      line_ary.each do |c|
+        win.attron(Curses.color_pair(map_colors_hash(c))) { win.addch(c) }
+      end
+    end
+
+    win.box('j', '~')
+    win.setpos(0, 35-map.name.length/2)
+    win.addstr("Map - #{map.name}")
+  end
+
 end
 
 class MessagesWindow
@@ -55,10 +64,10 @@ class MessagesWindow
 
   def initialize
     @win = Curses::Window.new(7, 70, 26, 0)
-    @win.box('|', '-')
-    @win.setpos(1, 3)
-    @win.addstr('Messages')
-    @win.setpos(2, 3)
+    @win.box('j', '~')
+    @win.setpos(0, 28)
+    @win.addstr('Input/Message Log')
+    @win.setpos(1, 2)
     @win.refresh
   end
 end
@@ -68,10 +77,10 @@ class RightWindow
 
   def initialize
     @win = Curses::Window.new(33, 30, 0, 70)
-    @win.box('|', '-')
-    @win.setpos(1, 3)
+    @win.box('j', '~')
+    @win.setpos(0, 8)
     @win.addstr('Stats/Equipped')
-    @win.setpos(3, 3)
+    @win.setpos(1, 2)
     @win.refresh
   end
 end

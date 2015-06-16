@@ -6,14 +6,18 @@ class Map
   ## CLASS METHODS
   #
 
-  def self.list_all
-    maps = YAML.load_stream(open('MapsDB.yml'))
+  def self.all; YAML.load_stream(open('MapsDB.yml')) end
 
-    puts ' -------------'
-    puts ' --- MAPS ----'
-    puts ' -------------'
-    puts maps.map(&:name)
-    puts ' -------------'
+  def self.list_all(window)
+    maps = Map.all 
+    i = 4
+
+    window.win.setpos(2, 2)
+    window.win.addstr("---- MAPS ---\n")
+    window.win.setpos(3, 2)
+    window.win.addstr("-------------\n")
+    maps.map(&:name).each { |m| window.win.setpos(i, 2); window.win.addstr(m); i += 1 }
+    window.win.refresh
     maps
   end
 
@@ -30,13 +34,9 @@ class Map
     @mobs        = load_mobs
   end
 
-  def save
-    File.open('MapsDB.yml', 'a') { |f| f.write(to_yaml) }
-  end
+  def save; File.open('MapsDB.yml', 'a') { |f| f.write(to_yaml) } end
 
-  def load_current_map
-    self.current_map = YAML.load(File.open(file)).split(' ')
-  end
+  def load_current_map; self.current_map = YAML.load(File.open(file)).split(' ') end
 
   def load_mobs
     mob_positions = []

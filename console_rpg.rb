@@ -25,30 +25,30 @@ while @game.state == 0 do # initial state is 0
   puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
   print '-->'
 
-  user_input = gets.chomp.upcase
+  user_initialize_input = gets.chomp.upcase
 
   #
   ## NEW PLAYER
   #
-  if user_input == 'NEW'
+  if user_initialize_input == 'NEW'
     @player = @game.new_player
 
   #
   ## LOAD PLAYER
   #
-  elsif user_input == 'LOAD'
+  elsif user_initialize_input == 'LOAD'
     @player = @game.load_player
 
   #
   ## RULES
   #
-  elsif user_input == 'RULES'
+  elsif user_initialize_input == 'RULES'
     Game.show_rules
 
   #
   ## ADMIN
   #
-  elsif user_input == 'ADMIN77'
+  elsif user_initialize_input == 'ADMIN77'
     Game.admin_menu
 
   # user input error
@@ -63,95 +63,140 @@ end
 ## GAME STARTED OR LOADED, MENU SCREEN
 #
 while @game.state == 1 do
-  l = '|'.colorize(2)
+  begin
+    @screen = CursesScreen.new
+    @map_win, @messages_win, @right_win = @screen.build_display
 
-  puts "\n#{@player.name}'s Character Menu Screen"
-  puts "#{'MAP'.colorize(93)} #{l} #{'BAG'.colorize(93)} #{l} #{'EQUIPPED'.colorize(93)} #{l} #{'STATS'.colorize(93)} #{l} #{'SKILLS'.colorize(93)}"
-  print '-->'
+    @map_win.win.setpos(0, 29-@player.name.length/2)
+    @map_win.win.addstr("ConsoleRPG - #{@player.name}")
+    @map_win.win.refresh
+    @map_win.win.setpos(24,2)
 
-  user_input = gets.chomp.upcase
+    @messages_win.win.setpos(1, 2)
+    @messages_win.win.addstr('> MAP | BAG | EQUIPPED | STATS | SKILLS')
+    @messages_win.win.setpos(2, 2)
+    @messages_win.win.addstr('--> ')
+    @messages_win.win.refresh
 
-  #
-  ## MENU > MAP
-  #
-  if user_input == 'MAP'
-    @map = @game.load_map
-    @player.set_location(@map.current_map)
+    user_menu_input = @messages_win.win.getstr.upcase
 
-    begin
-      @screen = CursesScreen.new
-      @map_win, @messages_win, @right_win = @screen.build_display(@map)
+    #
+    ## MENU > MAP
+    #
+    if user_menu_input == 'MAP'
+      Map.list_all(@map_win)
+
+      @map_win.win.box('j', '~')
+      @map_win.win.setpos(0, 29-@player.name.length/2)
+      @map_win.win.addstr("ConsoleRPG - #{@player.name}")
+      @map_win.win.refresh
+
+      @messages_win.win.setpos(1, 2)
+      @messages_win.win.deleteln
+      @messages_win.win.deleteln
+      @messages_win.win.insertln
+      @messages_win.win.insertln
+      @messages_win.win.box('j', '~')
+      @messages_win.win.setpos(0, 28)
+      @messages_win.win.addstr('Input/Message Log')
+      @messages_win.win.setpos(1, 2)
+      @messages_win.win.addstr('> Enter a map name to load')
+      @messages_win.win.setpos(2, 2)
+      @messages_win.win.addstr("--> ")
+      @messages_win.win.refresh
+
+      # initialize @map
+      map_name_input = @messages_win.win.getstr
+      @map = @game.load_map(map_name_input)
+
+      # build map in window
+      @map_win.build_map(@map)
+
+      @player.set_location(@map.current_map)
+
+      @messages_win.win.setpos(1, 2)
+      @messages_win.win.deleteln
+      @messages_win.win.deleteln
+      @messages_win.win.insertln
+      @messages_win.win.insertln
+      @messages_win.win.box('j', '~')
+      @messages_win.win.setpos(0, 28)
+      @messages_win.win.addstr('Input/Message Log')
+      @messages_win.win.setpos(1, 2)
+      @messages_win.win.addstr("> #{@map.name} loaded successfully, player: #{@player.location}")
+      @messages_win.win.refresh
 
       # get input and move player loop
       while @player.location != []
         @messages_win.win.refresh
-        user_input     = @map_win.win.getch
-        new_player_loc = @map.new_player_loc_from_input(@player, user_input)
+        user_movement_input = @map_win.win.getch
+        new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
 
         unless @player.location == []
-          message = @map.move_player(player: @player, new_player_loc: new_player_loc)
+          @messages_win.win.setpos(2, 2)
+          message = @map.move_player(player: @player, new_player_loc: new_player_loc) { |msg| @messages_win.win.addstr(msg) }
           @messages_win.win.deleteln
           @messages_win.win.insertln
-          @messages_win.win.box('|', '-')
-          @messages_win.win.setpos(2, 3)
+          @messages_win.win.box('j', '~')
+          @messages_win.win.setpos(2, 2)
           @messages_win.win.addstr(message)
           @messages_win.win.refresh
 
-          map_with_index = @map.current_map.each_with_index.map{ |line, i| [line, i] }
+          indexed_map = @map.current_map.each_with_index.map{ |line, i| [line, i] }
 
-          map_with_index.each do |line, i|
-            @map_win.win.setpos(i + 3, 3)
+          indexed_map.each do |line, i|
+            @map_win.win.setpos(i + 1, 2)
             line_ary = line.split('')
             line_ary.each do |c|
               @map_win.win.attron(Curses.color_pair(map_colors_hash(c))) { @map_win.win.addch(c) }
             end
           end
 
-          @map_win.win.setpos(20,3)
+          @map_win.win.setpos(24,2)
         end
       end
 
-      @map_win.win.close
-      Curses.refresh
-    ensure
-      Curses.close_screen
+      # @map_win.win.close
+      # Curses.refresh
+
+    #
+    ## MENU > BAG
+    #
+    elsif user_menu_input == 'BAG'
+      @player.inventory.list
+
+      puts "\nEnter a command and an item number seperated by a space (Ex. #{'\'EQUIP 2\''.colorize(93)}, #{'\'use 5\''.colorize(93)}, #{'\'Drop 11\''.colorize(93)})."
+      print '-->'
+
+      user_bag_input = gets.chomp.upcase.split(' ')
+      command    = user_bag_input[0]
+      item_num   = user_bag_input[1].to_i
+
+      @player.inventory.interact_with_item(command, item_num)
+
+    #
+    ## MENU > EQUIPPED
+    #
+    elsif user_menu_input == 'EQUIPPED'
+      @player.equipped.list
+
+    #
+    ## MENU > STATS
+    #
+    elsif user_menu_input == 'STATS'
+      @player.show_stats
+
+    #
+    ## MENU > SKILLS
+    #
+    elsif user_menu_input == 'SKILLS'
+      @player.show_skills
+
+    # Menu input error
+    else
+      puts 'Error, command not recognized.'.colorize(101)
     end
-
-  #
-  ## MENU > BAG
-  #
-  elsif user_input == 'BAG'
-    @player.inventory.list
-
-    puts "\nEnter a command and an item number seperated by a space (Ex. #{'\'EQUIP 2\''.colorize(93)}, #{'\'use 5\''.colorize(93)}, #{'\'Drop 11\''.colorize(93)})."
-    print '-->'
-
-    user_input = gets.chomp.upcase.split(' ')
-    command    = user_input[0]
-    item_num   = user_input[1].to_i
-
-    @player.inventory.interact_with_item(command, item_num)
-
-  #
-  ## MENU > EQUIPPED
-  #
-  elsif user_input == 'EQUIPPED'
-    @player.equipped.list
-
-  #
-  ## MENU > STATS
-  #
-  elsif user_input == 'STATS'
-    @player.show_stats
-
-  #
-  ## MENU > SKILLS
-  #
-  elsif user_input == 'SKILLS'
-    @player.show_skills
-
-  # Menu input error
-  else
-    puts 'Error, command not recognized.'.colorize(101)
+  ensure
+    Curses.close_screen
   end
 end

@@ -156,19 +156,21 @@ while @game.state == 1 do
         end
       end
 
-      # @map_win.win.close
-      # Curses.refresh
-
     #
     ## MENU > BAG
     #
     elsif user_menu_input == 'BAG'
-      @player.inventory.list
+      @player.inventory.list(@map_win)
 
-      puts "\nEnter a command and an item number seperated by a space (Ex. #{'\'EQUIP 2\''.colorize(93)}, #{'\'use 5\''.colorize(93)}, #{'\'Drop 11\''.colorize(93)})."
-      print '-->'
+      @messages_win.win.setpos(1, 2)
+      @messages_win.win.deleteln
+      @messages_win.win.insertln
+      @messages_win.win.box('j', '~')
+      @messages_win.win.addstr("Enter a command and an item number seperated by a space (Ex. EQUIP 2, use 5 Drop 11")
+      @messages_win.win.addstr("--> ")
+      @messages_win.win.refresh
 
-      user_bag_input = gets.chomp.upcase.split(' ')
+      user_bag_input = @messages_win.win.getstr()
       command    = user_bag_input[0]
       item_num   = user_bag_input[1].to_i
 
@@ -178,7 +180,7 @@ while @game.state == 1 do
     ## MENU > EQUIPPED
     #
     elsif user_menu_input == 'EQUIPPED'
-      @player.equipped.list
+      @player.equipped.list(@map_win)
 
     #
     ## MENU > STATS

@@ -86,13 +86,8 @@ class Game
   end
 
   def load_map(user_input)
-    map  = nil
     maps = Map.all
-
-    maps.map do |m|
-        map = m if m.name.upcase == user_input.upcase
-    end
-
+    map  = maps.find { |m| m.name.upcase == user_input.upcase }
     map
   end
 

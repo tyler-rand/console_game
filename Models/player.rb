@@ -37,16 +37,17 @@ class Player
     message       = ''
 
     # first try to match input name
-    players.each { |p| unauth_player = p if p.name == input_name }
+    unauth_player = players.find { |p| p.name == input_name }
 
     if unauth_player.nil?
       message = 'Name not found'.colorize(101)
-    else # then try and match password
+    # then try and match password
+    else
       if input_pass == unauth_player.password
         player  = unauth_player
-        message  = 'Loaded player successfully.'.colorize(92)
+        message = 'Loaded player successfully.'.colorize(92)
       else
-        message  = "Error: incorrect password. pw: #{input_pass}//#{unauth_player.password}".colorize(101)
+        message = "Error: incorrect password. pw: #{input_pass}//#{unauth_player.password}".colorize(101)
       end
     end
 

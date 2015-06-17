@@ -32,7 +32,6 @@ class Player
 
   def self.load_by_credentials(input_name, input_pass)
     players       = YAML.load_stream(open('PlayersDB.yml'))
-    unauth_player = nil
     player        = nil
     message       = ''
 

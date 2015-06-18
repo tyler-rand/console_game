@@ -92,9 +92,8 @@ class Player
     @inventory = Inventory.new(player: self)
   end
 
-  def save
+  def save(window)
     File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
-    puts 'SAVED!'.colorize(92)
   end
 
   def set_location(current_map)

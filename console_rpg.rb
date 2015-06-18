@@ -65,13 +65,12 @@ end
 while @game.state == 1 do
   begin
     @screen = CursesScreen.new
-    @map_win, @messages_win, @right_win = @screen.build_display
+    @main_win, @messages_win, @right_win = @screen.build_display
 
-    @map_win.win.setpos(0, 29-@player.name.length/2)
-    @map_win.win.addstr("ConsoleRPG - #{@player.name}")
-    @map_win.win.refresh
-    @map_win.win.setpos(24,2)
-
+    @main_win.win.setpos(0, 29-@player.name.length/2)
+    @main_win.win.addstr("ConsoleRPG - #{@player.name}")
+    @main_win.win.refresh
+    
     @messages_win.win.setpos(1, 2)
     @messages_win.win.addstr('> MAP | BAG | EQUIPPED | STATS | SKILLS')
     @messages_win.win.setpos(2, 2)
@@ -84,12 +83,12 @@ while @game.state == 1 do
     ## MENU > MAP
     #
     if user_menu_input == 'MAP'
-      Map.list_all(@map_win)
+      Map.list_all(@main_win)
 
-      @map_win.win.box('j', '~')
-      @map_win.win.setpos(0, 29-@player.name.length/2)
-      @map_win.win.addstr("ConsoleRPG - #{@player.name}")
-      @map_win.win.refresh
+      @main_win.win.box('j', '~')
+      @main_win.win.setpos(0, 29-@player.name.length/2)
+      @main_win.win.addstr("ConsoleRPG - #{@player.name}")
+      @main_win.win.refresh
 
       @messages_win.win.setpos(1, 2)
       @messages_win.win.deleteln
@@ -108,11 +107,11 @@ while @game.state == 1 do
       # initialize @map
       map_name_input = @messages_win.win.getstr
       @map = @game.load_map(map_name_input)
+      @player.set_location(@map.current_map)
 
       # build map in window
-      @map_win.build_map(@map)
-
-      @player.set_location(@map.current_map)
+      @main_win.build_map(@map)
+      @main_win.win.setpos(24, 2)
 
       @messages_win.win.setpos(1, 2)
       @messages_win.win.deleteln
@@ -129,7 +128,12 @@ while @game.state == 1 do
       # get input and move player loop
       while @player.location != []
         @messages_win.win.refresh
-        user_movement_input = @map_win.win.getch
+        Curses.noecho
+        Curses.curs_set(0)
+        user_movement_input = @main_win.win.getch
+        Curses.curs_set(1)
+        Curses.echo
+
         new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
 
         unless @player.location == []
@@ -145,14 +149,14 @@ while @game.state == 1 do
           indexed_map = @map.current_map.each_with_index.map{ |line, i| [line, i] }
 
           indexed_map.each do |line, i|
-            @map_win.win.setpos(i + 1, 2)
+            @main_win.win.setpos(i + 1, 2)
             line_ary = line.split('')
             line_ary.each do |c|
-              @map_win.win.attron(Curses.color_pair(map_colors_hash(c))) { @map_win.win.addch(c) }
+              @main_win.win.attron(Curses.color_pair(map_colors_hash(c))) { @main_win.win.addch(c) }
             end
           end
 
-          @map_win.win.setpos(24,2)
+          @main_win.win.setpos(24, 2)
         end
       end
 
@@ -160,7 +164,7 @@ while @game.state == 1 do
     ## MENU > BAG
     #
     elsif user_menu_input == 'BAG'
-      @player.inventory.list(@map_win)
+      @player.inventory.list(@main_win)
 
       @messages_win.win.setpos(1, 2)
       @messages_win.win.deleteln
@@ -180,7 +184,7 @@ while @game.state == 1 do
     ## MENU > EQUIPPED
     #
     elsif user_menu_input == 'EQUIPPED'
-      @player.equipped.list(@map_win)
+      @player.equipped.list(@main_win)
 
     #
     ## MENU > STATS

@@ -16,18 +16,18 @@ class CursesScreen
   end
 
   def build_display
-    @map_win = MapWindow.new
+    @main_win = MainWindow.new
     @messages_win = MessagesWindow.new
     @right_win = RightWindow.new
 
-    @map_win.win.box('j', '~')
-    @map_win.win.setpos(20, 3)
+    @main_win.win.box('j', '~')
+    @main_win.win.setpos(20, 3)
 
-    return @map_win, @messages_win, @right_win
+    return @main_win, @messages_win, @right_win
   end
 end
 
-class MapWindow
+class MainWindow
   attr_accessor :win
 
   def initialize

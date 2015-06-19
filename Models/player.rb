@@ -173,20 +173,6 @@ class Player
     end
   end
 
-  def show_stats
-    puts ' -------------'
-    puts " --- #{name.upcase}'S STATS ----"
-    puts ' -------------'
-    puts "Level #{level} #{species} #{type}"
-    puts "XP: #{current_exp}/#{max_exp}"
-    puts "Cash: #{inventory.money}"
-    puts "Health: #{health}/#{max_health}"
-    puts "Damage: #{damage}"
-    puts "Crit chance: #{crit_chance}%"
-    puts "Armor: #{armor}"
-    puts '--------------'
-  end
-
   def show_skills
     puts ' -------------'
     puts " --- #{name.upcase}'S SKILLS ----"

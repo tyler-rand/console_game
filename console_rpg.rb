@@ -13,13 +13,13 @@ class String
   end
 end
 
-##################
+################
 ### RUN GAME ###
-##################
+################
 
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
-@game = Game.new() # Game started, no player loaded
+@game = Game.new() # Game initialized, no player loaded
 
 while @game.state == 0 do # initial state is 0
   puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
@@ -59,9 +59,10 @@ while @game.state == 0 do # initial state is 0
   @game.state = 1 if @player
 end
 
-#
-## GAME STARTED OR LOADED, MENU SCREEN
-#
+########################################
+### GAME STARTED/LOADED, MENU SCREEN ###
+########################################
+
 while @game.state == 1 do
   begin
     @screen = CursesScreen.new
@@ -71,31 +72,7 @@ while @game.state == 1 do
     @main_win.win.addstr("ConsoleRPG - #{@player.name}")
     @main_win.win.refresh
 
-    @right_win.win.setpos(2, 15-@player.name.length/2)
-    @right_win.win.addstr(@player.name.upcase)
-    @right_win.win.setpos(4, 2)
-    @right_win.win.addstr("Level #{@player.level} #{@player.species} #{@player.type}")
-    @right_win.win.setpos(6, 2)
-    @right_win.win.addstr("Health: #{@player.health}/#{@player.max_health}")
-    @right_win.win.setpos(7, 2)
-    @right_win.win.addstr("Energy: #{@player.energy}/#{@player.max_energy}")
-    @right_win.win.setpos(8, 2)
-    @right_win.win.addstr("XP: #{@player.current_exp}/#{@player.max_exp}")
-    @right_win.win.setpos(10, 2)
-    @right_win.win.addstr("Armor: #{@player.armor}")
-    @right_win.win.setpos(11, 2)
-    @right_win.win.addstr("Damage: #{@player.damage}")
-    @right_win.win.setpos(12, 2)
-    @right_win.win.addstr("Crit chance: #{@player.crit_chance}%")
-    @right_win.win.setpos(14, 2)
-    @right_win.win.addstr("Strength: #{@player.strength}")
-    @right_win.win.setpos(15, 2)
-    @right_win.win.addstr("Agility: #{@player.agility}")
-    @right_win.win.setpos(16, 2)
-    @right_win.win.addstr("Intelligence: #{@player.intelligence}")
-    @right_win.win.setpos(18, 2)
-    @right_win.win.addstr("Money: #{@player.inventory.money}")
-    @right_win.win.refresh
+    @right_win.build_display(@player)
 
     @messages_win.win.setpos(1, 2)
     @messages_win.win.addstr('> MAP | BAG | EQUIPPED | STATS | SKILLS')
@@ -222,7 +199,7 @@ while @game.state == 1 do
     ## MENU > STATS
     #
     elsif user_menu_input == 'STATS'
-      @player.show_stats
+      # @player.show_stats
 
     #
     ## MENU > SKILLS

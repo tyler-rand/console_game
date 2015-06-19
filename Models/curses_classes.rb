@@ -56,7 +56,6 @@ class MainWindow
     win.setpos(0, 35-map.name.length/2)
     win.addstr("Map - #{map.name}")
   end
-
 end
 
 class MessagesWindow
@@ -64,11 +63,15 @@ class MessagesWindow
 
   def initialize
     @win = Curses::Window.new(7, 70, 26, 0)
+    box_with_title
+    @win.refresh
+  end
+
+  def box_with_title
     @win.box('j', '~')
     @win.setpos(0, 28)
     @win.addstr('Input/Message Log')
     @win.setpos(1, 2)
-    @win.refresh
   end
 end
 

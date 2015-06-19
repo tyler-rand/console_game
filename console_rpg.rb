@@ -94,14 +94,9 @@ while @game.state == 1 do
       @main_win.win.refresh
 
       @messages_win.win.setpos(1, 2)
-      @messages_win.win.deleteln
-      @messages_win.win.deleteln
-      @messages_win.win.insertln
-      @messages_win.win.insertln
-      @messages_win.win.box('j', '~')
-      @messages_win.win.setpos(0, 28)
-      @messages_win.win.addstr('Input/Message Log')
-      @messages_win.win.setpos(1, 2)
+      2.times { @messages_win.win.deleteln }
+      2. times { @messages_win.win.insertln }
+      @messages_win.box_with_title
       @messages_win.win.addstr('> Enter a map name to load')
       @messages_win.win.setpos(2, 2)
       @messages_win.win.addstr("--> ")
@@ -117,15 +112,10 @@ while @game.state == 1 do
       @main_win.win.setpos(24, 2)
 
       @messages_win.win.setpos(1, 2)
-      @messages_win.win.deleteln
-      @messages_win.win.deleteln
-      @messages_win.win.insertln
-      @messages_win.win.insertln
-      @messages_win.win.box('j', '~')
-      @messages_win.win.setpos(0, 28)
-      @messages_win.win.addstr('Input/Message Log')
-      @messages_win.win.setpos(1, 2)
+      2.times { @messages_win.win.deleteln }
+      2. times { @messages_win.win.insertln }
       @messages_win.win.addstr("> #{@map.name} loaded successfully, player: #{@player.location}")
+      @messages_win.box_with_title
       @messages_win.win.refresh
 
       # get input and move player loop
@@ -146,10 +136,7 @@ while @game.state == 1 do
           @messages_win.win.insertln
           @messages_win.win.setpos(2, 2)
           @messages_win.win.addstr(message)
-          @messages_win.win.box('j', '~')
-          @messages_win.win.setpos(0, 28)
-          @messages_win.win.addstr('Input/Message Log')
-          @messages_win.win.setpos(1, 2)
+          @messages_win.box_with_title
           @messages_win.win.refresh
 
           indexed_map = @map.current_map.each_with_index.map{ |line, i| [line, i] }
@@ -175,12 +162,9 @@ while @game.state == 1 do
       @messages_win.win.setpos(1, 2)
       @messages_win.win.deleteln
       @messages_win.win.insertln
-      @messages_win.win.box('j', '~')
-      @messages_win.win.setpos(0, 28)
-      @messages_win.win.addstr('Input/Message Log')
-      @messages_win.win.setpos(1, 2)
       @messages_win.win.addstr("Enter a command and an item number seperated by a space (Ex. EQUIP 2, use 5 Drop 11")
       @messages_win.win.addstr("--> ")
+      @messages_win.box_with_title
       @messages_win.win.refresh
 
       user_bag_input = @messages_win.win.getstr()

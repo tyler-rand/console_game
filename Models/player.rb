@@ -1,7 +1,8 @@
 # tracks player stats and skills
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-   :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location
+   :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location,
+   :energy, :max_energy, :strength, :agility, :intelligence
 
   #
   ## CLASS METHODS
@@ -76,8 +77,11 @@ class Player
     @level       = 1
     @current_exp = 0
     @max_exp     = 10
+
     @health      = 100
     @max_health  = 100
+    @energy      = 100
+    @max_energy  = 100
 
     @strength     = 1
     @agility      = 1
@@ -92,7 +96,7 @@ class Player
     @inventory = Inventory.new(player: self)
   end
 
-  def save(window)
+  def save(*window)
     File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 

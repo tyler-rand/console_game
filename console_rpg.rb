@@ -70,7 +70,33 @@ while @game.state == 1 do
     @main_win.win.setpos(0, 29-@player.name.length/2)
     @main_win.win.addstr("ConsoleRPG - #{@player.name}")
     @main_win.win.refresh
-    
+
+    @right_win.win.setpos(2, 15-@player.name.length/2)
+    @right_win.win.addstr(@player.name.upcase)
+    @right_win.win.setpos(4, 2)
+    @right_win.win.addstr("Level #{@player.level} #{@player.species} #{@player.type}")
+    @right_win.win.setpos(6, 2)
+    @right_win.win.addstr("Health: #{@player.health}/#{@player.max_health}")
+    @right_win.win.setpos(7, 2)
+    @right_win.win.addstr("Energy: #{@player.energy}/#{@player.max_energy}")
+    @right_win.win.setpos(8, 2)
+    @right_win.win.addstr("XP: #{@player.current_exp}/#{@player.max_exp}")
+    @right_win.win.setpos(10, 2)
+    @right_win.win.addstr("Armor: #{@player.armor}")
+    @right_win.win.setpos(11, 2)
+    @right_win.win.addstr("Damage: #{@player.damage}")
+    @right_win.win.setpos(12, 2)
+    @right_win.win.addstr("Crit chance: #{@player.crit_chance}%")
+    @right_win.win.setpos(14, 2)
+    @right_win.win.addstr("Strength: #{@player.strength}")
+    @right_win.win.setpos(15, 2)
+    @right_win.win.addstr("Agility: #{@player.agility}")
+    @right_win.win.setpos(16, 2)
+    @right_win.win.addstr("Intelligence: #{@player.intelligence}")
+    @right_win.win.setpos(18, 2)
+    @right_win.win.addstr("Money: #{@player.inventory.money}")
+    @right_win.win.refresh
+
     @messages_win.win.setpos(1, 2)
     @messages_win.win.addstr('> MAP | BAG | EQUIPPED | STATS | SKILLS')
     @messages_win.win.setpos(2, 2)
@@ -141,9 +167,12 @@ while @game.state == 1 do
           message = @map.move_player(player: @player, new_player_loc: new_player_loc) { |msg| @messages_win.win.addstr(msg) }
           @messages_win.win.deleteln
           @messages_win.win.insertln
-          @messages_win.win.box('j', '~')
           @messages_win.win.setpos(2, 2)
           @messages_win.win.addstr(message)
+          @messages_win.win.box('j', '~')
+          @messages_win.win.setpos(0, 28)
+          @messages_win.win.addstr('Input/Message Log')
+          @messages_win.win.setpos(1, 2)
           @messages_win.win.refresh
 
           indexed_map = @map.current_map.each_with_index.map{ |line, i| [line, i] }
@@ -170,6 +199,9 @@ while @game.state == 1 do
       @messages_win.win.deleteln
       @messages_win.win.insertln
       @messages_win.win.box('j', '~')
+      @messages_win.win.setpos(0, 28)
+      @messages_win.win.addstr('Input/Message Log')
+      @messages_win.win.setpos(1, 2)
       @messages_win.win.addstr("Enter a command and an item number seperated by a space (Ex. EQUIP 2, use 5 Drop 11")
       @messages_win.win.addstr("--> ")
       @messages_win.win.refresh

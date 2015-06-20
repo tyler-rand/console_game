@@ -1,6 +1,6 @@
 # game
 class Game
-  attr_accessor :id, :state, :player
+  attr_accessor :id, :state, :player, :message_log
 
   #
   ## CLASS METHODS
@@ -45,6 +45,7 @@ class Game
     @id     = object_id
     @state  = 0
     @player = nil
+    @message_log = MessageLog.new(game: self)
   end
 
   def new_player

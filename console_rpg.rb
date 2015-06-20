@@ -19,7 +19,7 @@ end
 
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
-@game = Game.new() # Game initialized, no player loaded
+@game = Game.new # Game initialized, no player loaded
 
 while @game.state == 0 do # initial state is 0
   puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
@@ -63,39 +63,43 @@ end
 ### GAME STARTED/LOADED, MENU SCREEN ###
 ########################################
 
-while @game.state == 1 do
-  @msg_log = []
-  @msg_rng = 1..8
-  begin
-    @screen = CursesScreen.new
-    @main_win, @messages_win, @right_win = @screen.build_display
+@screen = CursesScreen.new
+@main_win, @messages_win, @right_win = @screen.build_display
 
+begin
+  while @game.state == 1 do
+    @messages_win.win.clear
+    @messages_win.box_with_title
+
+    @main_win.win.clear
+    @main_win.win.box('j', '~')
     @main_win.win.setpos(0, 29-@player.name.length/2)
     @main_win.win.addstr("ConsoleRPG - #{@player.name}")
     @main_win.win.refresh
 
     @right_win.build_display(@player)
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['placeholder', @msg_log.length]
-    @msg_log << ['> MAP | BAG | EQUIPPED | STATS | SKILLS', @msg_log.length]
-    @msg_log << ['--> ', @msg_log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['', @game.message_log.log.length]
+    @game.message_log.log << ['> MAP | BAG | EQUIPPED | STATS | SKILLS', @game.message_log.log.length]
+    @game.message_log.log << ['--> ', @game.message_log.log.length]
+    @game.message_log.scroll(9)
 
     line_num = 1
-    @msg_rng.each do |line|
+    @game.message_log.display_range.each do |line|
       @messages_win.win.setpos(line_num, 2)
-      @messages_win.win.addstr(@msg_log[line][0])
+      @messages_win.win.addstr(@game.message_log.log[line][0])
       line_num += 1
     end
 
     @messages_win.win.refresh
 
     user_menu_input = @messages_win.win.getstr.upcase
-    @msg_log[-1][0] += user_menu_input
+    @game.message_log.log[-1][0] += user_menu_input
 
     #
     ## MENU > MAP
@@ -108,15 +112,15 @@ while @game.state == 1 do
       @main_win.win.addstr("ConsoleRPG - #{@player.name}")
       @main_win.win.refresh
 
-      @msg_log << ['> Enter a map name to load', @msg_log.length]
-      @msg_log << ['--> ', @msg_log.length]
-      @msg_rng = @msg_rng.map { |x| x += 2 }
+      @game.message_log.log << ['> Enter a map name to load', @game.message_log.log.length]
+      @game.message_log.log << ['--> ', @game.message_log.log.length]
+      @game.message_log.scroll(2)
       @messages_win.win.clear
 
       line_num = 1
-      @msg_rng.each do |line|
+      @game.message_log.display_range.each do |line|
         @messages_win.win.setpos(line_num, 2)
-        @messages_win.win.addstr(@msg_log[line][0])
+        @messages_win.win.addstr(@game.message_log.log[line][0])
         line_num += 1
       end
 
@@ -125,7 +129,7 @@ while @game.state == 1 do
       @messages_win.win.refresh
 
       map_name_input = @messages_win.win.getstr
-      @msg_log[-1][0] += map_name_input
+      @game.message_log.log[-1][0] += map_name_input
 
       # initialize map
       @map = @game.load_map(map_name_input)
@@ -135,14 +139,14 @@ while @game.state == 1 do
       @main_win.build_map(@map)
       @main_win.win.setpos(24, 2)
 
-      @msg_log << "> #{@map.name} loaded successfully, player: #{@player.location}"
-      @msg_rng = @msg_rng.map { |x| x += 1 }
+      @game.message_log.log << ["> #{@map.name} loaded successfully, player: #{@player.location}", @game.message_log.log.length]
+      @game.message_log.scroll(1)
       @messages_win.win.clear
 
       line_num = 1
-      @msg_rng.each do |line|
+      @game.message_log.display_range.each do |line|
         @messages_win.win.setpos(line_num, 2)
-        @messages_win.win.addstr(@msg_log[line][0])
+        @messages_win.win.addstr(@game.message_log.log[line][0])
         line_num += 1
       end
 
@@ -166,15 +170,15 @@ while @game.state == 1 do
           message = @map.move_player(player: @player, new_player_loc: new_player_loc)
 
           unless message.nil?
-            @msg_log << [message, @msg_log.length]
-            @msg_rng = @msg_rng.map { |x| x += 1 }
+            @game.message_log.log << [message, @game.message_log.log.length]
+            @game.message_log.scroll(1)
             @messages_win.win.clear
           end
 
           line_num = 1
-          @msg_rng.each do |line|
+          @game.message_log.display_range.each do |line|
             @messages_win.win.setpos(line_num, 2)
-            @messages_win.win.addstr(@msg_log[line][0])
+            @messages_win.win.addstr(@game.message_log.log[line][0])
             line_num += 1
           end
 
@@ -201,15 +205,23 @@ while @game.state == 1 do
     elsif user_menu_input == 'BAG'
       @player.inventory.list(@main_win)
 
-      @messages_win.win.setpos(1, 2)
-      @messages_win.win.deleteln
-      @messages_win.win.insertln
-      @messages_win.win.addstr("Enter a command and an item number seperated by a space (Ex. EQUIP 2, use 5 Drop 11")
-      @messages_win.win.addstr("--> ")
+      @game.message_log.log << ['> Enter a command and number seperated by a space (Ex. Equip 2)', @game.message_log.log.length]
+      @game.message_log.log << ['--> ', @game.message_log.log.length]
+      @game.message_log.scroll(2)
+      @messages_win.win.clear
+
+      line_num = 1
+      @game.message_log.display_range.each do |line|
+        @messages_win.win.setpos(line_num, 2)
+        @messages_win.win.addstr(@game.message_log.log[line][0])
+        line_num += 1
+      end
+
       @messages_win.box_with_title
+      @messages_win.win.setpos(line_num - 1, 6)
       @messages_win.win.refresh
 
-      user_bag_input = @messages_win.win.getstr()
+      user_bag_input = @messages_win.win.getstr
       command    = user_bag_input[0]
       item_num   = user_bag_input[1].to_i
 
@@ -237,7 +249,7 @@ while @game.state == 1 do
     else
       puts 'Error, command not recognized.'.colorize(101)
     end
-  ensure
-    Curses.close_screen
   end
+ensure
+  Curses.close_screen
 end

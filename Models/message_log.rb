@@ -9,8 +9,8 @@ class MessageLog
   def initialize(game:)
     @id   = object_id
     @game = game
-    @log  = []
-    @display_range = -8..-1
+    @log  = [['', 0], ['', 1], ['', 2], ['', 3], ['', 4], ['', 5], ['', 6]]
+    @display_range = -1..6
   end
 
   def scroll(num)

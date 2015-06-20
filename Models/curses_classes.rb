@@ -56,6 +56,12 @@ class MainWindow
     win.setpos(0, 35-map.name.length/2)
     win.addstr("Map - #{map.name}")
   end
+
+  def box_with_player_name(name)
+    win.box('j', '~')
+    win.setpos(0, 29-name.length/2)
+    win.addstr("ConsoleRPG - #{name}")
+  end
 end
 
 class MessagesWindow
@@ -72,6 +78,15 @@ class MessagesWindow
     @win.setpos(0, 28)
     @win.addstr('Input/Message Log')
     @win.setpos(1, 2)
+  end
+
+  def print_log(message_log)
+    line_num = 1
+    message_log.display_range.each do |line|
+      win.setpos(line_num, 2)
+      win.addstr(message_log.log[line][0])
+      line_num += 1
+    end
   end
 end
 

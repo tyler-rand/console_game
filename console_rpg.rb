@@ -19,7 +19,8 @@ end
 
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
-@game = Game.new # Game initialized, no player loaded
+# Game initialized, no player created/loaded
+@game = Game.new
 
 while @game.state == 0 do # initial state is 0
   puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
@@ -68,67 +69,52 @@ end
 
 begin
   while @game.state == 1 do
-    @messages_win.win.clear
-    @messages_win.box_with_title
-
     @main_win.win.clear
-    @main_win.win.box('j', '~')
-    @main_win.win.setpos(0, 29-@player.name.length/2)
-    @main_win.win.addstr("ConsoleRPG - #{@player.name}")
+    @main_win.box_with_player_name(@player.name)
     @main_win.win.refresh
 
     @right_win.build_display(@player)
-    @game.message_log.log << ['', @game.message_log.log.length]
-    @game.message_log.log << ['', @game.message_log.log.length]
-    @game.message_log.log << ['', @game.message_log.log.length]
-    @game.message_log.log << ['', @game.message_log.log.length]
-    @game.message_log.log << ['', @game.message_log.log.length]
-    @game.message_log.log << ['', @game.message_log.log.length]
-    @game.message_log.log << ['', @game.message_log.log.length]
+
+    @messages_win.win.clear
+    @messages_win.box_with_title
+
     @game.message_log.log << ['> MAP | BAG | EQUIPPED | STATS | SKILLS', @game.message_log.log.length]
     @game.message_log.log << ['--> ', @game.message_log.log.length]
-    @game.message_log.scroll(9)
+    @game.message_log.scroll(2)
 
-    line_num = 1
-    @game.message_log.display_range.each do |line|
-      @messages_win.win.setpos(line_num, 2)
-      @messages_win.win.addstr(@game.message_log.log[line][0])
-      line_num += 1
-    end
+    @messages_win.print_log(@game.message_log)
 
     @messages_win.win.refresh
 
     user_menu_input = @messages_win.win.getstr.upcase
+
+    # append user input to last message in log, to show as output
     @game.message_log.log[-1][0] += user_menu_input
 
     #
     ## MENU > MAP
     #
     if user_menu_input == 'MAP'
+      # list maps
+      @main_win.win.clear
       Map.list_all(@main_win)
-
-      @main_win.win.box('j', '~')
-      @main_win.win.setpos(0, 29-@player.name.length/2)
-      @main_win.win.addstr("ConsoleRPG - #{@player.name}")
       @main_win.win.refresh
 
+      # query user for map input
       @game.message_log.log << ['> Enter a map name to load', @game.message_log.log.length]
       @game.message_log.log << ['--> ', @game.message_log.log.length]
       @game.message_log.scroll(2)
       @messages_win.win.clear
 
-      line_num = 1
-      @game.message_log.display_range.each do |line|
-        @messages_win.win.setpos(line_num, 2)
-        @messages_win.win.addstr(@game.message_log.log[line][0])
-        line_num += 1
-      end
+      @messages_win.print_log(@game.message_log)
 
       @messages_win.box_with_title
-      @messages_win.win.setpos(line_num - 1, 6)
+      @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh
 
       map_name_input = @messages_win.win.getstr
+
+      # append user input to last message in log, to show as output
       @game.message_log.log[-1][0] += map_name_input
 
       # initialize map
@@ -143,15 +129,10 @@ begin
       @game.message_log.scroll(1)
       @messages_win.win.clear
 
-      line_num = 1
-      @game.message_log.display_range.each do |line|
-        @messages_win.win.setpos(line_num, 2)
-        @messages_win.win.addstr(@game.message_log.log[line][0])
-        line_num += 1
-      end
+      @messages_win.print_log(@game.message_log)
 
       @messages_win.box_with_title
-      @messages_win.win.setpos(line_num - 1, 6)
+      @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh
 
       # get input and move player loop
@@ -169,18 +150,14 @@ begin
           @messages_win.win.setpos(2, 2)
           message = @map.move_player(player: @player, new_player_loc: new_player_loc)
 
+          # if movement produces a message, add it to the log
           unless message.nil?
             @game.message_log.log << [message, @game.message_log.log.length]
             @game.message_log.scroll(1)
             @messages_win.win.clear
           end
 
-          line_num = 1
-          @game.message_log.display_range.each do |line|
-            @messages_win.win.setpos(line_num, 2)
-            @messages_win.win.addstr(@game.message_log.log[line][0])
-            line_num += 1
-          end
+          @messages_win.print_log(@game.message_log)
 
           @messages_win.box_with_title
           @messages_win.win.refresh
@@ -210,15 +187,10 @@ begin
       @game.message_log.scroll(2)
       @messages_win.win.clear
 
-      line_num = 1
-      @game.message_log.display_range.each do |line|
-        @messages_win.win.setpos(line_num, 2)
-        @messages_win.win.addstr(@game.message_log.log[line][0])
-        line_num += 1
-      end
+      @messages_win.print_log(@game.message_log)
 
       @messages_win.box_with_title
-      @messages_win.win.setpos(line_num - 1, 6)
+      @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh
 
       user_bag_input = @messages_win.win.getstr

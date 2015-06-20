@@ -108,10 +108,12 @@ class Map
       player.inventory.add_items(level)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
+      message = 'Picked up items from a chest.'
     when '$'
       player.inventory.add_money(10)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
+      message = 'Picked up some money.'
     when 'm'
       message = 'A mob appears! Kill it!'
       player.engage_mob(self, new_player_loc)

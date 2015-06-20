@@ -64,6 +64,8 @@ end
 ########################################
 
 while @game.state == 1 do
+  @msg_log = []
+  @msg_rng = 1..8
   begin
     @screen = CursesScreen.new
     @main_win, @messages_win, @right_win = @screen.build_display
@@ -73,14 +75,27 @@ while @game.state == 1 do
     @main_win.win.refresh
 
     @right_win.build_display(@player)
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['placeholder', @msg_log.length]
+    @msg_log << ['> MAP | BAG | EQUIPPED | STATS | SKILLS', @msg_log.length]
+    @msg_log << ['--> ', @msg_log.length]
 
-    @messages_win.win.setpos(1, 2)
-    @messages_win.win.addstr('> MAP | BAG | EQUIPPED | STATS | SKILLS')
-    @messages_win.win.setpos(2, 2)
-    @messages_win.win.addstr('--> ')
+    line_num = 1
+    @msg_rng.each do |line|
+      @messages_win.win.setpos(line_num, 2)
+      @messages_win.win.addstr(@msg_log[line][0])
+      line_num += 1
+    end
+
     @messages_win.win.refresh
 
     user_menu_input = @messages_win.win.getstr.upcase
+    @msg_log[-1][0] += user_menu_input
 
     #
     ## MENU > MAP
@@ -93,17 +108,26 @@ while @game.state == 1 do
       @main_win.win.addstr("ConsoleRPG - #{@player.name}")
       @main_win.win.refresh
 
-      @messages_win.win.setpos(1, 2)
-      2.times { @messages_win.win.deleteln }
-      2. times { @messages_win.win.insertln }
+      @msg_log << ['> Enter a map name to load', @msg_log.length]
+      @msg_log << ['--> ', @msg_log.length]
+      @msg_rng = @msg_rng.map { |x| x += 2 }
+      @messages_win.win.clear
+
+      line_num = 1
+      @msg_rng.each do |line|
+        @messages_win.win.setpos(line_num, 2)
+        @messages_win.win.addstr(@msg_log[line][0])
+        line_num += 1
+      end
+
       @messages_win.box_with_title
-      @messages_win.win.addstr('> Enter a map name to load')
-      @messages_win.win.setpos(2, 2)
-      @messages_win.win.addstr("--> ")
+      @messages_win.win.setpos(line_num - 1, 6)
       @messages_win.win.refresh
 
-      # initialize @map
       map_name_input = @messages_win.win.getstr
+      @msg_log[-1][0] += map_name_input
+
+      # initialize map
       @map = @game.load_map(map_name_input)
       @player.set_location(@map.current_map)
 
@@ -111,11 +135,19 @@ while @game.state == 1 do
       @main_win.build_map(@map)
       @main_win.win.setpos(24, 2)
 
-      @messages_win.win.setpos(1, 2)
-      2.times { @messages_win.win.deleteln }
-      2. times { @messages_win.win.insertln }
-      @messages_win.win.addstr("> #{@map.name} loaded successfully, player: #{@player.location}")
+      @msg_log << "> #{@map.name} loaded successfully, player: #{@player.location}"
+      @msg_rng = @msg_rng.map { |x| x += 1 }
+      @messages_win.win.clear
+
+      line_num = 1
+      @msg_rng.each do |line|
+        @messages_win.win.setpos(line_num, 2)
+        @messages_win.win.addstr(@msg_log[line][0])
+        line_num += 1
+      end
+
       @messages_win.box_with_title
+      @messages_win.win.setpos(line_num - 1, 6)
       @messages_win.win.refresh
 
       # get input and move player loop
@@ -131,11 +163,21 @@ while @game.state == 1 do
 
         unless @player.location == []
           @messages_win.win.setpos(2, 2)
-          message = @map.move_player(player: @player, new_player_loc: new_player_loc) { |msg| @messages_win.win.addstr(msg) }
-          @messages_win.win.deleteln
-          @messages_win.win.insertln
-          @messages_win.win.setpos(2, 2)
-          @messages_win.win.addstr(message)
+          message = @map.move_player(player: @player, new_player_loc: new_player_loc)
+
+          unless message.nil?
+            @msg_log << [message, @msg_log.length]
+            @msg_rng = @msg_rng.map { |x| x += 1 }
+            @messages_win.win.clear
+          end
+
+          line_num = 1
+          @msg_rng.each do |line|
+            @messages_win.win.setpos(line_num, 2)
+            @messages_win.win.addstr(@msg_log[line][0])
+            line_num += 1
+          end
+
           @messages_win.box_with_title
           @messages_win.win.refresh
 

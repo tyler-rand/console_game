@@ -62,7 +62,7 @@ class MessagesWindow
   attr_accessor :win
 
   def initialize
-    @win = Curses::Window.new(7, 70, 26, 0)
+    @win = Curses::Window.new(10, 70, 26, 0)
     box_with_title
     @win.refresh
   end
@@ -79,7 +79,7 @@ class RightWindow
   attr_accessor :win
 
   def initialize
-    @win = Curses::Window.new(33, 30, 0, 70)
+    @win = Curses::Window.new(36, 30, 0, 70)
     @win.box('j', '~')
     @win.setpos(0, 8)
     @win.addstr('Stats/Equipped')

@@ -75,15 +75,10 @@ begin
 
     @right_win.build_display(@player)
 
+    @game.message_log.add_msgs('> MAP | BAG | EQUIPPED | STATS | SKILLS', '--> ')
     @messages_win.win.clear
     @messages_win.box_with_title
-
-    @game.message_log.log << ['> MAP | BAG | EQUIPPED | STATS | SKILLS', @game.message_log.log.length]
-    @game.message_log.log << ['--> ', @game.message_log.log.length]
-    @game.message_log.scroll(2)
-
     @messages_win.print_log(@game.message_log)
-
     @messages_win.win.refresh
 
     user_menu_input = @messages_win.win.getstr.upcase
@@ -98,16 +93,13 @@ begin
       # list maps
       @main_win.win.clear
       Map.list_all(@main_win)
+      @main_win.box_with_player_name(@player.name)
       @main_win.win.refresh
 
       # query user for map input
-      @game.message_log.log << ['> Enter a map name to load', @game.message_log.log.length]
-      @game.message_log.log << ['--> ', @game.message_log.log.length]
-      @game.message_log.scroll(2)
+      @game.message_log.add_msgs('> Enter a map name to load', '--> ')
       @messages_win.win.clear
-
       @messages_win.print_log(@game.message_log)
-
       @messages_win.box_with_title
       @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh
@@ -125,12 +117,9 @@ begin
       @main_win.build_map(@map)
       @main_win.win.setpos(24, 2)
 
-      @game.message_log.log << ["> #{@map.name} loaded successfully, player: #{@player.location}", @game.message_log.log.length]
-      @game.message_log.scroll(1)
+      @game.message_log.add_msgs("> #{@map.name} loaded successfully, player: #{@player.location}")
       @messages_win.win.clear
-
       @messages_win.print_log(@game.message_log)
-
       @messages_win.box_with_title
       @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh
@@ -158,7 +147,6 @@ begin
           end
 
           @messages_win.print_log(@game.message_log)
-
           @messages_win.box_with_title
           @messages_win.win.refresh
 
@@ -182,13 +170,9 @@ begin
     elsif user_menu_input == 'BAG'
       @player.inventory.list(@main_win)
 
-      @game.message_log.log << ['> Enter a command and number seperated by a space (Ex. Equip 2)', @game.message_log.log.length]
-      @game.message_log.log << ['--> ', @game.message_log.log.length]
-      @game.message_log.scroll(2)
+      @game.message_log.add_msgs('> Enter a command and number seperated by a space (Ex. Equip 2)', '--> ')
       @messages_win.win.clear
-
       @messages_win.print_log(@game.message_log)
-
       @messages_win.box_with_title
       @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh

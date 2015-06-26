@@ -36,12 +36,19 @@ class MainWindow
   end
 
   def build_map(map)
+    display_colored_map(map)
+
     win.setpos(20, 3)
     win.addstr('WASD to move, C to exit')
     win.setpos(22, 3)
     win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
+    win.box('j', '~')
+    win.setpos(0, 35-map.name.length/2)
+    win.addstr("Map - #{map.name}")
+  end
 
-    indexed_map = map.current_map.each_with_index.map{ |line,i| [line, i] }
+  def display_colored_map(map)
+    indexed_map = map.current_map.each_with_index.map{ |line, i| [line, i] }
 
     indexed_map.each do |line, i|
       win.setpos(i + 1, 2)
@@ -51,10 +58,6 @@ class MainWindow
         win.attron(Curses.color_pair(map_colors_hash(c))) { win.addch(c) }
       end
     end
-
-    win.box('j', '~')
-    win.setpos(0, 35-map.name.length/2)
-    win.addstr("Map - #{map.name}")
   end
 
   def box_with_player_name(name)

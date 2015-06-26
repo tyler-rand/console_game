@@ -143,26 +143,19 @@ begin
           @messages_win.win.setpos(2, 2)
           messages = @map.move_player(player: @player, new_player_loc: new_player_loc)
 
-          # if movement produces a message, add it to the log
+          # if movement produces any messages, add to the log
           unless messages.empty?
             @game.message_log.add_msgs(messages)
             @messages_win.win.clear
           end
 
+          # display updated messages from most recent player movement
           @messages_win.print_log(@game.message_log)
           @messages_win.box_with_title
           @messages_win.win.refresh
 
-          indexed_map = @map.current_map.each_with_index.map{ |line, i| [line, i] }
-
-          indexed_map.each do |line, i|
-            @main_win.win.setpos(i + 1, 2)
-            line_ary = line.split('')
-            line_ary.each do |c|
-              @main_win.win.attron(Curses.color_pair(map_colors_hash(c))) { @main_win.win.addch(c) }
-            end
-          end
-
+          # show updated map with player movement
+          @main_win.display_colored_map(@map)
           @main_win.win.setpos(24, 2)
         end
       end

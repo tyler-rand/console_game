@@ -83,6 +83,14 @@ class MessagesWindow
     win.setpos(1, 2)
   end
 
+  def display_messages(log)
+    win.clear
+    print_log(log)
+    box_with_title
+    win.setpos(8, 6)
+    win.refresh
+  end
+
   def print_log(message_log)
     line_num = 1
 

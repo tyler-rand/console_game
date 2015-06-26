@@ -75,16 +75,13 @@ begin
 
     @right_win.build_display(@player)
 
+    # main menu, query user for input
     messages = ['> MAP | BAG | EQUIPPED | STATS | SKILLS', '--> ']
     @game.message_log.add_msgs(messages)
-    @messages_win.win.clear
-    @messages_win.box_with_title
-    @messages_win.print_log(@game.message_log)
-    @messages_win.win.refresh
-
-    user_menu_input = @messages_win.win.getstr.upcase
+    @messages_win.display_messages(@game.message_log)
 
     # append user input to last message in log, to show as output
+    user_menu_input = @messages_win.win.getstr.upcase
     @game.message_log.log[-1][0] += user_menu_input
 
     #
@@ -97,18 +94,13 @@ begin
       @main_win.box_with_player_name(@player.name)
       @main_win.win.refresh
 
-      # query user for map input
+      # query user for map name to load
       messages = ['> Enter a map name to load', '--> ']
       @game.message_log.add_msgs(messages)
-      @messages_win.win.clear
-      @messages_win.print_log(@game.message_log)
-      @messages_win.box_with_title
-      @messages_win.win.setpos(8, 6)
-      @messages_win.win.refresh
-
-      map_name_input = @messages_win.win.getstr
+      @messages_win.display_messages(@game.message_log)
 
       # append user input to last message in log, to show as output
+      map_name_input = @messages_win.win.getstr
       @game.message_log.log[-1][0] += map_name_input
 
       # initialize map
@@ -122,11 +114,7 @@ begin
       # print map load success
       messages = ["> #{@map.name} loaded successfully, player: #{@player.location}"]
       @game.message_log.add_msgs(messages)
-      @messages_win.win.clear
-      @messages_win.print_log(@game.message_log)
-      @messages_win.box_with_title
-      @messages_win.win.setpos(8, 6)
-      @messages_win.win.refresh
+      @messages_win.display_messages(@game.message_log)
 
       # get input and move player loop
       while @player.location != []
@@ -137,6 +125,7 @@ begin
         Curses.curs_set(1)
         Curses.echo
 
+        # determine new player location from current location and movement input
         new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
 
         unless @player.location == [] # probably a better way to do this
@@ -167,11 +156,7 @@ begin
       @player.inventory.list(@main_win)
       messages = ['> Enter a command and number seperated by a space (Ex. Equip 2)', '--> ']
       @game.message_log.add_msgs(messages)
-      @messages_win.win.clear
-      @messages_win.print_log(@game.message_log)
-      @messages_win.box_with_title
-      @messages_win.win.setpos(8, 6)
-      @messages_win.win.refresh
+      @messages_win.display_messages(@game.message_log)
 
       user_bag_input = @messages_win.win.getstr.split(' ')
 
@@ -183,11 +168,7 @@ begin
 
       messages = @player.inventory.interact_with_item(command, item_num)
       @game.message_log.add_msgs(messages)
-      @messages_win.win.clear
-      @messages_win.print_log(@game.message_log)
-      @messages_win.box_with_title
-      @messages_win.win.setpos(8, 6)
-      @messages_win.win.refresh
+      @messages_win.display_messages(@game.message_log)
 
     #
     ## MENU > EQUIPPED

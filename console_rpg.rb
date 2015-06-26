@@ -75,7 +75,8 @@ begin
 
     @right_win.build_display(@player)
 
-    @game.message_log.add_msgs('> MAP | BAG | EQUIPPED | STATS | SKILLS', '--> ')
+    messages = ['> MAP | BAG | EQUIPPED | STATS | SKILLS', '--> ']
+    @game.message_log.add_msgs(messages)
     @messages_win.win.clear
     @messages_win.box_with_title
     @messages_win.print_log(@game.message_log)
@@ -97,7 +98,8 @@ begin
       @main_win.win.refresh
 
       # query user for map input
-      @game.message_log.add_msgs('> Enter a map name to load', '--> ')
+      messages = ['> Enter a map name to load', '--> ']
+      @game.message_log.add_msgs(messages)
       @messages_win.win.clear
       @messages_win.print_log(@game.message_log)
       @messages_win.box_with_title
@@ -117,7 +119,9 @@ begin
       @main_win.build_map(@map)
       @main_win.win.setpos(24, 2)
 
-      @game.message_log.add_msgs("> #{@map.name} loaded successfully, player: #{@player.location}")
+      # print map load success
+      messages = ["> #{@map.name} loaded successfully, player: #{@player.location}"]
+      @game.message_log.add_msgs(messages)
       @messages_win.win.clear
       @messages_win.print_log(@game.message_log)
       @messages_win.box_with_title
@@ -135,14 +139,13 @@ begin
 
         new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
 
-        unless @player.location == []
+        unless @player.location == [] # probably a better way to do this
           @messages_win.win.setpos(2, 2)
-          message = @map.move_player(player: @player, new_player_loc: new_player_loc)
+          messages = @map.move_player(player: @player, new_player_loc: new_player_loc)
 
           # if movement produces a message, add it to the log
-          unless message.nil?
-            @game.message_log.log << [message, @game.message_log.log.length]
-            @game.message_log.scroll(1)
+          unless messages.empty?
+            @game.message_log.add_msgs(messages)
             @messages_win.win.clear
           end
 
@@ -169,19 +172,29 @@ begin
     #
     elsif user_menu_input == 'BAG'
       @player.inventory.list(@main_win)
-
-      @game.message_log.add_msgs('> Enter a command and number seperated by a space (Ex. Equip 2)', '--> ')
+      messages = ['> Enter a command and number seperated by a space (Ex. Equip 2)', '--> ']
+      @game.message_log.add_msgs(messages)
       @messages_win.win.clear
       @messages_win.print_log(@game.message_log)
       @messages_win.box_with_title
       @messages_win.win.setpos(8, 6)
       @messages_win.win.refresh
 
-      user_bag_input = @messages_win.win.getstr
-      command    = user_bag_input[0]
-      item_num   = user_bag_input[1].to_i
+      user_bag_input = @messages_win.win.getstr.split(' ')
 
-      @player.inventory.interact_with_item(command, item_num)
+      # append user input to last message in log, to show as output
+      @game.message_log.log[-1][0] += user_bag_input.join(' ')
+
+      command  = user_bag_input[0].upcase
+      item_num = user_bag_input[1].to_i
+
+      messages = @player.inventory.interact_with_item(command, item_num)
+      @game.message_log.add_msgs(messages)
+      @messages_win.win.clear
+      @messages_win.print_log(@game.message_log)
+      @messages_win.box_with_title
+      @messages_win.win.setpos(8, 6)
+      @messages_win.win.refresh
 
     #
     ## MENU > EQUIPPED

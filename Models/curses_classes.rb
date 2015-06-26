@@ -74,17 +74,20 @@ class MessagesWindow
   end
 
   def box_with_title
-    @win.box('j', '~')
-    @win.setpos(0, 28)
-    @win.addstr('Input/Message Log')
-    @win.setpos(1, 2)
+    win.box('j', '~')
+    win.setpos(0, 28)
+    win.addstr('Input/Message Log')
+    win.setpos(1, 2)
   end
 
   def print_log(message_log)
     line_num = 1
+
     message_log.display_range.each do |line|
+      message = message_log.log[line][0]
+
       win.setpos(line_num, 2)
-      win.addstr(message_log.log[line][0])
+      win.addstr(message)
       line_num += 1
     end
   end

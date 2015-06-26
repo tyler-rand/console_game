@@ -13,7 +13,7 @@ class MessageLog
     @display_range = -1..6
   end
 
-  def add_msgs(*messages)
+  def add_msgs(messages)
     messages.each { |m| self.log << [m, log.length] }
     scroll(messages.length)
   end

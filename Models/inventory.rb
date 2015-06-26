@@ -54,6 +54,8 @@ class Inventory
 
   # equip, use, or drop an item in inventory
   def interact_with_item(command, item_num)
+    messages = []
+
     case command
     when 'EQUIP'
       item = nil
@@ -69,28 +71,31 @@ class Inventory
 
         while state == 0
           if equipped_item.type == 'weapon'
-            puts "\nReplace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]"
+            messages << "Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]"
           else
-            puts "\nReplace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]"
+            messages << "Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]"
           end
-          print '-->'
+          messages << '-->'
 
-          user_input = STDIN.getch.chomp.upcase
+          user_input = @messages_win.win.getch.chomp.upcase # needs to be refactored...
 
+          confirm_equip(user_input)
           if user_input == 'Y'
             self.items << equipped_item
             equip_item(item_num)
+            messages << "#{item.name} equipped."
             state = 1
           elsif user_input == 'N'
-            puts 'You got it boss.'
+            messages << 'You got it boss.'
             state = 1
           else
-            puts 'Enter \'Y\' or \'N\''.colorize(101)
+            messages << 'Enter \'Y\' or \'N\''
           end
         end
 
       else
         equip_item(item_num)
+        messages << "#{item.name} equipped."
       end
 
     when 'USE'
@@ -100,10 +105,10 @@ class Inventory
       drop_item(item_num)
 
     else
-      puts 'Error, command not recognized.'.colorize(101)
+      messages << 'Error, command not recognized.'
     end
 
-    self
+    messages
   end
 
   def equip_item(item_num)

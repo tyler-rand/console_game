@@ -52,7 +52,13 @@ class Game
     puts "\nA new adventure begins... what's your character's name?"
     print '-->'
 
+    # name player
     name = gets.chomp.capitalize
+    while name == '' do
+      puts 'Hey we need a name!'
+      print '-->'
+      name = gets.chomp.capitalize
+    end
 
     puts "#{name} it is! Next choose a species and a class, each with their own unique benefits."
     Player.species_info

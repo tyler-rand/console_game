@@ -72,7 +72,7 @@ class Game
       species = gets.chomp.capitalize
     end
 
-    puts "\nNext choose a class. (Ex: Warrior)"
+    puts "\nNext choose a class, each a different playstyle. (Ex: Warrior)"
     Player.type_info
     print '-->'
 

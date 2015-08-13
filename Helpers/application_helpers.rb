@@ -17,7 +17,8 @@ def map_colors_hash(c) # does this need to be a method or can the hash just be d
   colors_hash = {
     '.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE, 
     'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_MAGENTA,
-    'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL
+    'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, 'Q' => Curses::A_NORMAL,
+    'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL
   }
   colors_hash[c]
 end

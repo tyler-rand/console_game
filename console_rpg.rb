@@ -2,7 +2,7 @@ require 'curses'
 require 'io/console'
 require 'YAML'
 
-# load models, helpers
+# load models and helpers
 Dir[File.join(__dir__, 'Models', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'Helpers', '*.rb')].each { |file| require file }
 
@@ -190,7 +190,9 @@ begin
 
     # Menu input error
     else
-      puts 'Error, command not recognized.'.colorize(101)
+      messages = ['> Error, command not recognized.']
+      @game.message_log.add_msgs(messages)
+      @messages_win.display_messages(@game.message_log)
     end
   end
 ensure

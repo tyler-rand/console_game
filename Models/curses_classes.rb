@@ -20,7 +20,7 @@ class CursesScreen
     @messages_win = MessagesWindow.new
     @right_win = RightWindow.new
 
-    @main_win.win.box('j', '~')
+    @main_win.win.box('|', '-')
     @main_win.win.setpos(20, 3)
 
     return @main_win, @messages_win, @right_win
@@ -42,13 +42,13 @@ class MainWindow
     win.addstr('WASD to move, C to exit')
     win.setpos(22, 3)
     win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
-    win.box('j', '~')
+    win.box('|', '-')
     win.setpos(0, 35-map.name.length/2)
     win.addstr("Map - #{map.name}")
   end
 
   def display_colored_map(map)
-    indexed_map = map.current_map.each_with_index.map{ |line, i| [line, i] }
+    indexed_map = map.current_map.each_with_index.map { |line, i| [line, i] }
 
     indexed_map.each do |line, i|
       win.setpos(i + 1, 2)
@@ -61,7 +61,7 @@ class MainWindow
   end
 
   def box_with_player_name(name)
-    win.box('j', '~')
+    win.box('|', '-')
     win.setpos(0, 29-name.length/2)
     win.addstr("ConsoleRPG - #{name}")
   end
@@ -77,7 +77,7 @@ class MessagesWindow
   end
 
   def box_with_title
-    win.box('j', '~')
+    win.box('|', '-')
     win.setpos(0, 28)
     win.addstr('Input/Message Log')
     win.setpos(1, 2)
@@ -109,7 +109,7 @@ class RightWindow
 
   def initialize
     @win = Curses::Window.new(36, 30, 0, 70)
-    @win.box('j', '~')
+    @win.box('|', '-')
     @win.setpos(0, 8)
     @win.addstr('Stats/Equipped')
     @win.setpos(1, 2)

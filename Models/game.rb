@@ -60,21 +60,35 @@ class Game
       name = gets.chomp.capitalize
     end
 
-    puts "#{name} it is! Next choose a species and a class, each with their own unique benefits."
+    puts "#{name} it is! Next choose a species, each with their own unique benefits."
     Player.species_info
-    Player.type_info
-    puts "\nEnter your species then class seperated by a space. (Ex: Human Warrior)"
     print '-->'
 
-    species_type = gets.chomp.split(' ')
-    species      = species_type[0].capitalize
-    type         = species_type[1].capitalize
+    # choose species
+    species = gets.chomp.capitalize
+    while species == '' do
+      puts 'Choose a species!'
+      print '-->'
+      species = gets.chomp.capitalize
+    end
+
+    puts "\nEnter your species then class seperated by a space. (Ex: Human Warrior)"
+    Player.type_info
+    print '-->'
+
+    # choose type
+    player_type = gets.chomp.capitalize
+    while player_type == '' do
+      puts 'Gotta choose a class!'
+      print '-->'
+      player_type = gets.chomp.capitalize
+    end
 
     puts "\nAnd finally, enter a password so you can load your game."
     print '-->'
 
     password = gets.chomp
-    player   = Player.new(name: name, species: species, type: type, password: password)
+    player   = Player.new(name: name, species: species, type: player_type, password: password)
 
     player.save
     player

@@ -60,7 +60,7 @@ class Game
       name = gets.chomp.capitalize
     end
 
-    puts "#{name} it is! Next choose a species, each with their own unique benefits."
+    puts "#{name} it is! Next choose a species, each with their own unique benefits. (Ex: Human)"
     Player.species_info
     print '-->'
 
@@ -72,7 +72,7 @@ class Game
       species = gets.chomp.capitalize
     end
 
-    puts "\nEnter your species then class seperated by a space. (Ex: Human Warrior)"
+    puts "\nNext choose a class. (Ex: Warrior)"
     Player.type_info
     print '-->'
 

@@ -87,8 +87,15 @@ class Game
     puts "\nAnd finally, enter a password so you can load your game."
     print '-->'
 
+    # create password
     password = gets.chomp
-    player   = Player.new(name: name, species: species, type: player_type, password: password)
+    while password == '' do
+      puts 'Password can\'t be blank!'
+      print '-->'
+      password = gets.chomp
+    end
+
+    player = Player.new(name: name, species: species, type: player_type, password: password)
 
     player.save
     player
@@ -102,7 +109,7 @@ class Game
     input_name = user_input[0].capitalize
     input_pass = user_input[1]
 
-    player     = Player.load_by_credentials(input_name, input_pass)
+    player = Player.load_by_credentials(input_name, input_pass)
     player
   end
 

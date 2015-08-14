@@ -55,12 +55,12 @@ class Game
     # name player
     name = gets.chomp.capitalize
     while name == '' do
-      puts 'Hey we need a name!'
+      puts 'You need a name!'
       print '-->'
       name = gets.chomp.capitalize
     end
 
-    puts "#{name} it is! Next choose a species, each with their own unique benefits. (Ex: Human)"
+    puts "\n#{name} it is! Next choose a species, each with their own unique benefits. (Ex: Human)"
     Player.species_info
     print '-->'
 

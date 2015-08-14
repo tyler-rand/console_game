@@ -8,6 +8,8 @@ class Map
 
   def self.all; YAML.load_stream(open('MapsDB.yml')) end
 
+  def self.names_ary; Map.all.map(&:name) end
+
   def self.list_all(window)
     maps = Map.all
     i = 4
@@ -36,7 +38,7 @@ class Map
 
   def save; File.open('MapsDB.yml', 'a') { |f| f.write(to_yaml) } end
 
-  def load_current_map; self.current_map = YAML.load(File.open(file)).split(' ') end
+  def load_current_map; self.current_map = YAML.load(File.open(file)).split end
 
   def load_mobs
     mob_positions = []

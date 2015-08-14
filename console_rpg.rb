@@ -100,17 +100,17 @@ begin
       @messages_win.display_messages(@game.message_log)
 
       # append user input to last message in log, to show as output
-      map_name_input = @messages_win.win.getstr.split(' ').map(&:capitalize).join(' ')
+      map_name_input = @messages_win.win.getstr.titleize
       @game.message_log.log[-1][0] += map_name_input
 
       # check if map name input is in list of maps
-      unless Map.all.map(&:name).include?(map_name_input)
+      unless Map.names_ary.include?(map_name_input)
         loop do
-          break if Map.all.map(&:name).include?(map_name_input)
+          break if Map.names_ary.include?(map_name_input)
           messages = ['> Map name error, try again.', '--> ']
           @game.message_log.add_msgs(messages)
           @messages_win.display_messages(@game.message_log)
-          map_name_input = @messages_win.win.getstr.split(' ').map(&:capitalize).join(' ')
+          map_name_input = @messages_win.win.getstr.titleize
           @game.message_log.log[-1][0] += map_name_input
         end
       end
@@ -170,7 +170,7 @@ begin
       @game.message_log.add_msgs(messages)
       @messages_win.display_messages(@game.message_log)
 
-      user_bag_input = @messages_win.win.getstr.split(' ')
+      user_bag_input = @messages_win.win.getstr.split
 
       # append user input to last message in log, to show as output
       @game.message_log.log[-1][0] += user_bag_input.join(' ')

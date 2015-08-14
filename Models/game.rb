@@ -9,7 +9,7 @@ class Game
   def self.admin_menu
     print 'yup you found it -->'
     
-    user_input = gets.chomp.split(' ')
+    user_input = gets.chomp.split
 
     if user_input[0..1].map(&:upcase) == %w(NEW MAP)
       name    = user_input[2].split('_').map(&:capitalize).join(' ')

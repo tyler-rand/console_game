@@ -77,14 +77,16 @@ class Map
     while input_state == 0
       if %w(w a s d).include?(user_input)
         new_player_loc = player.find_new_loc(user_input, current_map)
-        input_state    = 1
+        input_state = 1
       elsif user_input == 'c'
         player.location = []
         new_player_loc = player.location
-        input_state    = 1
+        input_state = 1
       else
         puts 'Error, command not recognized.'.colorize(101)
         puts "#{'WASD'.colorize(93)} to move, #{'C'.colorize(91)} to exit"
+        new_player_loc = player.location
+        input_state = 1
       end
     end
 

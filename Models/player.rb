@@ -32,9 +32,9 @@ class Player
   end
 
   def self.load_by_credentials(input_name, input_pass)
-    players       = YAML.load_stream(open('PlayersDB.yml'))
-    player        = nil
-    message       = ''
+    players = YAML.load_stream(open('PlayersDB.yml'))
+    player  = nil
+    message = ''
 
     # first try to match input name
     unauth_player = players.find { |p| p.name == input_name }

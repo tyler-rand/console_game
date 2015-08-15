@@ -77,7 +77,7 @@ class Inventory
           end
           messages << '-->'
 
-          user_input = @messages_win.win.getch.chomp.upcase # needs to be refactored...
+          user_input = $messages_win.win.getch.chomp.upcase # needs to be refactored...
 
           confirm_equip(user_input)
           if user_input == 'Y'

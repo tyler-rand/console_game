@@ -71,7 +71,7 @@ class Map
     colorized_map
   end
 
-  def new_player_loc_from_input(player, user_input) # rename, rewrite
+  def new_player_loc_from_input(player, user_input) # rename, rewrite, put elsewhere
     input_state = 0
 
     while input_state == 0
@@ -83,8 +83,9 @@ class Map
         new_player_loc = player.location
         input_state = 1
       else
-        puts 'Error, command not recognized.'.colorize(101)
-        puts "#{'WASD'.colorize(93)} to move, #{'C'.colorize(91)} to exit"
+        messages = ['> Error, command not recognized.', '> \'WASD\' to move, \'C\' to exit']
+        $game.message_log.add_msgs(messages)
+        $messages_win.display_messages($game.message_log)
         new_player_loc = player.location
         input_state = 1
       end

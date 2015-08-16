@@ -80,7 +80,7 @@ begin
     $right_win.build_display(@player)
 
     # main menu, query user for input
-    messages = ['> MAP | BAG | EQUIPPED | STATS | SKILLS', '--> ']
+    messages = [['> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'], ['--> ', 'normal']]
     $game.message_log.add_msgs(messages)
     $messages_win.display_messages($game.message_log)
 
@@ -99,7 +99,7 @@ begin
       $main_win.win.refresh
 
       # query user for map name to load
-      messages = ['> Enter a map name to load', '--> ']
+      messages = [['> Enter a map name to load', 'yellow'], ['--> ', 'normal']]
       $game.message_log.add_msgs(messages)
       $messages_win.display_messages($game.message_log)
 
@@ -111,7 +111,7 @@ begin
       unless Map.names_ary.include?(map_name_input)
         loop do
           break if Map.names_ary.include?(map_name_input)
-          messages = ['> Map name error, try again.', '--> ']
+          messages = [['> Map name error, try again.', 'red'], ['--> ', 'normal']]
           $game.message_log.add_msgs(messages)
           $messages_win.display_messages($game.message_log)
           map_name_input = $messages_win.win.getstr.titleize
@@ -128,7 +128,7 @@ begin
       $main_win.win.setpos(24, 2)
 
       # print map load success
-      messages = ["> #{@map.name} loaded successfully, player: #{@player.location}"]
+      messages = [["> #{@map.name} loaded successfully, player: #{@player.location}", 'green']]
       $game.message_log.add_msgs(messages)
       $messages_win.display_messages($game.message_log)
 
@@ -170,7 +170,7 @@ begin
     #
     elsif user_menu_input == 'BAG'
       @player.inventory.list($main_win)
-      messages = ['> Enter a command and number seperated by a space (Ex. Equip 2)', '--> ']
+      messages = [['> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'], ['--> ', 'normal']]
       $game.message_log.add_msgs(messages)
       $messages_win.display_messages($game.message_log)
 
@@ -206,7 +206,7 @@ begin
 
     # Menu input error
     else
-      messages = ['> Error, command not recognized.']
+      messages = [['> Error, command not recognized.', 'red']]
       $game.message_log.add_msgs(messages)
       $messages_win.display_messages($game.message_log)
     end

@@ -9,12 +9,13 @@ class MessageLog
   def initialize(game:)
     @id   = object_id
     @game = game
-    @log  = [['', 0], ['', 1], ['', 2], ['', 3], ['', 4], ['', 5], ['', 6]]
+    @log  = [['', 'normal', 0], ['', 'normal', 1], ['', 'normal', 2], ['', 'normal', 3],
+             ['', 'normal', 4], ['', 'normal', 5], ['', 'normal', 6]]
     @display_range = -1..6
   end
 
   def add_msgs(messages)
-    messages.each { |m| self.log << [m, log.length] }
+    messages.each { |msg, color| self.log << [msg, color, log.length] }
     scroll(messages.length)
   end
 

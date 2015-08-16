@@ -95,7 +95,7 @@ class Inventory
 
       else
         equip_item(item_num)
-        messages << "> #{item.name} equipped."
+        messages << ["> #{item.name} equipped.", 'green']
       end
 
     when 'USE'
@@ -105,7 +105,7 @@ class Inventory
       drop_item(item_num)
 
     else
-      messages << 'Error, command not recognized.'
+      messages << ['Error, command not recognized.', 'red']
     end
 
     messages

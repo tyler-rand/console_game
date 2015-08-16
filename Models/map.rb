@@ -68,7 +68,7 @@ class Map
         new_player_loc = player.location
         input_state = 1
       else
-        messages = ['> Error, command not recognized.', '> \'WASD\' to move, \'C\' to exit']
+        messages = [['> Error, command not recognized.', 'red'], ['> \'WASD\' to move, \'C\' to exit', 'yellow']]
         $game.message_log.add_msgs(messages)
         $messages_win.display_messages($game.message_log)
         new_player_loc = player.location
@@ -90,17 +90,17 @@ class Map
       player.inventory.add_items(level)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
-      messages << '> Picked up items from a chest.'
+      messages << ['> Picked up items from a chest.', 'green']
     when '$'
       player.inventory.add_money(10)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
-      messages << '> Picked up some money.'
+      messages << ['> Picked up some money.', 'green']
     when 'm'
-      messages << '> A mob appears! Kill it!'
+      messages << ['> A mob appears! Kill it!', 'yellow']
       player.engage_mob(self, new_player_loc)
     when 'x'
-      messages << '> Can\'t move to spaces with \'x\''
+      messages << ['> Can\'t move to spaces with \'x\'', 'red']
     else
       # exception
     end

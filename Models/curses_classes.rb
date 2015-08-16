@@ -96,9 +96,10 @@ class MessagesWindow
 
     message_log.display_range.each do |line|
       message = message_log.log[line][0]
+      msg_color = message_log.log[line][1]
 
       win.setpos(line_num, 2)
-      win.addstr(message)
+      win.attron(Curses.color_pair(messages_colors_hash(msg_color))) { win.addstr(message) }
       line_num += 1
     end
   end

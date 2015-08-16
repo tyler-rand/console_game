@@ -44,7 +44,7 @@ class MainWindow
     win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
     win.box('|', '-')
     win.setpos(0, 35-map.name.length/2)
-    win.addstr("Map - #{map.name}")
+    win.attron(Curses.color_pair(3)) { win.addstr("Map - #{map.name}") }
   end
 
   def display_colored_map(map)
@@ -63,7 +63,7 @@ class MainWindow
   def box_with_player_name(name)
     win.box('|', '-')
     win.setpos(0, 29-name.length/2)
-    win.addstr("ConsoleRPG - #{name}")
+    win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{name}") }
   end
 end
 
@@ -79,7 +79,7 @@ class MessagesWindow
   def box_with_title
     win.box('|', '-')
     win.setpos(0, 28)
-    win.addstr('Input/Message Log')
+    win.attron(Curses.color_pair(3)) { win.addstr('Input/Message Log') }
     win.setpos(1, 2)
   end
 
@@ -111,7 +111,7 @@ class RightWindow
     @win = Curses::Window.new(36, 30, 0, 70)
     @win.box('|', '-')
     @win.setpos(0, 8)
-    @win.addstr('Stats/Equipped')
+    @win.attron(Curses.color_pair(3)) { @win.addstr('Stats/Equipped') }
     @win.setpos(1, 2)
     @win.refresh
   end

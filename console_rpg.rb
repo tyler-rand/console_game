@@ -11,6 +11,10 @@ class String
   def colorize(color_code)
     "\e[#{color_code}m#{self}\e[0m"
   end
+
+  def titleize
+    split.map(&:capitalize).join(' ')
+  end
 end
 
 ################
@@ -99,7 +103,7 @@ begin
       $game.message_log.add_msgs(messages)
       $messages_win.display_messages($game.message_log)
 
-      # append user input to last message in log, to show as output
+      # get user input and append it to last message in log, to show as entered
       map_name_input = $messages_win.win.getstr.titleize
       $game.message_log.log[-1][0] += map_name_input
 

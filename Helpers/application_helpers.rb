@@ -1,10 +1,4 @@
 # Application helper methods
-class String
-  def titleize
-    split.map(&:capitalize).join(' ')
-  end
-end
-
 def colorize_item_name(item)
   quality_color = {
     'Shitty' => 90, 'Normal' => 3, 'Magic' => 92, 'Rare' => 93, 'Unique' => 94, 'Legendary' => 91

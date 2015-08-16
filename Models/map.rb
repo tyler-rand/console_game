@@ -56,21 +56,6 @@ class Map
     self.mobs
   end
 
-  def colorize
-    x_color  = 'x'.colorize(34)
-    m_color  = 'm'.colorize(91)
-    # $$ = '$'.colorize(93)
-    c_color  = 'c'.colorize(93)
-    p_color  = 'p'.colorize(92)
-    o_color  = 'o'.colorize(34)
-
-    colorized_map = current_map.map do |line|
-      line.gsub(/[xmcoP]/, 'x' => x_color, 'm' => m_color, 'c' => c_color, 'o' => o_color, 'P' => p_color)
-    end
-
-    colorized_map
-  end
-
   def new_player_loc_from_input(player, user_input) # rename, rewrite, put elsewhere
     input_state = 0
 
@@ -92,14 +77,6 @@ class Map
     end
 
     new_player_loc
-  end
-
-  def show_map_for_player
-    puts "\n"
-    puts colorize
-    puts '--'
-    puts "#{'WASD'.colorize(93)} to move, #{'C'.colorize(91)} to exit"
-    puts '--'
   end
 
   def move_player(player:, new_player_loc:)

@@ -30,45 +30,54 @@ class Battle
 
   def initiate_attack
   	self.mob.health -= player.damage
-    puts "You hit #{mob.name} for #{player.damage}!".colorize(93)
+    messages = [["> You hit #{mob.name} for #{player.damage}!", 'green']]
 
- 	if mob.health <= 0 && player.health > 0
-      # Player kills mob
+    # Player kills mob
+    if mob.health <= 0 && player.health > 0
       map.current_map[mob.location[0]][mob.location[1]]       = 'P'
       map.current_map[player.location[0]][player.location[1]] = '.'
 
       player.update_exp(mob.level)
-      puts "you killed it, gained #{mob.level} exp.".colorize(92)
+      messages << ["> You killed it! Gained #{mob.level} exp.", 'green']
       self.state = 1
-
+    # Mob attacks back
     else
-      mob_attack
+      mob_attack.each { |result_msg| messages << result_msg }
     end
+
+    $game.message_log.add_msgs(messages)
+    $messages_win.display_messages($game.message_log)
   end
 
   def mob_attack
   	player.health -= mob.damage
-    puts "#{mob.name} hits you for #{mob.damage}!".colorize(93)
+    messages = [["> #{mob.name} hits you for #{mob.damage}!", 'red'], ['> ATTACK | BAG | RUN', 'yellow']]
 
+    # Mob kills player
     if player.health <= 0 && mob.health > 0
-      # Mob kills player
-      puts 'you died'.colorize(91)
+      messages << ['> You died.', 'red']
       self.state = 1
       player.health = 0
-      player.find_new_loc('c', current_map)
+      # player.find_new_loc('c', current_map)
+    else
+      messages << ['--> ', 'normal']
     end
+
+    messages
   end
 
   def attempt_run
   	if [*1..100].sample > 25
-      puts 'Got away!'.colorize(92)
+      messages = [['> Got away!', 'green']]
 
   	  self.state = 1
   	else
-  	  puts 'Couldn\'t escape!'.colorize(91)
-
-  	  mob_attack
+      messages = [['> Couldn\'t escape!', 'red']]
+      mob_attack.each { |result_msg| messages << result_msg }
     end
+
+    $game.message_log.add_msgs(messages)
+    $messages_win.display_messages($game.message_log)
   end
 
 end

@@ -98,7 +98,7 @@ class Map
       current_map[player.location[0]][player.location[1]] = '.'
       messages << ['> Picked up some money.', 'green']
     when 'm'
-      messages = [['> A mob appears! Kill it!', 'yellow'], ['> ATTACK | BAG | RUN', 'yellow'], ['-->', 'normal']]
+      messages = [['> A mob appears! Kill it!', 'yellow'], ['> ATTACK | BAG | RUN', 'yellow'], ['--> ', 'normal']]
       action = 'engage_mob'
     when 'x'
       messages << ['> Can\'t move to spaces with \'x\'', 'red']

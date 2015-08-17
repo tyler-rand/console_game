@@ -159,7 +159,10 @@ class Player
     battle = Battle.new(self, mob, map)
 
     while battle.state == 0
-      user_input = battle.ask_user_battle_input
+      # user_input = battle.ask_user_battle_input
+      $messages_win.win.setpos(8,6)
+      user_input = $messages_win.win.getstr.upcase
+      $game.message_log.log[-1][0] += user_input
 
       case user_input
       when 'ATTACK'
@@ -168,7 +171,9 @@ class Player
       when 'RUN'
         battle.attempt_run
       else
-        puts 'Command not recognized, try again'.colorize(101)
+        messages = [['> Command not recognized, try again', 'red'], ['> ATTACK | BAG | RUN', 'yellow'], ['--> ', 'normal']]
+        $game.message_log.add_msgs(messages)
+        $messages_win.display_messages($game.message_log)
       end
     end
   end

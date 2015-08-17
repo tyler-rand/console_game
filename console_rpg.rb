@@ -161,9 +161,7 @@ begin
 
           # process any action from player movement
           if action == 'engage_mob'
-            # player.engage_mob(self, new_player_loc)
-            $messages_win.win.setpos(8,6)
-            ui = $messages_win.win.getstr.chomp
+            @player.engage_mob(@map, new_player_loc)
           end
 
           # show updated map with player movement

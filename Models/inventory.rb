@@ -71,25 +71,29 @@ class Inventory
 
         while state == 0
           if equipped_item.type == 'weapon'
-            messages << ["> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]", 'yellow']
+            messages << ["> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow']
           else
-            messages << ["> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]", 'yellow']
+            messages << ["> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})? [Y/N]", 'yellow']
           end
-          messages << '-->'
+          messages << ['--> ', 'normal']
 
-          user_input = $messages_win.win.getch.chomp.upcase # needs to be refactored...
+          $game.message_log.add_msgs(messages)
+          $messages_win.display_messages($game.message_log)
 
-          confirm_equip(user_input)
+          user_input = $messages_win.win.getch.upcase
+          $game.message_log.log[-1][0] += user_input
+
+          # confirm_equip(user_input)
           if user_input == 'Y'
             self.items << equipped_item
             equip_item(item_num)
-            messages << ["> #{item.name} equipped.", 'green']
+            messages = [["> #{item.name} equipped.", 'green']]
             state = 1
           elsif user_input == 'N'
-            messages << ['> You got it boss.', 'green']
+            messages = [['> You got it boss.', 'green']]
             state = 1
           else
-            messages << ['> Enter \'Y\' or \'N\'', 'yellow']
+            messages = [['> Must Enter \'Y\' or \'N\'', 'red']]
           end
         end
 

@@ -92,11 +92,13 @@ class Map
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
       messages << ['> Picked up items from a chest.', 'green']
+      $right_win.build_display(player)
     when '$'
       player.inventory.add_money(10)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
       messages << ['> Picked up some money.', 'green']
+      $right_win.build_display(player)
     when 'm'
       messages = [['> A mob appears! Kill it!', 'yellow'], ['> ATTACK | BAG | RUN', 'yellow'], ['--> ', 'normal']]
       action = 'engage_mob'

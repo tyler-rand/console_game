@@ -50,6 +50,7 @@ class Battle
 
     $game.message_log.add_msgs(messages)
     $messages_win.display_messages($game.message_log)
+    $right_win.build_display(player)
   end
 
   def mob_attack
@@ -81,6 +82,7 @@ class Battle
 
     $game.message_log.add_msgs(messages)
     $messages_win.display_messages($game.message_log)
+    $right_win.build_display(player)
   end
 
 end

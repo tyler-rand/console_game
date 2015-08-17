@@ -118,7 +118,6 @@ class RightWindow
     @win.box('|', '-')
     @win.setpos(0, 8)
     @win.attron(Curses.color_pair(3)) { @win.addstr('Stats/Equipped') }
-    # @win.setpos(1, 2)
   end
 
   def build_display(player)

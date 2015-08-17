@@ -37,9 +37,12 @@ class Battle
       map.current_map[mob.location[0]][mob.location[1]]       = 'P'
       map.current_map[player.location[0]][player.location[1]] = '.'
 
+      player.set_location(map.current_map)
       player.update_exp(mob.level)
+
       messages << ["> You killed it! Gained #{mob.level} exp.", 'green']
       self.state = 1
+
     # Mob attacks back
     else
       mob_attack.each { |result_msg| messages << result_msg }

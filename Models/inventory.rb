@@ -71,9 +71,9 @@ class Inventory
 
         while state == 0
           if equipped_item.type == 'weapon'
-            messages << "> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]"
+            messages << ["> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]", 'yellow']
           else
-            messages << "> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]"
+            messages << ["> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?? [#{'Y'.colorize(92)}/#{'N'.colorize(91)}]", 'yellow']
           end
           messages << '-->'
 
@@ -83,13 +83,13 @@ class Inventory
           if user_input == 'Y'
             self.items << equipped_item
             equip_item(item_num)
-            messages << "> #{item.name} equipped."
+            messages << ["> #{item.name} equipped.", 'green']
             state = 1
           elsif user_input == 'N'
-            messages << '> You got it boss.'
+            messages << ['> You got it boss.', 'green']
             state = 1
           else
-            messages << '> Enter \'Y\' or \'N\''
+            messages << ['> Enter \'Y\' or \'N\'', 'yellow']
           end
         end
 
@@ -105,7 +105,7 @@ class Inventory
       drop_item(item_num)
 
     else
-      messages << ['Error, command not recognized.', 'red']
+      messages << ['> Error, command not recognized.', 'red']
     end
 
     messages

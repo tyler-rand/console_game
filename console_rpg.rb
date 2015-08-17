@@ -146,7 +146,7 @@ begin
 
         unless @player.location == [] # probably a better way to do this
           $messages_win.win.setpos(2, 2)
-          messages = @map.move_player(player: @player, new_player_loc: new_player_loc)
+          messages, action = @map.move_player(player: @player, new_player_loc: new_player_loc)
 
           # if movement produces any messages, add to the log
           unless messages.empty?
@@ -158,6 +158,13 @@ begin
           $messages_win.print_log($game.message_log)
           $messages_win.box_with_title
           $messages_win.win.refresh
+
+          # process any action from player movement
+          if action == 'engage_mob'
+            # player.engage_mob(self, new_player_loc)
+            $messages_win.win.setpos(8,6)
+            ui = $messages_win.win.getstr.chomp
+          end
 
           # show updated map with player movement
           $main_win.display_colored_map(@map)

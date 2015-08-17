@@ -81,6 +81,7 @@ class Map
 
   def move_player(player:, new_player_loc:)
     messages = []
+    action = nil
 
     case current_map[new_player_loc[0]][new_player_loc[1]]
     when '.'
@@ -97,14 +98,15 @@ class Map
       current_map[player.location[0]][player.location[1]] = '.'
       messages << ['> Picked up some money.', 'green']
     when 'm'
-      messages << ['> A mob appears! Kill it!', 'yellow']
-      player.engage_mob(self, new_player_loc)
+      messages = [['> A mob appears! Kill it!', 'yellow'], ['> ATTACK | BAG | RUN', 'yellow'], ['-->', 'normal']]
+      action = 'engage_mob'
     when 'x'
       messages << ['> Can\'t move to spaces with \'x\'', 'red']
     else
       # exception
     end
+
     player.set_location(current_map)
-    messages
+    return messages, action
   end
 end

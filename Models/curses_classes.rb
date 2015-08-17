@@ -110,14 +110,20 @@ class RightWindow
 
   def initialize
     @win = Curses::Window.new(36, 30, 0, 70)
-    @win.box('|', '-')
-    @win.setpos(0, 8)
-    @win.attron(Curses.color_pair(3)) { @win.addstr('Stats/Equipped') }
-    @win.setpos(1, 2)
+    box_with_title
     @win.refresh
   end
 
+  def box_with_title
+    @win.box('|', '-')
+    @win.setpos(0, 8)
+    @win.attron(Curses.color_pair(3)) { @win.addstr('Stats/Equipped') }
+    # @win.setpos(1, 2)
+  end
+
   def build_display(player)
+    win.clear
+    box_with_title
     win.setpos(2, 15-player.name.length/2)
     win.addstr(player.name.upcase)
     win.setpos(4, 2)

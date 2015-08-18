@@ -1,8 +1,8 @@
 # tracks player stats and skills
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-   :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location,
-   :energy, :max_energy, :strength, :agility, :intelligence
+                :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location,
+                :energy, :max_energy, :strength, :agility, :intelligence
 
   #
   ## CLASS METHODS
@@ -96,7 +96,7 @@ class Player
     @inventory = Inventory.new(player: self)
   end
 
-  def save(*window)
+  def save
     File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
@@ -160,7 +160,7 @@ class Player
 
     while battle.state == 0
       # user_input = battle.ask_user_battle_input
-      $messages_win.win.setpos(8,6)
+      $messages_win.win.setpos(8, 6)
       user_input = $messages_win.win.getstr.upcase
       $game.message_log.log[-1][0] += user_input
 

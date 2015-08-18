@@ -93,7 +93,7 @@ class Inventory
             messages = [['> You got it boss.', 'green']]
             state = 1
           else
-            messages = [['> Must Enter \'Y\' or \'N\'', 'red']]
+            messages = [['> Must enter \'Y\' or \'N\'', 'red']]
           end
         end
 

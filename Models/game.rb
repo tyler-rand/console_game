@@ -8,7 +8,7 @@ class Game
 
   def self.admin_menu
     print 'yup you found it -->'
-    
+
     user_input = gets.chomp.split
 
     if user_input[0..1].map(&:upcase) == %w(NEW MAP)
@@ -34,7 +34,7 @@ class Game
   end
 
   def self.show_rules
-    puts "how to play..."
+    puts 'how to play...'
   end
 
   #
@@ -54,7 +54,7 @@ class Game
 
     # name player
     name = gets.chomp.capitalize
-    while name == '' do
+    while name == ''
       puts 'You need a name!'
       print '-->'
       name = gets.chomp.capitalize
@@ -66,7 +66,7 @@ class Game
 
     # choose species
     species = gets.chomp.capitalize
-    while species == '' do
+    while species == ''
       puts 'Choose a species!'
       print '-->'
       species = gets.chomp.capitalize
@@ -78,7 +78,7 @@ class Game
 
     # choose type
     player_type = gets.chomp.capitalize
-    while player_type == '' do
+    while player_type == ''
       puts 'Gotta choose a class!'
       print '-->'
       player_type = gets.chomp.capitalize
@@ -89,7 +89,7 @@ class Game
 
     # create password
     password = gets.chomp
-    while password == '' do
+    while password == ''
       puts 'Password can\'t be blank!'
       print '-->'
       password = gets.chomp
@@ -118,5 +118,4 @@ class Game
     map  = maps.find { |m| m.name.upcase == user_input.upcase }
     map
   end
-
 end

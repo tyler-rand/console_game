@@ -22,5 +22,4 @@ class MessageLog
   def scroll(num)
     self.display_range = self.display_range.map { |x| x += num }
   end
-
 end

@@ -7,8 +7,8 @@ class Equipped
   #
 
   def initialize(player:)
-  	@id     = object_id
-  	@player = player
+    @id     = object_id
+    @player = player
 
     @weapon = nil
     @chest  = nil

@@ -27,6 +27,7 @@ class CursesScreen
   end
 end
 
+# main, top-left window
 class MainWindow
   attr_accessor :win
 
@@ -43,7 +44,7 @@ class MainWindow
     win.setpos(22, 3)
     win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
     win.box('|', '-')
-    win.setpos(0, 35-map.name.length/2)
+    win.setpos(0, 35 - map.name.length / 2)
     win.attron(Curses.color_pair(3)) { win.addstr("Map - #{map.name}") }
   end
 
@@ -62,11 +63,12 @@ class MainWindow
 
   def box_with_player_name(name)
     win.box('|', '-')
-    win.setpos(0, 29-name.length/2)
+    win.setpos(0, 29 - name.length / 2)
     win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{name}") }
   end
 end
 
+# bottom left window, messages
 class MessagesWindow
   attr_accessor :win
 
@@ -105,6 +107,7 @@ class MessagesWindow
   end
 end
 
+# right window, displays player stats
 class RightWindow
   attr_accessor :win
 
@@ -123,7 +126,7 @@ class RightWindow
   def build_display(player)
     win.clear
     box_with_title
-    win.setpos(2, 15-player.name.length/2)
+    win.setpos(2, 15 - player.name.length / 2)
     win.addstr(player.name.upcase)
     win.setpos(4, 2)
     win.addstr("Level #{player.level} #{player.species} #{player.type}")

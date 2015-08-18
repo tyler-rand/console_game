@@ -9,13 +9,13 @@ end
 
 # THIS BELONGS ELSEWHERE
 def level_exp(level)
-  level_exp = {1 => 10, 2 => 20, 3 => 30, 4 => 40, 5 => 50}
+  level_exp = { 1 => 10, 2 => 20, 3 => 30, 4 => 40, 5 => 50 }
   level_exp[level]
 end
 
 def map_colors_hash(char) # does this need to be a method or can the hash just be defined as a var?
   colors_hash = {
-    '.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE, 
+    '.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE,
     'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_MAGENTA,
     'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, 'Q' => Curses::A_NORMAL,
     'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL

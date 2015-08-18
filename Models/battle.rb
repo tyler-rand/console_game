@@ -15,7 +15,7 @@ class Battle
   end
 
   def ask_user_battle_input
-  	puts "Mob Name: #{mob.name}"
+    puts "Mob Name: #{mob.name}"
     puts "Health: #{mob.health}/#{mob.max_health}"
     puts "Damage: #{mob.damage}"
     puts "\nYour stats:"
@@ -29,7 +29,7 @@ class Battle
   end
 
   def initiate_attack
-  	self.mob.health -= player.damage
+    self.mob.health -= player.damage
     messages = [["> You hit #{mob.name} for #{player.damage}!", 'green']]
 
     # Player kills mob
@@ -54,7 +54,7 @@ class Battle
   end
 
   def mob_attack
-  	player.health -= mob.damage
+    player.health -= mob.damage
     messages = [["> #{mob.name} hits you for #{mob.damage}!", 'red'], ['> ATTACK | BAG | RUN', 'yellow']]
 
     # Mob kills player
@@ -71,11 +71,11 @@ class Battle
   end
 
   def attempt_run
-  	if [*1..100].sample > 25
+    if [*1..100].sample > 25
       messages = [['> Got away!', 'green']]
 
-  	  self.state = 1
-  	else
+      self.state = 1
+    else
       messages = [['> Couldn\'t escape!', 'red']]
       mob_attack.each { |result_msg| messages << result_msg }
     end
@@ -84,5 +84,4 @@ class Battle
     $messages_win.display_messages($game.message_log)
     $right_win.build_display(player)
   end
-
 end

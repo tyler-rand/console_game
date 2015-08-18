@@ -26,7 +26,7 @@ puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 # Game initialized, no player created/loaded
 $game = Game.new
 
-while $game.state == 0 do # initial state is 0
+while $game.state == 0 # initial state is 0
   puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
   print '-->'
 
@@ -72,7 +72,7 @@ end
 $main_win, $messages_win, $right_win = @screen.build_display
 
 begin
-  while $game.state == 1 do
+  while $game.state == 1
     $main_win.win.clear
     $main_win.box_with_player_name(@player.name)
     $main_win.win.refresh

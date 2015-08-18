@@ -48,9 +48,7 @@ class Battle
       mob_attack.each { |result_msg| messages << result_msg }
     end
 
-    $game.message_log.add_msgs(messages)
-    $messages_win.display_messages($game.message_log)
-    $right_win.build_display(player)
+    messages
   end
 
   def mob_attack
@@ -73,15 +71,12 @@ class Battle
   def attempt_run
     if [*1..100].sample > 25
       messages = [['> Got away!', 'green']]
-
       self.state = 1
     else
       messages = [['> Couldn\'t escape!', 'red']]
       mob_attack.each { |result_msg| messages << result_msg }
     end
 
-    $game.message_log.add_msgs(messages)
-    $messages_win.display_messages($game.message_log)
-    $right_win.build_display(player)
+    messages
   end
 end

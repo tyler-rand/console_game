@@ -159,6 +159,7 @@ class Player
     battle = Battle.new(self, mob, map)
 
     while battle.state == 0
+      messages = []
       # user_input = battle.ask_user_battle_input
       $messages_win.win.setpos(8, 6)
       user_input = $messages_win.win.getstr.upcase
@@ -166,15 +167,17 @@ class Player
 
       case user_input
       when 'ATTACK'
-        battle.initiate_attack
+        battle.initiate_attack.each { |result_msg| messages << result_msg }
       when 'BAG'
       when 'RUN'
-        battle.attempt_run
+        battle.attempt_run.each { |result_msg| messages << result_msg }
       else
         messages = [['> Command not recognized, try again', 'red'], ['> ATTACK | BAG | RUN', 'yellow'], ['--> ', 'normal']]
-        $game.message_log.add_msgs(messages)
-        $messages_win.display_messages($game.message_log)
       end
+
+      $right_win.build_display(self)
+      $game.message_log.add_msgs(messages)
+      $messages_win.display_messages($game.message_log)
     end
   end
 

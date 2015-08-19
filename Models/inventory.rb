@@ -32,11 +32,6 @@ class Inventory
 
   def add_money(money)
     self.money += money
-
-    puts '--'
-    puts "CASH MONEY +#{money}".colorize(33)
-    puts '--'
-
     player.save
   end
 
@@ -112,6 +107,8 @@ class Inventory
       messages << ['> Error, command not recognized.', 'red']
     end
 
+    refresh_inventory_indexes
+    player.save
     messages
   end
 
@@ -119,24 +116,18 @@ class Inventory
     items.each do |item, i|
       if item_num == i
         player.equipped.send("#{item.type}=", item)
-
         items.slice!(i - 1)
-        refresh_inventory_indexes
-        player.update_stats
       end
     end
+
+    player.update_stats
   end
 
   def use_item(item_num)
   end
 
   def drop_item(item_num)
-    items.each do |_, i|
-      items.slice!(i - 1) if item_num == i
-    end
-
-    refresh_inventory_indexes
-    player.save
+    items.each { |_, i| items.slice!(i - 1) if item_num == i }
   end
 
   def refresh_inventory_indexes

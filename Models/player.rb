@@ -161,7 +161,6 @@ class Player
     while battle.state == 0
       messages = []
       # user_input = battle.ask_user_battle_input
-      $messages_win.win.setpos(8, 6)
       user_input = $messages_win.win.getstr.upcase
       $game.message_log.log[-1][0] += user_input
 

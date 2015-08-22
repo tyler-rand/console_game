@@ -32,7 +32,6 @@ class Inventory
 
   def add_money(money)
     self.money += money
-    player.save
   end
 
   def add_items(map_level)
@@ -48,7 +47,7 @@ class Inventory
   end
 
   # equip, use, or drop an item in inventory
-  def interact_with_item(command, item_num)
+  def interact(command, item_num)
     messages = []
     item = nil
     items.each { |x, i| item = x if item_num == i }
@@ -77,7 +76,6 @@ class Inventory
           user_input = $messages_win.win.getch.upcase
           $game.message_log.log[-1][0] += user_input
 
-          # confirm_equip(user_input)
           if user_input == 'Y'
             self.items << equipped_item
             equip(item, item_num)
@@ -94,7 +92,6 @@ class Inventory
 
     when 'USE'
       use(item)
-
     when 'DROP'
       remove(item_num)
     else
@@ -118,6 +115,10 @@ class Inventory
   def remove(item_num)
     items.slice!(item_num - 1)
   end
+
+  # def confirm_equip(item_num)
+  #   equipped_item.nil? ? equip(item, item_num) : query_equip(item)
+  # end
 
   def refresh_inventory_indexes
     self.items = items.map { |item, _| item }.each_with_index.map { |item, i| [item, i + 1] }

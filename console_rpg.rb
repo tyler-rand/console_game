@@ -181,7 +181,8 @@ begin
       command  = user_bag_input[0].upcase
       item_num = user_bag_input[1].to_i
 
-      messages = @player.inventory.interact_with_item(command, item_num)
+      messages = @player.inventory.interact(command, item_num)
+
       $game.message_log.add_msgs(messages)
       $messages_win.display_messages($game.message_log)
 

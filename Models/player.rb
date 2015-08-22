@@ -138,18 +138,21 @@ class Player
   # add to exp after a mob kill or quest completion
   def update_exp(exp)
     self.current_exp += exp
-
     level_up if current_exp >= max_exp
-
-    save
   end
 
   def level_up
     self.level += 1
-    self.current_exp = current_exp - max_exp
-    max_exp = level_exp(level)
+    reset_current_exp
+    reset_max_exp
+  end
 
-    puts "LEVEL UP! You're now level #{level}"
+  def reset_current_exp
+    self.current_exp = current_exp - max_exp
+  end
+
+  def reset_max_exp
+    max_exp = level_exp(level)
   end
 
   def engage_mob(map, new_player_loc) # REFACTOR

@@ -33,6 +33,6 @@ def messages_colors_hash(msg)
 end
 
 def show_msgs(messages)
-  $message_log.add_msgs(messages)
-  $messages_win.display_messages($message_log)
+  $msg_log.add_msgs(messages)
+  $messages_win.display_messages($msg_log)
 end

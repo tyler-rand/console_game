@@ -165,7 +165,7 @@ class Player
       messages = []
       # user_input = battle.ask_user_battle_input
       user_input = $messages_win.win.getstr.upcase
-      $message_log.log[-1][0] += user_input
+      $msg_log.log[-1][0] += user_input
 
       case user_input
       when 'ATTACK'

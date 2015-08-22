@@ -73,7 +73,7 @@ class Inventory
           show_msgs(messages)
 
           user_input = $messages_win.win.getch.upcase
-          $message_log.log[-1][0] += user_input
+          $msg_log.log[-1][0] += user_input
 
           if user_input == 'Y'
             self.items << equipped_item

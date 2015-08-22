@@ -120,7 +120,7 @@ begin
       end
 
       # initialize map
-      @map = $game.load_map(map_name_input)
+      @map = Map.load(map_name_input)
       @player.set_location(@map.current_map)
 
       # build map in window

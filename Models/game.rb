@@ -112,10 +112,4 @@ class Game
     player = Player.load_by_credentials(input_name, input_pass)
     player
   end
-
-  def load_map(user_input)
-    maps = Map.all
-    map  = maps.find { |m| m.name.upcase == user_input.upcase }
-    map
-  end
 end

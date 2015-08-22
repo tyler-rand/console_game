@@ -10,6 +10,11 @@ class Map
     YAML.load_stream(open('MapsDB.yml'))
   end
 
+  def self.load(map)
+    maps = Map.all
+    map = maps.find { |m| m.name == map }
+  end
+
   def self.names_ary
     Map.all.map(&:name)
   end

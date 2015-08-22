@@ -14,11 +14,11 @@ class MessageLog
   end
 
   def add_msgs(messages)
-    messages.each { |msg| self.log << [msg.text, msg.color, log.length] }
+    messages.each { |msg| log << [msg.text, msg.color, log.length] }
   end
 
   def scroll(num)
-    self.display_range = display_range.map { |x| x += num }
+    self.display_range = display_range.map { |x| x + num }
   end
 
   def show_msgs(messages)

@@ -29,7 +29,7 @@ class Battle
   end
 
   def initiate_attack
-    self.mob.health -= player.damage
+    mob.health -= player.damage
     messages = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
 
     # Player kills mob
@@ -60,7 +60,7 @@ class Battle
       messages << Message.new('> You died.', 'red')
       self.state = 1
       player.health = 0
-      # player.find_new_loc('c', current_map)
+      # player.find_new_loc('c')
     else
       messages << Message.new('--> ', 'normal')
     end

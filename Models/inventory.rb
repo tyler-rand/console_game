@@ -76,7 +76,7 @@ class Inventory
           $message_log.log[-1][0] += user_input
 
           if user_input == 'Y'
-            self.items << equipped_item
+            items << equipped_item
             equip(item, item_num)
             messages = [Message.new("> #{item.name} equipped.", 'green')]
             state = 1

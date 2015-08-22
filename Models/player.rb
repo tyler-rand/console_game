@@ -83,7 +83,7 @@ class Player
     end
   end
 
-  def find_new_loc(user_input, current_map)
+  def find_new_loc(user_input)
     case user_input
     when 'w' # move up 1
       new_player_loc = [location[0] - 1, location[1]]
@@ -129,7 +129,7 @@ class Player
   end
 
   def reset_max_exp
-    max_exp = level_exp(level)
+    self.max_exp = level_exp(level)
   end
 
   def engage_mob(map, new_player_loc) # REFACTOR

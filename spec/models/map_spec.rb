@@ -21,7 +21,7 @@ describe Map do
     player.set_location(map.current_map)
     old_loc = player.location
 
-    new_player_loc = player.find_new_loc(%w(w a d).sample, map.current_map)
+    new_player_loc = player.find_new_loc(%w(w a d).sample)
     map.move_player(player: player, new_player_loc: new_player_loc)
 
     expect(player.location).to_not eql(old_loc)

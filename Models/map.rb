@@ -77,7 +77,7 @@ class Map
 
     while input_state == 0
       if %w(w a s d).include?(user_input)
-        new_player_loc = player.find_new_loc(user_input, current_map)
+        new_player_loc = player.find_new_loc(user_input)
         input_state = 1
       elsif user_input == 'c'
         player.location = []

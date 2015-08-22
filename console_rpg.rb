@@ -68,7 +68,7 @@ end
 ### GAME STARTED/LOADED, MENU SCREEN ###
 ########################################
 
-$msg_log = MessageLog.new
+$message_log = MessageLog.new
 @screen = CursesScreen.new
 $main_win, $messages_win, $right_win = @screen.build_display
 
@@ -81,12 +81,12 @@ begin
     $right_win.build_display(@player)
 
     # main menu, query user for input
-    messages = [['> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'], ['--> ', 'normal']]
-    show_msgs(messages)
+    messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
+    $message_log.show_msgs(messages)
 
     # append user input to last message in log, to show as output
     user_menu_input = $messages_win.win.getstr.upcase
-    $msg_log.log[-1][0] += user_menu_input
+    $message_log.log[-1][0] += user_menu_input
 
     #
     ## MENU > MAP
@@ -99,21 +99,21 @@ begin
       $main_win.win.refresh
 
       # query user for map name to load
-      messages = [['> Enter a map name to load', 'yellow'], ['--> ', 'normal']]
-      show_msgs(messages)
+      messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
+      $message_log.show_msgs(messages)
 
       # get user input and append it to last message in log, to show as entered
       map_name_input = $messages_win.win.getstr.titleize
-      $msg_log.log[-1][0] += map_name_input
+      $message_log.log[-1][0] += map_name_input
 
       # check if map name input is in list of maps
       unless Map.names_ary.include?(map_name_input)
         loop do
           break if Map.names_ary.include?(map_name_input)
-          messages = [['> Map name error, try again.', 'red'], ['--> ', 'normal']]
-          show_msgs(messages)
+          messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
+          $message_log.show_msgs(messages)
           map_name_input = $messages_win.win.getstr.titleize
-          $msg_log.log[-1][0] += map_name_input
+          $message_log.log[-1][0] += map_name_input
         end
       end
 
@@ -126,8 +126,8 @@ begin
       $main_win.win.setpos(24, 2)
 
       # print map load success
-      messages = [["> #{@map.name} loaded successfully, player: #{@player.location}", 'green']]
-      show_msgs(messages)
+      messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
+      $message_log.show_msgs(messages)
 
       # get input and move player loop
       while @player.location != []
@@ -144,7 +144,7 @@ begin
         unless @player.location == [] # probably a better way to do this
           messages, action = @map.move_player(player: @player, new_player_loc: new_player_loc)
 
-          show_msgs(messages)
+          $message_log.show_msgs(messages)
 
           # process any action from player movement
           if action == 'engage_mob'
@@ -162,20 +162,20 @@ begin
     #
     elsif user_menu_input == 'BAG'
       @player.inventory.list($main_win)
-      messages = [['> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'], ['--> ', 'normal']]
-      show_msgs(messages)
+      messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
+      $message_log.show_msgs(messages)
 
       user_bag_input = $messages_win.win.getstr.split
 
       # append user input to last message in log, to show as output
-      $msg_log.log[-1][0] += user_bag_input.join(' ')
+      $message_log.log[-1][0] += user_bag_input.join(' ')
 
       command  = user_bag_input[0].upcase
       item_num = user_bag_input[1].to_i
 
       messages = @player.inventory.interact(command, item_num)
 
-      show_msgs(messages)
+      $message_log.show_msgs(messages)
 
     #
     ## MENU > EQUIPPED
@@ -197,8 +197,8 @@ begin
 
     # Menu input error
     else
-      messages = [['> Error, command not recognized.', 'red']]
-      show_msgs(messages)
+      messages = [Message.new('> Error, command not recognized.', 'red')]
+      $message_log.show_msgs(messages)
     end
   end
 ensure

@@ -165,7 +165,7 @@ class Player
       messages = []
       # user_input = battle.ask_user_battle_input
       user_input = $messages_win.win.getstr.upcase
-      $msg_log.log[-1][0] += user_input
+      $message_log.log[-1][0] += user_input
 
       case user_input
       when 'ATTACK'
@@ -174,11 +174,11 @@ class Player
       when 'RUN'
         battle.attempt_run.each { |result_msg| messages << result_msg }
       else
-        messages = [['> Command not recognized, try again', 'red'], ['> ATTACK | BAG | RUN', 'yellow'], ['--> ', 'normal']]
+        messages = [Message.new('> Command not recognized, try again', 'red'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
       end
 
       $right_win.build_display(self)
-      show_msgs(messages)
+      $message_log.show_msgs(messages)
     end
   end
 

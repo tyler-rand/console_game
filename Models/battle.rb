@@ -30,7 +30,7 @@ class Battle
 
   def initiate_attack
     self.mob.health -= player.damage
-    messages = [["> You hit #{mob.name} for #{player.damage}!", 'green']]
+    messages = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
 
     # Player kills mob
     if mob.health <= 0 && player.health > 0
@@ -40,7 +40,7 @@ class Battle
       player.set_location(map.current_map)
       player.update_exp(mob.level)
 
-      messages << ["> You killed it! Gained #{mob.level} exp.", 'green']
+      messages << Message.new("> You killed it! Gained #{mob.level} exp.", 'green')
       self.state = 1
 
     # Mob attacks back
@@ -53,16 +53,16 @@ class Battle
 
   def mob_attack
     player.health -= mob.damage
-    messages = [["> #{mob.name} hits you for #{mob.damage}!", 'red'], ['> ATTACK | BAG | RUN', 'yellow']]
+    messages = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red'), Message.new('> ATTACK | BAG | RUN', 'yellow')]
 
     # Mob kills player
     if player.health <= 0 && mob.health > 0
-      messages << ['> You died.', 'red']
+      messages << Message.new('> You died.', 'red')
       self.state = 1
       player.health = 0
       # player.find_new_loc('c', current_map)
     else
-      messages << ['--> ', 'normal']
+      messages << Message.new('--> ', 'normal')
     end
 
     messages
@@ -70,10 +70,10 @@ class Battle
 
   def attempt_run
     if [*1..100].sample > 25
-      messages = [['> Got away!', 'green']]
+      messages = [Message.new('> Got away!', 'green')]
       self.state = 1
     else
-      messages = [['> Couldn\'t escape!', 'red']]
+      messages = [Message.new('> Couldn\'t escape!', 'red')]
       mob_attack.each { |result_msg| messages << result_msg }
     end
 

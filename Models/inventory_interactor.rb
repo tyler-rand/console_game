@@ -21,13 +21,13 @@
 #     @inventory.player.equipped.send("#{@item.type}=", @item)
 #     @inventory.player.update_stats
 #     messages = drop(item_num)
-#     messages << ["> #{item.name} equipped.", 'green']
+#     messages << Message.new("> #{item.name} equipped.", 'green')
 #     messages
 #   end
 
 #   def command_drop(item_num)
 #   	@inventory.items.slice!(item_num - 1)
-#   	messages = [['> item removed from bag', 'normal']]
+#   	messages = [Message.new('> item removed from bag', 'normal')]
 #   end
 
 #   def refresh_inventory_indexes

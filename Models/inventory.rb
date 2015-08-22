@@ -58,33 +58,33 @@ class Inventory
 
       if equipped_item.nil?
         equip(item, item_num)
-        messages << ["> #{item.name} equipped.", 'green']
+        messages << Message.new("> #{item.name} equipped.", 'green')
 
       else # query user to replace equipped item
         state = 0
         while state == 0
           if equipped_item.type == 'weapon'
-            messages << ["> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow']
+            messages << Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow')
           else
-            messages << ["> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})? [Y/N]", 'yellow']
+            messages << Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})? [Y/N]", 'yellow')
           end
-          messages << ['--> ', 'normal']
+          messages << Message.new('--> ', 'normal')
 
-          show_msgs(messages)
+          $message_log.show_msgs(messages)
 
           user_input = $messages_win.win.getch.upcase
-          $msg_log.log[-1][0] += user_input
+          $message_log.log[-1][0] += user_input
 
           if user_input == 'Y'
             self.items << equipped_item
             equip(item, item_num)
-            messages = [["> #{item.name} equipped.", 'green']]
+            messages = [Message.new("> #{item.name} equipped.", 'green')]
             state = 1
           elsif user_input == 'N'
-            messages = [['> You got it boss.', 'green']]
+            messages = [Message.new('> You got it boss.', 'green')]
             state = 1
           else
-            messages = [['> Must enter \'Y\' or \'N\'', 'red']]
+            messages = [Message.new('> Must enter \'Y\' or \'N\'', 'red')]
           end
         end
       end
@@ -94,7 +94,7 @@ class Inventory
     when 'DROP'
       remove(item_num)
     else
-      messages << ['> Error, command not recognized.', 'red']
+      messages << Message.new('> Error, command not recognized.', 'red')
     end
 
     refresh_inventory_indexes

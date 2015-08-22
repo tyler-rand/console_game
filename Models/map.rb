@@ -85,8 +85,7 @@ class Map
         input_state = 1
       else
         messages = [['> Error, command not recognized.', 'red'], ['> \'WASD\' to move, \'C\' to exit', 'yellow']]
-        $game.message_log.add_msgs(messages)
-        $messages_win.display_messages($game.message_log)
+        show_msgs(messages)
         new_player_loc = player.location
         input_state = 1
       end

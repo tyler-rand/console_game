@@ -31,3 +31,8 @@ def messages_colors_hash(msg)
   msg_color_hash.default = Curses::A_NORMAL
   msg_color_hash[msg]
 end
+
+def show_msgs(messages)
+  $message_log.add_msgs(messages)
+  $messages_win.display_messages($message_log)
+end

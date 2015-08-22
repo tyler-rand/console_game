@@ -1,14 +1,13 @@
 # a game's message log
 class MessageLog
-  attr_accessor :id, :game, :log, :display_range
+  attr_accessor :id, :log, :display_range
 
   #
   ## INSTANCE METHODS
   #
 
-  def initialize(game:)
+  def initialize
     @id   = object_id
-    @game = game
     @log  = [['', 'normal', 0], ['', 'normal', 1], ['', 'normal', 2], ['', 'normal', 3],
              ['', 'normal', 4], ['', 'normal', 5], ['', 'normal', 6]]
     @display_range = -1..6

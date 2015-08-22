@@ -70,11 +70,10 @@ class Inventory
           end
           messages << ['--> ', 'normal']
 
-          $game.message_log.add_msgs(messages)
-          $messages_win.display_messages($game.message_log)
+          show_msgs(messages)
 
           user_input = $messages_win.win.getch.upcase
-          $game.message_log.log[-1][0] += user_input
+          $message_log.log[-1][0] += user_input
 
           if user_input == 'Y'
             self.items << equipped_item

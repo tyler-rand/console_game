@@ -94,15 +94,15 @@ class MessagesWindow
   end
 
   def print_log(message_log)
-    line_num = 1
+    line = 1
 
-    message_log.display_range.each do |line|
-      message = message_log.log[line][0]
-      msg_color = message_log.log[line][1]
+    message_log.display_range.each do |line_number|
+      message = message_log.log[line_number][0]
+      msg_color = message_log.log[line_number][1]
 
-      win.setpos(line_num, 2)
+      win.setpos(line, 2)
       win.attron(Curses.color_pair(messages_colors_hash(msg_color))) { win.addstr(message) }
-      line_num += 1
+      line += 1
     end
   end
 end

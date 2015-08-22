@@ -8,29 +8,6 @@ class Player
   ## CLASS METHODS
   #
 
-  # this method probly belongs in a helper
-  def self.species_info
-    puts ' -------------'
-    puts ' --- HERO SPECIES ---'
-    puts ' -------------'
-    puts 'Human:'
-    puts 'Alien:'
-    puts 'Ogre:'
-    puts 'Robot:'
-    puts 'Ghost:'
-  end
-
-  # this method probly belongs in a helper
-  def self.type_info
-    puts ' -------------'
-    puts ' -- HERO CLASSES --'
-    puts ' -------------'
-    puts 'Warrior: Melee hero who is master of all weapons'
-    puts 'Assassin: Melee hero who excels in the shadows'
-    puts 'Sniper: Ranged hero with big damage and low health'
-    puts 'Summoner: Spellcasting hero who can summon minions'
-  end
-
   def self.load_by_credentials(input_name, input_pass)
     players = YAML.load_stream(open('PlayersDB.yml'))
     player  = nil
@@ -183,8 +160,5 @@ class Player
   end
 
   def show_skills
-    puts ' -------------'
-    puts " --- #{name.upcase}'S SKILLS ----"
-    puts ' -------------'
   end
 end

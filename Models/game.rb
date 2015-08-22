@@ -34,7 +34,21 @@ class Game
   end
 
   def self.show_rules
-    puts 'how to play...'
+    puts '<< game info/rules goes here >>'
+  end
+
+  def self.species_info
+    puts ' -------------'
+    puts ' --- HERO SPECIES ---'
+    puts ' -------------'
+    puts '<< hero species info goes here >>'
+  end
+
+  def self.type_info
+    puts ' -------------'
+    puts ' -- HERO CLASSES --'
+    puts ' -------------'
+    puts '<< hero class info goes here >>'
   end
 
   #
@@ -60,7 +74,7 @@ class Game
     end
 
     puts "\n#{name} it is! Next choose a species, each with their own unique benefits. (Ex: Human)"
-    Player.species_info
+    Game.species_info
     print '-->'
 
     # choose species
@@ -72,7 +86,7 @@ class Game
     end
 
     puts "\nNext choose a class, each a different playstyle. (Ex: Warrior)"
-    Player.type_info
+    Game.type_info
     print '-->'
 
     # choose type

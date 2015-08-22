@@ -8,8 +8,8 @@ class MessageLog
 
   def initialize
     @id = object_id
-    @log = [['', 'normal', 0], ['', 'normal', 1], ['', 'normal', 2], ['', 'normal', 3],
-            ['', 'normal', 4], ['', 'normal', 5], ['', 'normal', 6]]
+    @log = [['> ', 'yellow', 0], ['> ', 'yellow', 1], ['> ', 'yellow', 2], ['> ', 'yellow', 3],
+            ['> ', 'yellow', 4], ['> ', 'yellow', 5], ['> ', 'yellow', 6]]
     @display_range = -1..6
   end
 
@@ -18,7 +18,7 @@ class MessageLog
   end
 
   def scroll(num)
-    self.display_range = self.display_range.map { |x| x += num }
+    self.display_range = display_range.map { |x| x += num }
   end
 
   def show_msgs(messages)

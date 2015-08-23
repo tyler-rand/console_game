@@ -11,8 +11,7 @@ class Map
   end
 
   def self.load(map)
-    maps = Map.all
-    map = maps.find { |m| m.name == map }
+    map = Map.all.find { |m| m.name == map }
   end
 
   def self.names_ary
@@ -73,25 +72,18 @@ class Map
   end
 
   def new_player_loc_from_input(player, user_input) # rename, rewrite, put elsewhere
-    input_state = 0
-
-    while input_state == 0
+    messages = []
       if %w(w a s d).include?(user_input)
         new_player_loc = player.find_new_loc(user_input)
-        input_state = 1
       elsif user_input == 'c'
         player.location = []
         new_player_loc = player.location
-        input_state = 1
       else
         messages = [Message.new('> Error, command not recognized.', 'red'), Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
-        $message_log.show_msgs(messages)
         new_player_loc = player.location
-        input_state = 1
       end
-    end
 
-    new_player_loc
+    return messages, new_player_loc
   end
 
   def move_player(player:, new_player_loc:)
@@ -107,13 +99,13 @@ class Map
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
       messages << Message.new('> Picked up items from a chest.', 'green')
-      $right_win.build_display(player)
+      yield
     when '$'
       player.inventory.add_money(10)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
       messages << Message.new('> Picked up some money.', 'green')
-      $right_win.build_display(player)
+      yield
     when 'm'
       messages = [Message.new('> A mob appears! Kill it!', 'yellow'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
       action = 'engage_mob'

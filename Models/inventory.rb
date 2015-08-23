@@ -47,7 +47,7 @@ class Inventory
   end
 
   # equip, use, or drop an item in inventory
-  def interact(command, item_num)
+  def interact(command, item_num, messages_win)
     messages = []
     item = nil
     items.each { |x, i| item = x if item_num == i }
@@ -70,9 +70,9 @@ class Inventory
           end
           messages << Message.new('--> ', 'normal')
 
-          $message_log.show_msgs(messages)
+          $message_log.show_msgs(messages, messages_win)
 
-          user_input = $messages_win.win.getch.upcase
+          user_input = messages_win.win.getch.upcase
           $message_log.log[-1][0] += user_input
 
           if user_input == 'Y'
@@ -93,6 +93,7 @@ class Inventory
       use(item)
     when 'DROP'
       remove(item_num)
+      messages << Message.new("> #{item.name} removed from bag.", 'green')
     else
       messages << Message.new('> Error, command not recognized.', 'red')
     end

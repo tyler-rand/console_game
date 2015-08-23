@@ -6,8 +6,8 @@ require 'YAML'
 Dir[File.join(__dir__, 'Models', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'Helpers', '*.rb')].each { |file| require file }
 
-# Output colors
 class String
+  # Output colors
   def colorize(color_code)
     "\e[#{color_code}m#{self}\e[0m"
   end
@@ -70,22 +70,22 @@ end
 
 $message_log = MessageLog.new
 @screen = CursesScreen.new
-$main_win, $messages_win, $right_win = @screen.build_display
+@main_win, @messages_win, @right_win = @screen.build_display
 
 begin
   while @game.state == 1
-    $main_win.win.clear
-    $main_win.box_with_player_name(@player.name)
-    $main_win.win.refresh
+    @main_win.win.clear
+    @main_win.box_with_player_name(@player.name)
+    @main_win.win.refresh
 
-    $right_win.build_display(@player)
+    @right_win.build_display(@player)
 
     # main menu, query user for input
     messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
-    $message_log.show_msgs(messages)
+    $message_log.show_msgs(messages, @messages_win)
 
     # append user input to last message in log, to show as output
-    user_menu_input = $messages_win.win.getstr.upcase
+    user_menu_input = @messages_win.win.getstr.upcase
     $message_log.log[-1][0] += user_menu_input
 
     #
@@ -93,17 +93,17 @@ begin
     #
     if user_menu_input == 'MAP'
       # list maps
-      $main_win.win.clear
-      Map.list_all($main_win)
-      $main_win.box_with_player_name(@player.name)
-      $main_win.win.refresh
+      @main_win.win.clear
+      Map.list_all(@main_win)
+      @main_win.box_with_player_name(@player.name)
+      @main_win.win.refresh
 
       # query user for map name to load
       messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages)
+      $message_log.show_msgs(messages, @messages_win)
 
       # get user input and append it to last message in log, to show as entered
-      map_name_input = $messages_win.win.getstr.titleize
+      map_name_input = @messages_win.win.getstr.titleize
       $message_log.log[-1][0] += map_name_input
 
       # check if map name input is in list of maps
@@ -111,8 +111,8 @@ begin
         loop do
           break if Map.names_ary.include?(map_name_input)
           messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
-          $message_log.show_msgs(messages)
-          map_name_input = $messages_win.win.getstr.titleize
+          $message_log.show_msgs(messages, @messages_win)
+          map_name_input = @messages_win.win.getstr.titleize
           $message_log.log[-1][0] += map_name_input
         end
       end
@@ -122,38 +122,39 @@ begin
       @player.set_location(@map.current_map)
 
       # build map in window
-      $main_win.build_map(@map)
-      $main_win.win.setpos(24, 2)
+      @main_win.build_map(@map)
+      @main_win.win.setpos(24, 2)
 
       # print map load success
       messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
-      $message_log.show_msgs(messages)
+      $message_log.show_msgs(messages, @messages_win)
 
       # get input and move player loop
       while @player.location != []
-        $messages_win.win.refresh
+        @messages_win.win.refresh
         Curses.noecho
         Curses.curs_set(0)
-        user_movement_input = $main_win.win.getch
+        user_movement_input = @main_win.win.getch
         Curses.curs_set(1)
         Curses.echo
 
         # determine new player location from current location and movement input
-        new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
+        messages, new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
+        $message_log.show_msgs(messages, @messages_win)
 
         unless @player.location == [] # probably a better way to do this
-          messages, action = @map.move_player(player: @player, new_player_loc: new_player_loc)
+          messages, action = @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
 
-          $message_log.show_msgs(messages)
+          $message_log.show_msgs(messages, @messages_win)
 
           # process any action from player movement
           if action == 'engage_mob'
-            @player.engage_mob(@map, new_player_loc)
+            @player.engage_mob(@map, new_player_loc, @right_win, @messages_win)
           end
 
           # show updated map with new player loc
-          $main_win.display_colored_map(@map)
-          $main_win.win.setpos(24, 2)
+          @main_win.display_colored_map(@map)
+          @main_win.win.setpos(24, 2)
         end
       end
 
@@ -161,11 +162,11 @@ begin
     ## MENU > BAG
     #
     elsif user_menu_input == 'BAG'
-      @player.inventory.list($main_win)
+      @player.inventory.list(@main_win)
       messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages)
+      $message_log.show_msgs(messages, @messages_win)
 
-      user_bag_input = $messages_win.win.getstr.split
+      user_bag_input = @messages_win.win.getstr.split
 
       # append user input to last message in log, to show as output
       $message_log.log[-1][0] += user_bag_input.join(' ')
@@ -173,15 +174,19 @@ begin
       command  = user_bag_input[0].upcase
       item_num = user_bag_input[1].to_i
 
-      messages = @player.inventory.interact(command, item_num)
+      messages = @player.inventory.interact(command, item_num, @messages_win)
+      # item = nil
+      # @player.inventory.items.each { |x, i| item = x if item_num == i }
+      # interaction = InventoryInteractor.new(@player.inventory, command, item, item_num)
+      # messages = interaction.execute
 
-      $message_log.show_msgs(messages)
+      $message_log.show_msgs(messages, @messages_win)
 
     #
     ## MENU > EQUIPPED
     #
     elsif user_menu_input == 'EQUIPPED'
-      @player.equipped.list($main_win)
+      @player.equipped.list(@main_win)
 
     #
     ## MENU > STATS
@@ -198,7 +203,7 @@ begin
     # Menu input error
     else
       messages = [Message.new('> Error, command not recognized.', 'red')]
-      $message_log.show_msgs(messages)
+      $message_log.show_msgs(messages, @messages_win)
     end
   end
 ensure

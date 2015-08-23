@@ -21,9 +21,9 @@ class MessageLog
     self.display_range = display_range.map { |x| x + num }
   end
 
-  def show_msgs(messages)
+  def show_msgs(messages, messages_win)
     add_msgs(messages)
     scroll(messages.length)
-    $messages_win.display_messages(self)
+    messages_win.display_messages(self)
   end
 end

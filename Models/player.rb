@@ -132,7 +132,7 @@ class Player
     self.max_exp = level_exp(level)
   end
 
-  def engage_mob(map, new_player_loc) # REFACTOR
+  def engage_mob(map, new_player_loc)
     mob = nil
     map.mobs.each { |m| mob = m if m.location == new_player_loc }
 
@@ -140,7 +140,6 @@ class Player
 
     while battle.state == 0
       messages = []
-      # user_input = battle.ask_user_battle_input
       user_input = $message_win.win.getstr.upcase
       $message_log.log[-1][0] += user_input
 

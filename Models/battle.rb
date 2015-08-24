@@ -8,24 +8,22 @@ class Battle
 
   def initialize(player, mob, map)
     @id     = object_id
-    @state  = 0
+    @state  = 0 # 0 is ongoing battle, 1 is battle ended
     @player = player
     @mob    = mob
     @map    = map
   end
 
-  def ask_user_battle_input
-    puts "Mob Name: #{mob.name}"
-    puts "Health: #{mob.health}/#{mob.max_health}"
-    puts "Damage: #{mob.damage}"
-    puts "\nYour stats:"
-    puts "Health: #{player.health}/#{player.max_health}"
-    puts "Damage: #{player.damage}"
-    puts "\nWhat are you going to do? (#{'Attack'.colorize(93)}, #{'Bag'.colorize(93)}, #{'Run'.colorize(93)})"
-    print '-->'
+  def killed_mob
+    map.current_map[mob.location[0]][mob.location[1]]       = 'P'
+    map.current_map[player.location[0]][player.location[1]] = '.'
 
-    user_battle_input = gets.chomp.upcase
-    user_battle_input
+    player.set_location(map.current_map)
+    player.update_exp(mob.level)
+
+    messages = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
+    self.state = 1
+    messages
   end
 
   def initiate_attack
@@ -34,14 +32,7 @@ class Battle
 
     # Player kills mob
     if mob.health <= 0 && player.health > 0
-      map.current_map[mob.location[0]][mob.location[1]]       = 'P'
-      map.current_map[player.location[0]][player.location[1]] = '.'
-
-      player.set_location(map.current_map)
-      player.update_exp(mob.level)
-
-      messages << Message.new("> You killed it! Gained #{mob.level} exp.", 'green')
-      self.state = 1
+      killed_mob.each { |result_msg| messages << result_msg }
 
     # Mob attacks back
     else

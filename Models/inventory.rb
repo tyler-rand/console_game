@@ -42,85 +42,9 @@ class Inventory
       item = Item.roll_new(map_level)
       items << [item, index]
     end
-
-    player.save
   end
 
-  # equip, use, or drop an item in inventory
-  def interact(command, item_num, messages_win)
-    messages = []
-    item = nil
-    items.each { |x, i| item = x if item_num == i }
-
-    case command
-    when 'EQUIP'
-      equipped_item = player.equipped.send(item.type)
-
-      if equipped_item.nil?
-        equip(item, item_num)
-        messages << Message.new("> #{item.name} equipped.", 'green')
-
-      else # query user to replace equipped item
-        state = 0
-        while state == 0
-          if equipped_item.type == 'weapon'
-            messages << Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow')
-          else
-            messages << Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})? [Y/N]", 'yellow')
-          end
-          messages << Message.new('--> ', 'normal')
-
-          $message_log.show_msgs(messages, messages_win)
-
-          user_input = messages_win.win.getch.upcase
-          $message_log.log[-1][0] += user_input
-
-          if user_input == 'Y'
-            items << equipped_item
-            equip(item, item_num)
-            messages = [Message.new("> #{item.name} equipped.", 'green')]
-            state = 1
-          elsif user_input == 'N'
-            messages = [Message.new('> You got it boss.', 'green')]
-            state = 1
-          else
-            messages = [Message.new('> Must enter \'Y\' or \'N\'', 'red')]
-          end
-        end
-      end
-
-    when 'USE'
-      use(item)
-    when 'DROP'
-      remove(item_num)
-      messages << Message.new("> #{item.name} removed from bag.", 'green')
-    else
-      messages << Message.new('> Error, command not recognized.', 'red')
-    end
-
-    refresh_inventory_indexes
-    player.save
-    messages
-  end
-
-  def equip(item, item_num)
-    player.equipped.send("#{item.type}=", item)
-    remove(item_num)
-    player.update_stats
-  end
-
-  def use_item(item_num)
-  end
-
-  def remove(item_num)
-    items.slice!(item_num - 1)
-  end
-
-  # def confirm_equip(item_num)
-  #   equipped_item.nil? ? equip(item, item_num) : query_equip(item)
-  # end
-
-  def refresh_inventory_indexes
+  def refresh_indexes
     self.items = items.map { |item, _| item }.each_with_index.map { |item, i| [item, i + 1] }
   end
 end

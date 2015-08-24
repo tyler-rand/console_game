@@ -69,8 +69,8 @@ end
 ########################################
 
 $message_log = MessageLog.new
-@screen = CursesScreen.new
-@main_win, @messages_win, @right_win = @screen.build_display
+screen = CursesScreen.new
+@main_win, $message_win, @right_win = screen.build_display
 
 begin
   while @game.state == 1
@@ -82,10 +82,10 @@ begin
 
     # main menu, query user for input
     messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
-    $message_log.show_msgs(messages, @messages_win)
+    $message_log.show_msgs(messages)
 
     # append user input to last message in log, to show as output
-    user_menu_input = @messages_win.win.getstr.upcase
+    user_menu_input = $message_win.win.getstr.upcase
     $message_log.log[-1][0] += user_menu_input
 
     #
@@ -100,10 +100,10 @@ begin
 
       # query user for map name to load
       messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages, @messages_win)
+      $message_log.show_msgs(messages)
 
       # get user input and append it to last message in log, to show as entered
-      map_name_input = @messages_win.win.getstr.titleize
+      map_name_input = $message_win.win.getstr.titleize
       $message_log.log[-1][0] += map_name_input
 
       # check if map name input is in list of maps
@@ -111,8 +111,8 @@ begin
         loop do
           break if Map.names_ary.include?(map_name_input)
           messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
-          $message_log.show_msgs(messages, @messages_win)
-          map_name_input = @messages_win.win.getstr.titleize
+          $message_log.show_msgs(messages)
+          map_name_input = $message_win.win.getstr.titleize
           $message_log.log[-1][0] += map_name_input
         end
       end
@@ -127,11 +127,11 @@ begin
 
       # print map load success
       messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
-      $message_log.show_msgs(messages, @messages_win)
+      $message_log.show_msgs(messages)
 
       # get input and move player loop
       while @player.location != []
-        @messages_win.win.refresh
+        $message_win.win.refresh
         Curses.noecho
         Curses.curs_set(0)
         user_movement_input = @main_win.win.getch
@@ -140,16 +140,16 @@ begin
 
         # determine new player location from current location and movement input
         messages, new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
-        $message_log.show_msgs(messages, @messages_win)
+        $message_log.show_msgs(messages)
 
         unless @player.location == [] # probably a better way to do this
           messages, action = @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
 
-          $message_log.show_msgs(messages, @messages_win)
+          $message_log.show_msgs(messages)
 
           # process any action from player movement
           if action == 'engage_mob'
-            @player.engage_mob(@map, new_player_loc, @right_win, @messages_win)
+            @player.engage_mob(@map, new_player_loc) { @right_win.build_display(@player) }
           end
 
           # show updated map with new player loc
@@ -164,23 +164,22 @@ begin
     elsif user_menu_input == 'BAG'
       @player.inventory.list(@main_win)
       messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages, @messages_win)
+      $message_log.show_msgs(messages)
 
-      user_bag_input = @messages_win.win.getstr.split
-
-      # append user input to last message in log, to show as output
+      user_bag_input = $message_win.win.getstr.split
       $message_log.log[-1][0] += user_bag_input.join(' ')
 
-      command  = user_bag_input[0].upcase
+      command  = user_bag_input[0].downcase
       item_num = user_bag_input[1].to_i
+      item = nil
+      @player.inventory.items.each { |x, i| item = x if item_num == i }
 
-      messages = @player.inventory.interact(command, item_num, @messages_win)
-      # item = nil
-      # @player.inventory.items.each { |x, i| item = x if item_num == i }
-      # interaction = InventoryInteractor.new(@player.inventory, command, item, item_num)
-      # messages = interaction.execute
-
-      $message_log.show_msgs(messages, @messages_win)
+      interaction = InventoryInteractor.new(@player, command, item, item_num)
+      if command == 'equip'
+        interaction.execute if interaction.equip_is_confirmed?
+      else
+        interaction.execute
+      end
 
     #
     ## MENU > EQUIPPED
@@ -203,7 +202,7 @@ begin
     # Menu input error
     else
       messages = [Message.new('> Error, command not recognized.', 'red')]
-      $message_log.show_msgs(messages, @messages_win)
+      $message_log.show_msgs(messages)
     end
   end
 ensure

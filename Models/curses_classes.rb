@@ -17,13 +17,13 @@ class CursesScreen
 
   def build_display
     main_win = MainWindow.new
-    messages_win = MessagesWindow.new
+    message_win = MessageWindow.new
     right_win = RightWindow.new
 
     main_win.win.box('|', '-')
     main_win.win.setpos(20, 3)
 
-    return main_win, messages_win, right_win
+    return main_win, message_win, right_win
   end
 end
 
@@ -69,7 +69,7 @@ class MainWindow
 end
 
 # bottom left window, messages
-class MessagesWindow
+class MessageWindow
   attr_accessor :win
 
   def initialize

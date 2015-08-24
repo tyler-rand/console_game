@@ -132,7 +132,7 @@ class Player
     self.max_exp = level_exp(level)
   end
 
-  def engage_mob(map, new_player_loc, right_win, messages_win) # REFACTOR
+  def engage_mob(map, new_player_loc) # REFACTOR
     mob = nil
     map.mobs.each { |m| mob = m if m.location == new_player_loc }
 
@@ -141,7 +141,7 @@ class Player
     while battle.state == 0
       messages = []
       # user_input = battle.ask_user_battle_input
-      user_input = messages_win.win.getstr.upcase
+      user_input = $message_win.win.getstr.upcase
       $message_log.log[-1][0] += user_input
 
       case user_input
@@ -154,8 +154,8 @@ class Player
         messages = [Message.new('> Command not recognized, try again', 'red'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
       end
 
-      right_win.build_display(self)
-      $message_log.show_msgs(messages, messages_win)
+      yield
+      $message_log.show_msgs(messages)
     end
   end
 

@@ -125,7 +125,7 @@ class Map
       # exception
     end
 
-    player.set_location(current_map)
+    player.find_location(current_map)
     return messages, action
   end
 end

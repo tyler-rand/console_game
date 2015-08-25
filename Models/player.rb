@@ -82,7 +82,7 @@ class Player
     File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
-  def set_location(current_map)
+  def find_location(current_map)
     current_map.each do |line|
       self.location = [current_map.index(line), line.index('P')] if line.include?('P')
     end

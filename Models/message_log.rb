@@ -13,7 +13,7 @@ class MessageLog
     @display_range = -1..6
   end
 
-  def show_msgs(messages)
+  def show_msgs(messages) # expects array
     add_msgs(messages)
     scroll(messages.length)
     $message_win.display_messages(self)

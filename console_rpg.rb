@@ -91,37 +91,27 @@ begin
       # list maps
       @main_win.refresh_display(@player.name) { Map.list_all(@main_win) }
 
-      # query user for map name to load
+      # query user for map name to load, append it to last msg in log
       messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
       $message_log.show_msgs(messages)
-
-      # get user input and append it to last message in log, to show as entered
       map_name_input = $message_win.win.getstr.titleize
       $message_log.append(map_name_input)
 
-      # check map name and load map if valid
+      # check map name and build map
       map_name = Map.verify_name(map_name_input)
       @map = Map.load(map_name)
-      @player.set_location(@map.current_map)
-
-      # build map in window
       @main_win.build_map(@map)
+      @player.find_location(@map.current_map)
 
-      # print map load success
       messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
       $message_log.show_msgs(messages)
 
       # get input and move player loop
       while @player.location != []
-        $message_win.win.refresh
-        Curses.noecho
-        Curses.curs_set(0)
-        user_movement_input = @main_win.win.getch
-        Curses.curs_set(1)
-        Curses.echo
+        movement_input = @main_win.getch_no_echo
 
         # determine new player location from current location and movement input
-        messages, new_player_loc = @map.new_player_loc_from_input(@player, user_movement_input)
+        messages, new_player_loc = @map.new_player_loc_from_input(@player, movement_input)
         $message_log.show_msgs(messages)
 
         unless @player.location == [] # probably a better way to do this

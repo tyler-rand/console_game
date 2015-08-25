@@ -45,7 +45,7 @@ class MainWindow
 
   def build_map(map)
     display_colored_map(map)
-
+    # seperate into map legend method
     win.setpos(20, 3)
     win.addstr('WASD to move, C to exit')
     win.setpos(22, 3)
@@ -73,6 +73,16 @@ class MainWindow
     win.box('|', '-')
     win.setpos(0, 29 - name.length / 2)
     win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{name}") }
+  end
+
+  def getch_no_echo
+    Curses.noecho
+    Curses.curs_set(0)
+    movement_input = win.getch
+    Curses.curs_set(1)
+    Curses.echo
+
+    movement_input
   end
 end
 

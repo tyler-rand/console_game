@@ -18,7 +18,7 @@ describe Map do
     player = build(:player)
 
     map.load_current_map
-    player.set_location(map.current_map)
+    player.find_location(map.current_map)
     old_loc = player.location
 
     new_player_loc = player.find_new_loc(%w(w a d).sample)

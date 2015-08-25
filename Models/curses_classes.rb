@@ -36,6 +36,13 @@ class MainWindow
     @win.refresh
   end
 
+  def refresh_display(player_name)
+    win.clear
+    yield if block_given?
+    box_with_player_name(player_name)
+    win.refresh
+  end
+
   def build_map(map)
     display_colored_map(map)
 

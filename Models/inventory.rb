@@ -14,20 +14,19 @@ class Inventory
   end
 
   def list(window) # list items in inventory
-    window.win.setpos(1, 2)
-    window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
     window.win.setpos(2, 2)
+    window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
+    window.win.setpos(3, 2)
     window.win.addstr('-------------')
     items.map do |item, i|
       if item.type == 'weapon'
-        window.win.setpos(i + 2, 2)
+        window.win.setpos(i + 3, 2)
         window.win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.attributes[:damage]}, speed: #{item.attributes[:speed]}")
       else
-        window.win.setpos(i + 2, 2)
+        window.win.setpos(i + 3, 2)
         window.win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.attributes[:armor]}")
       end
     end
-    window.win.refresh
   end
 
   def add_money(money)

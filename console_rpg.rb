@@ -74,17 +74,13 @@ screen = CursesScreen.new
 
 begin
   while @game.state == 1
-    @main_win.win.clear
-    @main_win.box_with_player_name(@player.name)
-    @main_win.win.refresh
-
+    @main_win.refresh_display(@player.name)
     @right_win.build_display(@player)
 
     # main menu, query user for input
     messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
     $message_log.show_msgs(messages)
 
-    # append user input to last message in log, to show as output
     user_menu_input = $message_win.win.getstr.upcase
     $message_log.append(user_menu_input)
 
@@ -93,10 +89,7 @@ begin
     #
     if user_menu_input == 'MAP'
       # list maps
-      @main_win.win.clear
-      Map.list_all(@main_win)
-      @main_win.box_with_player_name(@player.name)
-      @main_win.win.refresh
+      @main_win.refresh_display(@player.name) { Map.list_all(@main_win) }
 
       # query user for map name to load
       messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
@@ -163,7 +156,7 @@ begin
     ## MENU > BAG
     #
     elsif user_menu_input == 'BAG'
-      @player.inventory.list(@main_win)
+      @main_win.refresh_display(@player.name) { @player.inventory.list(@main_win) }
       messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
       $message_log.show_msgs(messages)
 

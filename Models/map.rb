@@ -20,18 +20,17 @@ class Map
 
   def self.list_all(window)
     maps = Map.all
-    i = 4
+    line = 4
 
     window.win.setpos(2, 2)
     window.win.addstr("---- MAPS ---\n")
     window.win.setpos(3, 2)
     window.win.addstr("-------------\n")
-    maps.map(&:name).each do |m|
-      window.win.setpos(i, 2)
-      window.win.addstr(m); i += 1
+    maps.map(&:name).each do |map_name|
+      window.win.setpos(line, 2)
+      window.win.addstr(map_name)
+      line += 1
     end
-    window.win.refresh
-    maps
   end
 
   #
@@ -73,15 +72,15 @@ class Map
 
   def new_player_loc_from_input(player, user_input) # rename, rewrite, put elsewhere
     messages = []
-      if %w(w a s d).include?(user_input)
-        new_player_loc = player.find_new_loc(user_input)
-      elsif user_input == 'c'
-        player.location = []
-        new_player_loc = player.location
-      else
-        messages = [Message.new('> Error, command not recognized.', 'red'), Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
-        new_player_loc = player.location
-      end
+    if %w(w a s d).include?(user_input)
+      new_player_loc = player.find_new_loc(user_input)
+    elsif user_input == 'c'
+      player.location = []
+      new_player_loc = player.location
+    else
+      messages = [Message.new('> Error, command not recognized.', 'red'), Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
+      new_player_loc = player.location
+    end
 
     return messages, new_player_loc
   end

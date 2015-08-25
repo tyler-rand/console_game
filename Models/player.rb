@@ -8,7 +8,19 @@ class Player
   ## CLASS METHODS
   #
 
-  def self.load_by_credentials(input_name, input_pass)
+  def self.load
+    puts "\nEnter username:password (Ex: ghostpineapple:SA32es!sx)"
+    print '-->'
+
+    user_input = gets.chomp.split(':')
+    input_name = user_input[0].capitalize
+    input_pass = user_input[1]
+
+    player = Player.verify_credentials(input_name, input_pass)
+    player
+  end
+
+  def self.verify_credentials(input_name, input_pass)
     players = YAML.load_stream(open('PlayersDB.yml'))
     player  = nil
     message = ''
@@ -30,13 +42,6 @@ class Player
 
     puts message
     player
-  end
-
-  def self.load_by_id(player_id)
-    players = YAML.load_stream(open('PlayersDB.yml'))
-    player  = nil
-
-    players.each { |p| player = p if p.id == player_id }
   end
 
   #

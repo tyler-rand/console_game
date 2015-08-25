@@ -42,7 +42,7 @@ while @game.state == 0 # initial state is 0
   ## LOAD PLAYER
   #
   elsif user_initialize_input == 'LOAD'
-    @player = @game.load_player
+    @player = Player.load
 
   #
   ## RULES

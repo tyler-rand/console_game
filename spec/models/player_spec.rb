@@ -10,15 +10,15 @@ describe Player do
     player = build(:player)
     player.save
 
-    loaded = Player.load_by_credentials(player.name, player.password)
+    loaded = Player.verify_credentials(player.name, player.password)
   end
 
-  it 'should load a saved player by id' do
-    player = build(:player)
-    player.save
+  # it 'should load a saved player by id' do
+  #   player = build(:player)
+  #   player.save
 
-    loaded = Player.load_by_id(player.id)
-  end
+  #   loaded = Player.load_by_id(player.id)
+  # end
 
   it 'should update a players exp' do
     player = build(:player)

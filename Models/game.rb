@@ -113,16 +113,4 @@ class Game
     player.save
     player
   end
-
-  def load_player
-    puts "\nEnter username:password (Ex: ghostpineapple:SA32es!sx)"
-    print '-->'
-
-    user_input = gets.chomp.split(':')
-    input_name = user_input[0].capitalize
-    input_pass = user_input[1]
-
-    player = Player.load_by_credentials(input_name, input_pass)
-    player
-  end
 end

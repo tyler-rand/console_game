@@ -53,6 +53,7 @@ class MainWindow
     win.box('|', '-')
     win.setpos(0, 35 - map.name.length / 2)
     win.attron(Curses.color_pair(3)) { win.addstr("Map - #{map.name}") }
+    win.setpos(24, 2)
   end
 
   def display_colored_map(map)

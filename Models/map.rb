@@ -33,6 +33,17 @@ class Map
     end
   end
 
+  def self.verify_name(map_name)
+    loop do
+      return map_name if Map.names_ary.include?(map_name)
+      messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
+      $message_log.show_msgs(messages)
+
+      map_name = $message_win.win.getstr.titleize
+      $message_log.append(map_name)
+    end
+  end
+
   #
   ## INSTANCE METHODS
   #

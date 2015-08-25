@@ -99,25 +99,13 @@ begin
       map_name_input = $message_win.win.getstr.titleize
       $message_log.append(map_name_input)
 
-      # check if map name input is in list of maps
-      unless Map.names_ary.include?(map_name_input)
-        loop do
-          break if Map.names_ary.include?(map_name_input)
-          messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
-          $message_log.show_msgs(messages)
-
-          map_name_input = $message_win.win.getstr.titleize
-          $message_log.append(map_name_input)
-        end
-      end
-
-      # initialize map
-      @map = Map.load(map_name_input)
+      # check map name and load map if valid
+      map_name = Map.verify_name(map_name_input)
+      @map = Map.load(map_name)
       @player.set_location(@map.current_map)
 
       # build map in window
       @main_win.build_map(@map)
-      @main_win.win.setpos(24, 2)
 
       # print map load success
       messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
@@ -157,6 +145,7 @@ begin
     #
     elsif user_menu_input == 'BAG'
       @main_win.refresh_display(@player.name) { @player.inventory.list(@main_win) }
+
       messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
       $message_log.show_msgs(messages)
 

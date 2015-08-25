@@ -86,7 +86,7 @@ begin
 
     # append user input to last message in log, to show as output
     user_menu_input = $message_win.win.getstr.upcase
-    $message_log.log[-1][0] += user_menu_input
+    $message_log.append(user_menu_input)
 
     #
     ## MENU > MAP
@@ -104,7 +104,7 @@ begin
 
       # get user input and append it to last message in log, to show as entered
       map_name_input = $message_win.win.getstr.titleize
-      $message_log.log[-1][0] += map_name_input
+      $message_log.append(map_name_input)
 
       # check if map name input is in list of maps
       unless Map.names_ary.include?(map_name_input)
@@ -112,8 +112,9 @@ begin
           break if Map.names_ary.include?(map_name_input)
           messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
           $message_log.show_msgs(messages)
+
           map_name_input = $message_win.win.getstr.titleize
-          $message_log.log[-1][0] += map_name_input
+          $message_log.append(map_name_input)
         end
       end
 
@@ -167,7 +168,7 @@ begin
       $message_log.show_msgs(messages)
 
       user_bag_input = $message_win.win.getstr.split
-      $message_log.log[-1][0] += user_bag_input.join(' ')
+      $message_log.append(user_bag_input.join(' '))
 
       command  = user_bag_input[0].downcase
       item_num = user_bag_input[1].to_i

@@ -146,7 +146,7 @@ class Player
     while battle.state == 0
       messages = []
       user_input = $message_win.win.getstr.upcase
-      $message_log.log[-1][0] += user_input
+      $message_log.append(user_input)
 
       case user_input
       when 'ATTACK'

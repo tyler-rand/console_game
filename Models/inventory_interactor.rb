@@ -55,7 +55,7 @@ class InventoryInteractor
   def confirm_equip?
     loop do
       user_input = $message_win.win.getch.upcase
-      $message_log.log[-1][0] += user_input
+      $message_log.append(user_input)
 
       if user_input == 'Y'
         inventory.items << equipped_item

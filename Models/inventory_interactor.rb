@@ -2,13 +2,13 @@
 class InventoryInteractor
   attr_accessor :id, :player, :equipped, :inventory, :command, :item, :item_num
 
-  def initialize(player, command, item, item_num)
+  def initialize(player, command, item_num)
     @id        = object_id
     @player    = player
     @equipped  = player.equipped
     @inventory = player.inventory
     @command   = command
-    @item      = item
+    @item      = inventory.find_item(item_num)
     @item_num  = item_num
   end
 

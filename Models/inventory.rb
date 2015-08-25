@@ -44,6 +44,10 @@ class Inventory
     end
   end
 
+  def find_item(item_num)
+    items.each { |item, index| return item if index == item_num }
+  end
+
   def refresh_indexes
     self.items = items.map { |item, _| item }.each_with_index.map { |item, i| [item, i + 1] }
   end

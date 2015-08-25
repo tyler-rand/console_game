@@ -171,10 +171,8 @@ begin
 
       command  = user_bag_input[0].downcase
       item_num = user_bag_input[1].to_i
-      item = nil
-      @player.inventory.items.each { |x, i| item = x if item_num == i }
 
-      interaction = InventoryInteractor.new(@player, command, item, item_num)
+      interaction = InventoryInteractor.new(@player, command, item_num)
       if command == 'equip'
         interaction.execute if interaction.equip_is_confirmed?
       else

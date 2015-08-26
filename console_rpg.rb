@@ -108,19 +108,11 @@ begin
 
       # get input and move player loop
       while @player.location != []
-        # determine new player loc from movement input
         movement_input = @main_win.getch_no_echo
         new_player_loc = @map.new_player_loc_from_input(@player, movement_input)
 
         unless @player.location == [] # probably a better way to do this
-          action = @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
-
-          # process any action from player movement
-          if action == 'engage_mob'
-            @player.engage_mob(@map, new_player_loc) { @right_win.build_display(@player) }
-          end
-
-          # show updated map with new player loc
+          @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
           @main_win.display_colored_map(@map)
         end
       end

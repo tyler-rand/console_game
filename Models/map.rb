@@ -71,7 +71,6 @@ class Map
 
     current_map.each do |line|
       line_num = current_map.index(line)
-
       line.split('').each_with_index.select { |c| mob_positions << [line_num, c[1]] if c[0] == 'm' }
     end
 
@@ -97,9 +96,6 @@ class Map
   end
 
   def move_player(player:, new_player_loc:)
-    messages = []
-    action = nil
-
     case current_map[new_player_loc[0]][new_player_loc[1]]
     when '.'
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
@@ -108,26 +104,26 @@ class Map
       player.inventory.add_items(level)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
-      messages << Message.new('> Picked up items from a chest.', 'green')
+      messages = [Message.new('> Picked up items from a chest.', 'green')]
+      $message_log.show_msgs(messages)
       yield
     when '$'
       player.inventory.add_money(10)
       current_map[new_player_loc[0]][new_player_loc[1]]   = 'P'
       current_map[player.location[0]][player.location[1]] = '.'
-      messages << Message.new('> Picked up some money.', 'green')
+      messages = [Message.new('> Picked up some money.', 'green')]
+      $message_log.show_msgs(messages)
       yield
     when 'm'
       messages = [Message.new('> A mob appears! Kill it!', 'yellow'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
-      action = 'engage_mob'
+      $message_log.show_msgs(messages)
+      player.engage_mob(self, new_player_loc) { yield }
     when 'x'
-      messages << Message.new('> Can\'t move to spaces with \'x\'', 'red')
+      messages = [Message.new('> Can\'t move to spaces with \'x\'', 'red')]
+      $message_log.show_msgs(messages)
     else
       # exception
     end
-
-    $message_log.show_msgs(messages)
     player.find_location(current_map)
-
-    action
   end
 end

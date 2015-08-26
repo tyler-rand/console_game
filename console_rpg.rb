@@ -109,9 +109,9 @@ begin
       # get input and move player loop
       loop do
         movement_input = @main_win.getch_no_echo
-        new_player_loc = @map.new_player_loc_from_input(@player, movement_input)
+        map_movement = MapMovement.new(@map, @player, movement_input)
         break if @player.location == []
-        @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
+        map_movement.move { @right_win.build_display(@player) }
         @main_win.display_colored_map(@map)
       end
 

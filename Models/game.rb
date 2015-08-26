@@ -67,7 +67,8 @@ class Game
 
     # name player
     name = gets.chomp.capitalize
-    while name == ''
+    loop do
+      break if name != ''
       puts 'You need a name!'
       print '-->'
       name = gets.chomp.capitalize
@@ -79,7 +80,8 @@ class Game
 
     # choose species
     species = gets.chomp.capitalize
-    while species == ''
+    loop do
+      break if species != ''
       puts 'Choose a species!'
       print '-->'
       species = gets.chomp.capitalize
@@ -91,7 +93,8 @@ class Game
 
     # choose type
     player_type = gets.chomp.capitalize
-    while player_type == ''
+    loop do
+      break if player_type != ''
       puts 'Gotta choose a class!'
       print '-->'
       player_type = gets.chomp.capitalize
@@ -102,7 +105,8 @@ class Game
 
     # create password
     password = gets.chomp
-    while password == ''
+    loop do
+      break if password != ''
       puts 'Password can\'t be blank!'
       print '-->'
       password = gets.chomp

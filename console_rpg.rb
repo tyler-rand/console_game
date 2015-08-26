@@ -13,7 +13,7 @@ class String
   end
 
   def titleize
-    split.map(&:capitalize).join(' ')
+    gsub(/\b./, &:upcase)
   end
 end
 
@@ -26,7 +26,7 @@ puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 # Game initialized, no player created/loaded
 @game = Game.new
 
-while @game.state == 0 # initial state is 0
+loop do
   puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
   print '-->'
 
@@ -61,7 +61,7 @@ while @game.state == 0 # initial state is 0
     puts 'Must enter \'NEW\', \'LOAD\', or \'RULES\'.'.colorize(101)
   end
 
-  @game.state = 1 if @player
+  break if @player
 end
 
 ########################################
@@ -73,7 +73,7 @@ screen = CursesScreen.new
 @main_win, $message_win, @right_win = screen.build_display
 
 begin
-  while @game.state == 1
+  loop do
     @main_win.refresh_display(@player.name)
     @right_win.build_display(@player)
 
@@ -107,14 +107,12 @@ begin
       $message_log.show_msgs(messages)
 
       # get input and move player loop
-      while @player.location != []
+      loop do
         movement_input = @main_win.getch_no_echo
         new_player_loc = @map.new_player_loc_from_input(@player, movement_input)
-
-        unless @player.location == [] # probably a better way to do this
-          @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
-          @main_win.display_colored_map(@map)
-        end
+        break if @player.location == []
+        @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
+        @main_win.display_colored_map(@map)
       end
 
     #

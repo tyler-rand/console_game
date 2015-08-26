@@ -143,7 +143,8 @@ class Player
 
     battle = Battle.new(self, mob, map)
 
-    while battle.state == 0
+    loop do
+      break if battle.state == 1
       messages = []
       user_input = $message_win.win.getstr.upcase
       $message_log.append(user_input)

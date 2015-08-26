@@ -111,7 +111,8 @@ begin
         movement_input = @main_win.getch_no_echo
         map_movement = MapMovement.new(@map, @player, movement_input)
         break if @player.location == []
-        map_movement.move { @right_win.build_display(@player) }
+        map_movement.move
+        @right_win.build_display(@player)
         @main_win.display_colored_map(@map)
       end
 

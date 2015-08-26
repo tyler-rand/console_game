@@ -159,7 +159,6 @@ class Player
         messages = [Message.new('> Command not recognized, try again', 'red'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
       end
 
-      yield
       $message_log.show_msgs(messages)
     end
   end

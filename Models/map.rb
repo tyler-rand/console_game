@@ -82,7 +82,6 @@ class Map
   end
 
   def new_player_loc_from_input(player, user_input) # rename, rewrite, put elsewhere
-    messages = []
     if %w(w a s d).include?(user_input)
       new_player_loc = player.find_new_loc(user_input)
     elsif user_input == 'c'
@@ -91,9 +90,10 @@ class Map
     else
       messages = [Message.new('> Error, command not recognized.', 'red'), Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
       new_player_loc = player.location
+      $message_log.show_msgs(messages)
     end
 
-    return messages, new_player_loc
+    new_player_loc
   end
 
   def move_player(player:, new_player_loc:)
@@ -125,7 +125,9 @@ class Map
       # exception
     end
 
+    $message_log.show_msgs(messages)
     player.find_location(current_map)
-    return messages, action
+
+    action
   end
 end

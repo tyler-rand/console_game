@@ -53,7 +53,6 @@ class MainWindow
     win.box('|', '-')
     win.setpos(0, 35 - map.name.length / 2)
     win.attron(Curses.color_pair(3)) { win.addstr("Map - #{map.name}") }
-    win.setpos(24, 2)
   end
 
   def display_colored_map(map)
@@ -78,6 +77,7 @@ class MainWindow
   def getch_no_echo
     Curses.noecho
     Curses.curs_set(0)
+    win.setpos(24, 2)
     movement_input = win.getch
     Curses.curs_set(1)
     Curses.echo

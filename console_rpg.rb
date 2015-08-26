@@ -108,16 +108,12 @@ begin
 
       # get input and move player loop
       while @player.location != []
+        # determine new player loc from movement input
         movement_input = @main_win.getch_no_echo
-
-        # determine new player location from current location and movement input
-        messages, new_player_loc = @map.new_player_loc_from_input(@player, movement_input)
-        $message_log.show_msgs(messages)
+        new_player_loc = @map.new_player_loc_from_input(@player, movement_input)
 
         unless @player.location == [] # probably a better way to do this
-          messages, action = @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
-
-          $message_log.show_msgs(messages)
+          action = @map.move_player(player: @player, new_player_loc: new_player_loc) { @right_win.build_display(@player) }
 
           # process any action from player movement
           if action == 'engage_mob'
@@ -126,7 +122,6 @@ begin
 
           # show updated map with new player loc
           @main_win.display_colored_map(@map)
-          @main_win.win.setpos(24, 2)
         end
       end
 

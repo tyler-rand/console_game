@@ -132,11 +132,7 @@ begin
       item_num = user_bag_input[1].to_i
 
       interaction = InventoryInteractor.new(@player, command, item_num)
-      if command == 'equip'
-        interaction.execute if interaction.equip_is_confirmed?
-      else
-        interaction.execute
-      end
+      interaction.execute if (command == 'equip' && interaction.equip_is_confirmed?) || command != 'equip'
 
     #
     ## MENU > EQUIPPED

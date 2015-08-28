@@ -15,11 +15,9 @@ class Player
     password = Game.prompt_player_pass
 
     player = Player.new(name: name, species: species, type: player_type, password: password)
-
     player.save
     player
   end
-
 
   def self.load
     puts "\nEnter username:password (Ex: ghostpineapple:SA32es!sx)"
@@ -133,32 +131,6 @@ class Player
 
   def reset_max_exp
     self.max_exp = level_exp(level)
-  end
-
-  def engage_mob(map, new_player_loc)
-    mob = nil
-    map.mobs.each { |m| mob = m if m.location == new_player_loc }
-
-    battle = Battle.new(self, mob, map)
-
-    loop do
-      break if battle.state == 1
-      messages = []
-      user_input = $message_win.win.getstr.upcase
-      $message_log.append(user_input)
-
-      case user_input
-      when 'ATTACK'
-        battle.initiate_attack.each { |result_msg| messages << result_msg }
-      when 'BAG'
-      when 'RUN'
-        battle.attempt_run.each { |result_msg| messages << result_msg }
-      else
-        messages = [Message.new('> Command not recognized, try again', 'red'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
-      end
-
-      $message_log.show_msgs(messages)
-    end
   end
 
   def show_skills

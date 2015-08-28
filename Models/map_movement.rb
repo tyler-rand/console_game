@@ -13,6 +13,32 @@ class MapMovement
     @new_player_loc = find_new_player_loc(movement_input)
   end
 
+  def move
+    case map.current_map[new_player_loc[0]][new_player_loc[1]]
+    when '.'
+      land_on_open_space
+    when 'c'
+      land_on_chest
+    when '$'
+      land_on_money
+    when 'm'
+      land_on_mob
+    when 'x'
+      land_on_wall
+    else
+      # exception
+    end
+
+    player.find_location(map.current_map)
+  end
+
+  def move_player(new_player_loc, old_player_loc)
+    map.current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
+    map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
+  end
+
+  private
+
   def find_new_player_loc(movement_input)
     if %w(w a s d).include?(movement_input)
       player_loc = new_player_location(movement_input)
@@ -21,7 +47,8 @@ class MapMovement
       player_loc = player.location
     else
       player_loc = player.location
-      messages = [Message.new('> Error, command not recognized.', 'red'), Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
+      messages = [Message.new('> Error, command not recognized.', 'red'),
+                  Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
       $message_log.show_msgs(messages)
     end
 
@@ -43,25 +70,6 @@ class MapMovement
     player_loc
   end
 
-  def move
-    case map.current_map[new_player_loc[0]][new_player_loc[1]]
-    when '.'
-      land_on_open_space
-    when 'c'
-      land_on_chest
-    when '$'
-      land_on_money
-    when 'm'
-      land_on_mob
-    when 'x'
-      land_on_wall
-    else
-      # exception
-    end
-
-    player.find_location(map.current_map)
-  end
-
   def land_on_open_space
     move_player(new_player_loc, player.location)
   end
@@ -81,18 +89,16 @@ class MapMovement
   end
 
   def land_on_mob
-    messages = [Message.new('> A mob appears! Kill it!', 'yellow'), Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
+    messages = [Message.new('> A mob appears! Kill it!', 'yellow'),
+                Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
     $message_log.show_msgs(messages)
-    player.engage_mob(map, new_player_loc)
+
+    battle = Battle.new(self)
+    battle.engage
   end
 
   def land_on_wall
     messages = [Message.new('> Can\'t move to spaces with \'x\'', 'red')]
     $message_log.show_msgs(messages)
-  end
-
-  def move_player(new_player_loc, old_player_loc)
-    map.current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
-    map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
   end
 end

@@ -101,21 +101,6 @@ class Player
     end
   end
 
-  def find_new_loc(user_input)
-    case user_input
-    when 'w' # move up 1
-      new_player_loc = [location[0] - 1, location[1]]
-    when 'a' # move left 1
-      new_player_loc = [location[0], location[1] - 1]
-    when 's' # move down 1
-      new_player_loc = [location[0] + 1, location[1]]
-    when 'd' # move right 1
-      new_player_loc = [location[0], location[1] + 1]
-    end
-
-    new_player_loc
-  end
-
   # refresh stats after changing equipped items
   def update_stats # NEEDS REFACTOR
     armor = 0

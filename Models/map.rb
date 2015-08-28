@@ -79,10 +79,4 @@ class Map
 
     self.mobs
   end
-
-  def move_player(new_player_loc, old_player_loc)
-    current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
-    current_map[old_player_loc[0]][old_player_loc[1]] = '.'
-  end
-
 end

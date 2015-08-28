@@ -15,7 +15,7 @@ class MapMovement
 
   def find_new_player_loc(movement_input)
     if %w(w a s d).include?(movement_input)
-      player_loc = player.find_new_loc(movement_input)
+      player_loc = new_player_location(movement_input)
     elsif movement_input == 'c'
       player.location = []
       player_loc = player.location
@@ -23,6 +23,21 @@ class MapMovement
       player_loc = player.location
       messages = [Message.new('> Error, command not recognized.', 'red'), Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
       $message_log.show_msgs(messages)
+    end
+
+    player_loc
+  end
+
+  def new_player_location(user_input)
+    case user_input
+    when 'w' # move up 1
+      player_loc = [player.location[0] - 1, player.location[1]]
+    when 'a' # move left 1
+      player_loc = [player.location[0], player.location[1] - 1]
+    when 's' # move down 1
+      player_loc = [player.location[0] + 1, player.location[1]]
+    when 'd' # move right 1
+      player_loc = [player.location[0], player.location[1] + 1]
     end
 
     player_loc
@@ -48,19 +63,19 @@ class MapMovement
   end
 
   def land_on_open_space
-    map.move_player(new_player_loc, player.location)
+    move_player(new_player_loc, player.location)
   end
 
   def land_on_chest
     player.inventory.add_items(map.level)
-    map.move_player(new_player_loc, player.location)
+    move_player(new_player_loc, player.location)
     messages = [Message.new('> Picked up items from a chest.', 'green')]
     $message_log.show_msgs(messages)
   end
 
   def land_on_money
     player.inventory.add_money(10)
-    map.move_player(new_player_loc, player.location)
+    move_player(new_player_loc, player.location)
     messages = [Message.new('> Picked up some money.', 'green')]
     $message_log.show_msgs(messages)
   end
@@ -76,4 +91,8 @@ class MapMovement
     $message_log.show_msgs(messages)
   end
 
+  def move_player(new_player_loc, old_player_loc)
+    map.current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
+    map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
+  end
 end

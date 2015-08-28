@@ -51,16 +51,7 @@ class Game
     puts '<< hero class info goes here >>'
   end
 
-  #
-  ## INSTANCE METHODS
-  #
-
-  def initialize
-    @id     = object_id
-    @player = nil
-  end
-
-  def prompt_player_name
+  def self.prompt_player_name
     puts "\nA new adventure begins... what's your character's name?"
     print '-->'
 
@@ -76,7 +67,7 @@ class Game
     name
   end
 
-  def prompt_player_species
+  def self.prompt_player_species
     puts "Next choose a species, each with their own unique benefits. (Ex: Human)"
     Game.species_info
     print '-->'
@@ -92,7 +83,7 @@ class Game
     species
   end
 
-  def prompt_player_type
+  def self.prompt_player_type
     puts "\nNext choose a class, each a different playstyle. (Ex: Warrior)"
     Game.type_info
     print '-->'
@@ -108,7 +99,7 @@ class Game
     player_type
   end
 
-  def prompt_player_pass
+  def self.prompt_player_pass
     puts "\nAnd finally, enter a password so you can load your game."
     print '-->'
 
@@ -123,15 +114,12 @@ class Game
     password
   end
 
-  def new_player
-    name = prompt_player_name
-    species = prompt_player_species
-    player_type = prompt_player_type
-    password = prompt_player_pass
+  #
+  ## INSTANCE METHODS
+  #
 
-    player = Player.new(name: name, species: species, type: player_type, password: password)
-
-    player.save
-    player
+  def initialize
+    @id     = object_id
+    @player = nil
   end
 end

@@ -8,6 +8,19 @@ class Player
   ## CLASS METHODS
   #
 
+  def self.prompt_and_create
+    name = Game.prompt_player_name
+    species = Game.prompt_player_species
+    player_type = Game.prompt_player_type
+    password = Game.prompt_player_pass
+
+    player = Player.new(name: name, species: species, type: player_type, password: password)
+
+    player.save
+    player
+  end
+
+
   def self.load
     puts "\nEnter username:password (Ex: ghostpineapple:SA32es!sx)"
     print '-->'

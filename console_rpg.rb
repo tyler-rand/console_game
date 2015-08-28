@@ -36,7 +36,7 @@ loop do
   ## NEW PLAYER
   #
   if user_initialize_input == 'NEW'
-    @player = @game.new_player
+    @player = Player.prompt_and_create
 
   #
   ## LOAD PLAYER

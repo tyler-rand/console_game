@@ -74,7 +74,7 @@ screen = CursesScreen.new
 
 begin
   loop do
-    @main_win.refresh_display(@player.name)
+    @main_win.refresh_display(title: @player.name)
     @right_win.build_display(@player)
 
     # main menu, query user for input
@@ -89,7 +89,7 @@ begin
     #
     if user_menu_input == 'MAP'
       # list maps
-      @main_win.refresh_display(@player.name) { Map.list_all(@main_win) }
+      @main_win.refresh_display(title: @player.name) { Map.list_all(@main_win) }
 
       # query user for map name to load, append it to last msg in log
       messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
@@ -120,7 +120,7 @@ begin
     ## MENU > BAG
     #
     elsif user_menu_input == 'BAG'
-      @main_win.refresh_display(@player.name) { @player.inventory.list(@main_win) }
+      @main_win.refresh_display(title: @player.name) { @player.inventory.list(@main_win) }
 
       messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
       $message_log.show_msgs(messages)

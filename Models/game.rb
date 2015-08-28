@@ -1,6 +1,6 @@
 # game
 class Game
-  attr_accessor :id, :state, :player
+  attr_accessor :id, :player
 
   #
   ## CLASS METHODS
@@ -57,15 +57,13 @@ class Game
 
   def initialize
     @id     = object_id
-    @state  = 0
     @player = nil
   end
 
-  def new_player
+  def prompt_player_name
     puts "\nA new adventure begins... what's your character's name?"
     print '-->'
 
-    # name player
     name = gets.chomp.capitalize
     loop do
       break if name != ''
@@ -73,12 +71,16 @@ class Game
       print '-->'
       name = gets.chomp.capitalize
     end
+    puts "\n#{name} it is!"
 
-    puts "\n#{name} it is! Next choose a species, each with their own unique benefits. (Ex: Human)"
+    name
+  end
+
+  def prompt_player_species
+    puts "Next choose a species, each with their own unique benefits. (Ex: Human)"
     Game.species_info
     print '-->'
 
-    # choose species
     species = gets.chomp.capitalize
     loop do
       break if species != ''
@@ -87,11 +89,14 @@ class Game
       species = gets.chomp.capitalize
     end
 
+    species
+  end
+
+  def prompt_player_type
     puts "\nNext choose a class, each a different playstyle. (Ex: Warrior)"
     Game.type_info
     print '-->'
 
-    # choose type
     player_type = gets.chomp.capitalize
     loop do
       break if player_type != ''
@@ -100,10 +105,13 @@ class Game
       player_type = gets.chomp.capitalize
     end
 
+    player_type
+  end
+
+  def prompt_player_pass
     puts "\nAnd finally, enter a password so you can load your game."
     print '-->'
 
-    # create password
     password = gets.chomp
     loop do
       break if password != ''
@@ -111,6 +119,15 @@ class Game
       print '-->'
       password = gets.chomp
     end
+
+    password
+  end
+
+  def new_player
+    name = prompt_player_name
+    species = prompt_player_species
+    player_type = prompt_player_type
+    password = prompt_player_pass
 
     player = Player.new(name: name, species: species, type: player_type, password: password)
 

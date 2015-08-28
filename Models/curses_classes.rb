@@ -36,10 +36,10 @@ class MainWindow
     @win.refresh
   end
 
-  def refresh_display(player_name)
+  def refresh_display(title:)
     win.clear
     yield if block_given?
-    box_with_player_name(player_name)
+    box_with_title(title)
     win.refresh
   end
 
@@ -68,10 +68,10 @@ class MainWindow
     end
   end
 
-  def box_with_player_name(name)
+  def box_with_title(title)
     win.box('|', '-')
-    win.setpos(0, 29 - name.length / 2)
-    win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{name}") }
+    win.setpos(0, 29 - title.length / 2)
+    win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{title}") }
   end
 
   def getch_no_echo

@@ -23,6 +23,16 @@ class InventoryInteractor
     $message_log.show_msgs(messages)
   end
 
+  def equip_is_confirmed?
+    unless equipped_item.nil?
+      prompt_equipment_replace
+      return confirm_equip?
+    end
+    true
+  end
+
+  private
+
   def command_equip(item_num)
     equipped.send("#{item.type}=", item)
     player.update_stats
@@ -46,14 +56,6 @@ class InventoryInteractor
     messages << Message.new('--> ', 'normal')
 
     $message_log.show_msgs(messages)
-  end
-
-  def equip_is_confirmed?
-    unless equipped_item.nil?
-      prompt_equipment_replace
-      return confirm_equip?
-    end
-    true
   end
 
   def confirm_equip?

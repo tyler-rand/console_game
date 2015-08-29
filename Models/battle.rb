@@ -43,17 +43,6 @@ class Battle
     map.mobs.find { |m| m.location == location }
   end
 
-  def killed_mob
-    map_movement.move_player(mob.location, player.location)
-
-    player.find_location(map.current_map)
-    player.update_exp(mob.level)
-
-    messages = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
-    self.state = 1
-    messages
-  end
-
   def initiate_attack
     mob.health -= player.damage
     messages = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
@@ -66,6 +55,17 @@ class Battle
       mob_attack.each { |result_msg| messages << result_msg }
     end
 
+    messages
+  end
+
+  def killed_mob
+    map_movement.move_player(mob.location, player.location)
+
+    player.location = mob.location
+    player.update_exp(mob.level)
+
+    messages = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
+    self.state = 1
     messages
   end
 

@@ -125,6 +125,8 @@ class Player
     reset_max_exp
   end
 
+  private
+
   def reset_current_exp
     self.current_exp = current_exp - max_exp
   end

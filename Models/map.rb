@@ -61,6 +61,8 @@ class Map
     File.open('MapsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
+  private
+
   def load_current_map
     self.current_map = YAML.load(File.open(file)).split
   end

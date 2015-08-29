@@ -19,15 +19,17 @@ class MessageLog
     $message_win.display_messages(self)
   end
 
+  def append(input) # appends input to last line already displayed
+    log[-1][0] += input
+  end
+
+  private
+
   def add_msgs(messages)
     messages.each { |msg| log << [msg.text, msg.color, log.length] }
   end
 
   def scroll(num)
     self.display_range = display_range.map { |x| x + num }
-  end
-
-  def append(input) # appends input to last line already displayed
-    log[-1][0] += input
   end
 end

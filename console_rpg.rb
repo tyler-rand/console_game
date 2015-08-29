@@ -23,11 +23,9 @@ end
 
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
-# Game initialized, no player created/loaded
-@game = Game.new
-
 loop do
-  puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress, or #{'RULES'.colorize(93)} to learn how to play."
+  puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress"\
+       " or #{'RULES'.colorize(93)} to learn how to play."
   print '-->'
 
   user_initialize_input = gets.chomp.upcase
@@ -122,7 +120,8 @@ begin
     elsif user_menu_input == 'BAG'
       @main_win.refresh_display(title: @player.name) { @player.inventory.list(@main_win) }
 
-      messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'), Message.new('--> ', 'normal')]
+      messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'),
+                  Message.new('--> ', 'normal')]
       $message_log.show_msgs(messages)
 
       user_bag_input = $message_win.win.getstr.split

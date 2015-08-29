@@ -113,13 +113,4 @@ class Game
 
     password
   end
-
-  #
-  ## INSTANCE METHODS
-  #
-
-  def initialize
-    @id     = object_id
-    @player = nil
-  end
 end

@@ -25,7 +25,7 @@ describe Player do
     exp    = player.current_exp
     n      = [*1..5].sample
 
-    player.update_exp(n)
+    player.add_exp(n)
 
     new_exp = player.current_exp
 

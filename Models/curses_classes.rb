@@ -78,11 +78,11 @@ class MainWindow
     Curses.noecho
     Curses.curs_set(0)
     win.setpos(24, 2)
-    movement_input = win.getch
+    input = win.getch
     Curses.curs_set(1)
     Curses.echo
 
-    movement_input
+    input
   end
 end
 

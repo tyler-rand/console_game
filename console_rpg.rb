@@ -86,70 +86,31 @@ begin
     ## MENU > MAP
     #
     if user_menu_input == 'MAP'
-      # list maps
-      @main_win.refresh_display(title: @player.name) { Map.list_all(@main_win) }
-
-      # query user for map name to load, append it to last msg in log
-      messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages)
-      map_name_input = $message_win.win.getstr.titleize
-      $message_log.append(map_name_input)
-
-      # check map name and build map
-      map_name = Map.verify_name(map_name_input)
-      @map = Map.load(map_name)
-      @main_win.build_map(@map)
-      @player.find_location(@map.current_map)
-
-      messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
-      $message_log.show_msgs(messages)
-
-      # get input and move player loop
-      loop do
-        movement_input = @main_win.getch_no_echo
-        map_movement = MapMovement.new(@map, @player, movement_input)
-        break if @player.location == []
-        map_movement.move
-        @right_win.build_display(@player)
-        @main_win.display_colored_map(@map)
-      end
+      map_menu
 
     #
     ## MENU > BAG
     #
     elsif user_menu_input == 'BAG'
-      @main_win.refresh_display(title: @player.name) { @player.inventory.list(@main_win) }
-
-      messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'),
-                  Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages)
-
-      user_bag_input = $message_win.win.getstr.split
-      $message_log.append(user_bag_input.join(' '))
-
-      command  = user_bag_input[0].downcase
-      item_num = user_bag_input[1].to_i
-
-      interaction = InventoryInteractor.new(@player, command, item_num)
-      interaction.execute if (command == 'equip' && interaction.equip_is_confirmed?) || command != 'equip'
+      bag_menu
 
     #
     ## MENU > EQUIPPED
     #
     elsif user_menu_input == 'EQUIPPED'
-      @player.equipped.list(@main_win)
+      equipped_menu
 
     #
     ## MENU > STATS
     #
     elsif user_menu_input == 'STATS'
-      # @player.show_stats
+      stats_menu
 
     #
     ## MENU > SKILLS
     #
     elsif user_menu_input == 'SKILLS'
-      @player.show_skills
+      skills_menu
 
     # Menu input error
     else

@@ -99,22 +99,13 @@ class Player
     end
   end
 
-  # refresh stats after changing equipped items
-  def update_stats # NEEDS REFACTOR
-    armor = 0
-    armor += equipped.chest.attributes[:armor] unless equipped.chest.nil?
-    armor += equipped.pants.attributes[:armor] unless equipped.pants.nil?
-    armor += equipped.helm.attributes[:armor] unless equipped.helm.nil?
-    armor += equipped.gloves.attributes[:armor] unless equipped.gloves.nil?
-    armor += equipped.boots.attributes[:armor] unless equipped.boots.nil?
-    self.armor = armor
-    self.damage = (equipped.weapon.attributes[:damage] * equipped.weapon.attributes[:speed]).round(1) unless equipped.weapon.nil?
-    puts "armor:#{self.armor}, dmg:#{damage}"
+  def update_stats
+    calc_armor
+    calc_damage
     save
   end
 
-  # add to exp after a mob kill or quest completion
-  def update_exp(exp)
+  def add_exp(exp)
     self.current_exp += exp
     level_up if current_exp >= max_exp
   end
@@ -126,6 +117,20 @@ class Player
   end
 
   private
+
+  def calc_armor
+    armor = 0
+    armor += equipped.chest.attributes[:armor] unless equipped.chest.nil?
+    armor += equipped.pants.attributes[:armor] unless equipped.pants.nil?
+    armor += equipped.helm.attributes[:armor] unless equipped.helm.nil?
+    armor += equipped.gloves.attributes[:armor] unless equipped.gloves.nil?
+    armor += equipped.boots.attributes[:armor] unless equipped.boots.nil?
+    self.armor = armor
+  end
+
+  def calc_damage
+    self.damage = (equipped.weapon.attributes[:damage] * equipped.weapon.attributes[:speed]).round(1) unless equipped.weapon.nil?
+  end
 
   def reset_current_exp
     self.current_exp = current_exp - max_exp

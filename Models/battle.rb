@@ -62,7 +62,7 @@ class Battle
     map_movement.move_player(mob.location, player.location)
 
     player.location = mob.location
-    player.update_exp(mob.level)
+    player.add_exp(mob.level)
 
     messages = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
     self.state = 1

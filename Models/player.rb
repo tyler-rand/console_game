@@ -137,7 +137,11 @@ class Player
   end
 
   def reset_max_exp
-    self.max_exp = level_exp(level)
+    self.max_exp = level_exp[level]
+  end
+
+  def level_exp
+    level_exp = {1 => 10, 2 => 20, 3 => 30, 4 => 40, 5 => 50}
   end
 
   def show_skills

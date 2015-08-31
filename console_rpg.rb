@@ -6,17 +6,6 @@ require 'YAML'
 Dir[File.join(__dir__, 'Models', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'Helpers', '*.rb')].each { |file| require file }
 
-class String
-  # Output colors
-  def colorize(color_code)
-    "\e[#{color_code}m#{self}\e[0m"
-  end
-
-  def titleize
-    gsub(/\b./, &:upcase)
-  end
-end
-
 ################
 ### RUN GAME ###
 ################
@@ -75,12 +64,7 @@ begin
     @main_win.refresh_display(title: @player.name)
     @right_win.build_display(@player)
 
-    # main menu, query user for input
-    messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
-    $message_log.show_msgs(messages)
-
-    user_menu_input = $message_win.win.getstr.upcase
-    $message_log.append(user_menu_input)
+    user_menu_input = main_menu_query
 
     #
     ## MENU > MAP

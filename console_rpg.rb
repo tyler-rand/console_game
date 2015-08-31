@@ -19,27 +19,19 @@ loop do
 
   user_initialize_input = gets.chomp.upcase
 
-  #
   ## NEW PLAYER
-  #
   if user_initialize_input == 'NEW'
     @player = Player.prompt_and_create
 
-  #
   ## LOAD PLAYER
-  #
   elsif user_initialize_input == 'LOAD'
     @player = Player.load
 
-  #
   ## RULES
-  #
   elsif user_initialize_input == 'RULES'
     Game.show_rules
 
-  #
   ## ADMIN
-  #
   elsif user_initialize_input == 'ADMIN77'
     Game.admin_menu
 
@@ -66,33 +58,23 @@ begin
 
     user_menu_input = main_menu_query
 
-    #
     ## MENU > MAP
-    #
     if user_menu_input == 'MAP'
       map_menu
 
-    #
     ## MENU > BAG
-    #
     elsif user_menu_input == 'BAG'
       bag_menu
 
-    #
     ## MENU > EQUIPPED
-    #
     elsif user_menu_input == 'EQUIPPED'
       equipped_menu
 
-    #
     ## MENU > STATS
-    #
     elsif user_menu_input == 'STATS'
       stats_menu
 
-    #
     ## MENU > SKILLS
-    #
     elsif user_menu_input == 'SKILLS'
       skills_menu
 

@@ -36,12 +36,18 @@ class Map
   def self.verify_name(map_name)
     loop do
       return map_name if Map.names_ary.include?(map_name)
-      messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
-      $message_log.show_msgs(messages)
-
-      map_name = $message_win.win.getstr.titleize
-      $message_log.append(map_name)
+      map_name = self.error_prompt_map_name
     end
+  end
+
+  def self.error_prompt_map_name
+    messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
+    $message_log.show_msgs(messages)
+
+    map_name = $message_win.win.getstr.titleize
+    $message_log.append(map_name)
+
+    map_name
   end
 
   #
@@ -68,17 +74,17 @@ class Map
   end
 
   def load_mobs
+    mobs = []
+    mob_positions.each { |pos| mobs << Mob.roll_new(self, pos) }
+    self.mobs = mobs
+  end
+
+  def mob_positions
     mob_positions = []
-    mobs          = []
 
     current_map.each do |line|
       line_num = current_map.index(line)
       line.split('').each_with_index.select { |c| mob_positions << [line_num, c[1]] if c[0] == 'm' }
     end
-
-    mob_positions.each { |pos| mobs << Mob.roll_new(self, pos) }
-    self.mobs = mobs
-
-    self.mobs
   end
 end

@@ -7,8 +7,6 @@ describe Map do
 
   it 'should load mobs ary for map' do
     map = build(:map)
-    map.load_current_map
-    map.load_mobs
 
     expect(map.mobs.first[1].class).to eql(Mob)
   end

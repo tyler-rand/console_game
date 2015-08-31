@@ -56,6 +56,8 @@ class MapMovement
   end
 
   def new_player_location(user_input)
+    return player.location if player.location == []
+
     case user_input
     when 'w' # move up 1
       player_loc = [player.location[0] - 1, player.location[1]]

@@ -3,7 +3,7 @@ class Battle
   attr_accessor :id, :state, :map_movement, :map, :player, :location, :mob
 
   #
-  ## CLASS METHODS
+  ## INSTANCE METHODS
   #
 
   def initialize(map_movement)
@@ -73,12 +73,8 @@ class Battle
     player.health -= mob.damage
     messages = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
 
-    # Mob kills player
     if player.health <= 0 && mob.health > 0
-      messages << Message.new('> You died.', 'red')
-      self.state = 1
-      player.health = 0
-    # player survives, next turn
+      messages << mob_kills_player
     else
       messages << Message.new('> ATTACK | BAG | RUN', 'yellow') << Message.new('--> ', 'normal')
     end
@@ -94,6 +90,16 @@ class Battle
       messages = [Message.new('> Couldn\'t escape!', 'red')]
       mob_attack.each { |result_msg| messages << result_msg }
     end
+
+    messages
+  end
+
+  def mob_kills_player
+    messages      = Message.new('> You died.', 'red')
+    self.state    = 1
+    player.health = 0
+    map.current_map[player.location[0]][player.location[1]] = '.'
+    player.location = []
 
     messages
   end

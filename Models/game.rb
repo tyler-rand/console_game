@@ -18,18 +18,6 @@ class Game
 
       new_map = Map.new(name: name, level: level, file: "maps/#{file}.txt")
       new_map.save
-
-    elsif user_input[0, 1] == %w(NEW ITEM)
-      name           = user_input[2]
-      type           = user_input[3]
-      attributes_ary = user_input.shift(4)
-
-      attr_names     = attributes_ary.select.each_with_index { |_, i| i.even? }
-      attr_values    = attributes_ary.select.each_with_index { |_, i| i.odd? }
-      attributes     = Hash[attr_names.zip(attr_values)]
-
-      item           = Item.new(name, type, *attributes)
-      item.save
     end
   end
 
@@ -68,7 +56,7 @@ class Game
   end
 
   def self.prompt_player_species
-    puts "Next choose a species, each with their own unique benefits. (Ex: Human)"
+    puts 'Next choose a species, each with their own unique benefits. (Ex: Human)'
     Game.species_info
     print '-->'
 

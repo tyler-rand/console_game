@@ -41,7 +41,7 @@ class MessageWindow
   end
 
   def message_color
-    colors = {
+    {
       'normal' => Curses::A_NORMAL, 'green' => Curses::COLOR_GREEN, 'red' => Curses::COLOR_RED,
       'yellow' => Curses::COLOR_YELLOW
     }

@@ -41,8 +41,8 @@ class Map
   end
 
   def self.error_prompt_map_name
-    messages = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
-    $message_win.display_messages(messages)
+    msgs = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
+    $message_win.display_messages(msgs)
 
     map_name = $message_win.win.getstr.titleize
     $message_win.message_log.append(map_name)

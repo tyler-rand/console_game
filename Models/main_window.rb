@@ -68,5 +68,4 @@ class MainWindow
       'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL
     }
   end
-
 end

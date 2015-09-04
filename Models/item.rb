@@ -7,7 +7,8 @@ class Item
   #
 
   def self.roll_new(ilvl)
-    q = { 'Shitty' => 0.2, 'Normal' => 0.5, 'Magic' => 0.3, 'Rare' => 0.1, 'Unique' => 0.05, 'Legendary' => 0.01 }
+    q = { 'Shitty' => 0.2, 'Normal' => 0.5, 'Magic' => 0.3, 'Rare' => 0.1, 'Unique' => 0.05,
+          'Legendary' => 0.01 }
     qcc = 0
     q.each { |e, w| q[e] = qcc += w }
 

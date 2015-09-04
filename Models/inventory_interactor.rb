@@ -18,12 +18,12 @@ class InventoryInteractor
 
   def execute
     method_name = "command_#{command}".to_sym
-    messages = send(method_name, item_num)
+    msgs = send(method_name, item_num)
     inventory.refresh_indexes
-    $message_win.display_messages(messages)
+    $message_win.display_messages(msgs)
   end
 
-  def equip_is_confirmed?
+  def equip_confirmed?
     unless equipped_item.nil?
       prompt_equipment_replace
       return confirm_equip?
@@ -36,26 +36,28 @@ class InventoryInteractor
   def command_equip(item_num)
     equipped.send("#{item.type}=", item)
     player.update_stats
-    messages = command_drop(item_num)
-    messages << Message.new("> #{item.name} equipped.", 'green')
-    messages
+    msgs = command_drop(item_num)
+    msgs << Message.new("> #{item.name} equipped.", 'green')
+    msgs
   end
 
   def command_drop(item_num)
     inventory.items.slice!(item_num - 1)
-    messages = [Message.new("> #{item.name} removed from bag", 'green')]
-    messages
+    msgs = [Message.new("> #{item.name} removed from bag", 'green')]
+    msgs
   end
 
   def prompt_equipment_replace
     if equipped_item.type == 'weapon'
-      messages = [Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow')]
+      msgs = [Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, "\
+                          "speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow')]
     else
-      messages = [Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})? [Y/N]", 'yellow')]
+      msgs = [Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?"\
+                          " [Y/N]", 'yellow')]
     end
-    messages << Message.new('--> ', 'normal')
+    msgs << Message.new('--> ', 'normal')
 
-    $message_win.display_messages(messages)
+    $message_win.display_messages(msgs)
   end
 
   def confirm_equip?
@@ -67,12 +69,12 @@ class InventoryInteractor
         inventory.items << equipped_item
         return true
       elsif user_input == 'N'
-        messages = [Message.new('> You got it boss.', 'green')]
-        $message_win.display_messages(messages)
+        msgs = [Message.new('> You got it boss.', 'green')]
+        $message_win.display_messages(msgs)
         return false
       else
-        messages = [Message.new('> Must enter \'Y\' or \'N\'', 'red'), Message.new('--> ', 'normal')]
-        $message_win.display_messages(messages)
+        msgs = [Message.new('> Must enter \'Y\' or \'N\'', 'red'), Message.new('--> ', 'normal')]
+        $message_win.display_messages(msgs)
       end
     end
   end

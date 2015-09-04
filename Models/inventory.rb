@@ -21,7 +21,8 @@ class Inventory
     items.map do |item, i|
       if item.type == 'weapon'
         window.win.setpos(i + 3, 2)
-        window.win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.attributes[:damage]}, speed: #{item.attributes[:speed]}")
+        window.win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.attributes[:damage]},"\
+                          " speed: #{item.attributes[:speed]}")
       else
         window.win.setpos(i + 3, 2)
         window.win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.attributes[:armor]}")

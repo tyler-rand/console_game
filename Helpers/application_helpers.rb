@@ -3,8 +3,9 @@
 ##################################################
 
 def main_menu_query
-  messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'),
+          Message.new('--> ', 'normal')]
+  $message_win.display_messages(msgs)
 
   input = $message_win.win.getstr.upcase
   $message_win.message_log.append(input)
@@ -31,31 +32,34 @@ def bag_menu
   item_num       = user_bag_input[1].to_i
 
   interaction = InventoryInteractor.new(@player, command, item_num)
-  interaction.execute if (command == 'equip' && interaction.equip_is_confirmed?) || command != 'equip'
+  interaction.execute if (command == 'equip' && interaction.equip_confirmed?) || command != 'equip'
 end
 
 def equipped_menu
   @player.equipped.list(@main_win)
-  messages = [Message.new('> Press any key to continue.', 'yellow')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new('> Press any key to continue.', 'yellow')]
+  $message_win.display_messages(msgs)
   @main_win.getch_no_echo
 end
 
 def stats_menu
-  messages = [Message.new('> In progress...', 'yellow'), Message.new('> Press any key to continue.', 'yellow')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new('> In progress...', 'yellow'),
+          Message.new('> Press any key to continue.', 'yellow')]
+  $message_win.display_messages(msgs)
   @main_win.getch_no_echo
 end
 
 def skills_menu
-  messages = [Message.new('> In progress...', 'yellow'), Message.new('> Press any key to continue.', 'yellow')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new('> In progress...', 'yellow'),
+          Message.new('> Press any key to continue.', 'yellow')]
+  $message_win.display_messages(msgs)
   @main_win.getch_no_echo
 end
 
 def prompt_map_name_to_load
-  messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new('> Enter a map name to load', 'yellow'),
+          Message.new('--> ', 'normal')]
+  $message_win.display_messages(msgs)
   map_name_input = $message_win.win.getstr.titleize
   $message_win.message_log.append(map_name_input)
 
@@ -68,8 +72,8 @@ def display_map(map_input)
   @main_win.build_map(@map)
   @player.find_location(@map.current_map)
 
-  messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
+  $message_win.display_messages(msgs)
 end
 
 def move_player_loop
@@ -84,9 +88,9 @@ def move_player_loop
 end
 
 def prompt_bag_command
-  messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'),
-              Message.new('--> ', 'normal')]
-  $message_win.display_messages(messages)
+  msgs = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'),
+          Message.new('--> ', 'normal')]
+  $message_win.display_messages(msgs)
   user_bag_input = $message_win.win.getstr.split
   $message_win.message_log.append(user_bag_input.join(' '))
 

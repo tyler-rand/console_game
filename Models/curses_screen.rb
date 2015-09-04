@@ -1,6 +1,6 @@
-# curses screen
 require 'curses'
 
+# curses screen class that initializes the three visible windows
 class CursesScreen
   def initialize
     Curses.init_screen

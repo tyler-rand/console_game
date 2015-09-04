@@ -143,7 +143,4 @@ class Player
   def level_exp
     { 1 => 10, 2 => 20, 3 => 30, 4 => 40, 5 => 50 }
   end
-
-  def show_skills
-  end
 end

@@ -79,8 +79,8 @@ begin
 
     # Menu input error
     else
-      messages = [Message.new('> Error, command not recognized.', 'red')]
-      $message_win.display_messages(messages)
+      msgs = [Message.new('> Error, command not recognized.', 'red')]
+      $message_win.display_messages(msgs)
     end
   end
 ensure

@@ -47,9 +47,9 @@ class MapMovement
       player_loc = player.location
     else
       player_loc = player.location
-      messages = [Message.new('> Error, command not recognized.', 'red'),
-                  Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
-      $message_win.display_messages(messages)
+      msgs = [Message.new('> Error, command not recognized.', 'red'),
+              Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
+      $message_win.display_messages(msgs)
     end
 
     player_loc
@@ -79,28 +79,28 @@ class MapMovement
   def land_on_chest
     player.inventory.add_items(map.level)
     move_player(new_player_loc, player.location)
-    messages = [Message.new('> Picked up items from a chest.', 'green')]
-    $message_win.display_messages(messages)
+    msgs = [Message.new('> Picked up items from a chest.', 'green')]
+    $message_win.display_messages(msgs)
   end
 
   def land_on_money
     player.inventory.add_money(10)
     move_player(new_player_loc, player.location)
-    messages = [Message.new('> Picked up some money.', 'green')]
-    $message_win.display_messages(messages)
+    msgs = [Message.new('> Picked up some money.', 'green')]
+    $message_win.display_messages(msgs)
   end
 
   def land_on_mob
-    messages = [Message.new('> A mob appears! Kill it!', 'yellow'),
-                Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
-    $message_win.display_messages(messages)
+    msgs = [Message.new('> A mob appears! Kill it!', 'yellow'),
+            Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
+    $message_win.display_messages(msgs)
 
     battle = Battle.new(self)
     battle.engage
   end
 
   def land_on_wall
-    messages = [Message.new('> Can\'t move to spaces with \'x\'', 'red')]
-    $message_win.display_messages(messages)
+    msgs = [Message.new('> Can\'t move to spaces with \'x\'', 'red')]
+    $message_win.display_messages(msgs)
   end
 end

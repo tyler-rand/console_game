@@ -2,9 +2,10 @@ require 'curses'
 
 # bottom left window, messages
 class MessageWindow
-  attr_accessor :win
+  attr_accessor :win, :message_log
 
   def initialize
+    @message_log = MessageLog.new
     @win = Curses::Window.new(10, 70, 26, 0)
     box_with_title
     @win.refresh
@@ -17,9 +18,11 @@ class MessageWindow
     win.setpos(1, 2)
   end
 
-  def display_messages(log)
+  def display_messages(messages)
+    message_log.add_msgs(messages)
+
     win.clear
-    print_log(log)
+    print_log
     box_with_title
     win.setpos(8, 6)
     win.refresh
@@ -27,7 +30,7 @@ class MessageWindow
 
   private
 
-  def print_log(message_log)
+  def print_log
     line = 1
 
     message_log.display_range.each do |line_number|

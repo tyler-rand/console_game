@@ -47,7 +47,6 @@ end
 ### GAME STARTED/LOADED, MENU SCREEN ###
 ########################################
 
-$message_log = MessageLog.new
 screen = CursesScreen.new
 @main_win, $message_win, @right_win = screen.build_display
 
@@ -81,7 +80,7 @@ begin
     # Menu input error
     else
       messages = [Message.new('> Error, command not recognized.', 'red')]
-      $message_log.show_msgs(messages)
+      $message_win.display_messages(messages)
     end
   end
 ensure

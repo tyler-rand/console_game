@@ -13,10 +13,9 @@ class MessageLog
     @display_range = -1..6
   end
 
-  def show_msgs(messages) # expects array
-    add_msgs(messages)
+  def add_msgs(messages) # expects array
+    messages.each { |msg| log << [msg.text, msg.color, log.length] }
     scroll(messages.length)
-    $message_win.display_messages(self)
   end
 
   def append(input) # appends input to last line already displayed
@@ -24,10 +23,6 @@ class MessageLog
   end
 
   private
-
-  def add_msgs(messages)
-    messages.each { |msg| log << [msg.text, msg.color, log.length] }
-  end
 
   def scroll(num)
     self.display_range = display_range.map { |x| x + num }

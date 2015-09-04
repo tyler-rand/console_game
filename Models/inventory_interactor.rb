@@ -20,7 +20,7 @@ class InventoryInteractor
     method_name = "command_#{command}".to_sym
     messages = send(method_name, item_num)
     inventory.refresh_indexes
-    $message_log.show_msgs(messages)
+    $message_win.display_messages(messages)
   end
 
   def equip_is_confirmed?
@@ -55,24 +55,24 @@ class InventoryInteractor
     end
     messages << Message.new('--> ', 'normal')
 
-    $message_log.show_msgs(messages)
+    $message_win.display_messages(messages)
   end
 
   def confirm_equip?
     loop do
       user_input = $message_win.win.getch.upcase
-      $message_log.append(user_input)
+      $message_win.message_log.append(user_input)
 
       if user_input == 'Y'
         inventory.items << equipped_item
         return true
       elsif user_input == 'N'
         messages = [Message.new('> You got it boss.', 'green')]
-        $message_log.show_msgs(messages)
+        $message_win.display_messages(messages)
         return false
       else
         messages = [Message.new('> Must enter \'Y\' or \'N\'', 'red'), Message.new('--> ', 'normal')]
-        $message_log.show_msgs(messages)
+        $message_win.display_messages(messages)
       end
     end
   end

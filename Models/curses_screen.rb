@@ -2,7 +2,6 @@
 require 'curses'
 
 class CursesScreen
-
   def initialize
     Curses.init_screen
     Curses.crmode

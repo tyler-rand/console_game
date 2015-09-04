@@ -20,7 +20,7 @@ class Battle
     loop do
       break if state == 1
       user_input = $message_win.win.getstr.upcase
-      $message_log.append(user_input)
+      $message_win.message_log.append(user_input)
 
       case user_input
       when 'ATTACK'
@@ -33,7 +33,7 @@ class Battle
                     Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
       end
 
-      $message_log.show_msgs(messages)
+      $message_win.display_messages(messages)
     end
   end
 

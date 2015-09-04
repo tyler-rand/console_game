@@ -4,10 +4,10 @@
 
 def main_menu_query
   messages = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'), Message.new('--> ', 'normal')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
 
   input = $message_win.win.getstr.upcase
-  $message_log.append(input)
+  $message_win.message_log.append(input)
 
   input
 end
@@ -37,27 +37,27 @@ end
 def equipped_menu
   @player.equipped.list(@main_win)
   messages = [Message.new('> Press any key to continue.', 'yellow')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
   @main_win.getch_no_echo
 end
 
 def stats_menu
   messages = [Message.new('> In progress...', 'yellow'), Message.new('> Press any key to continue.', 'yellow')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
   @main_win.getch_no_echo
 end
 
 def skills_menu
   messages = [Message.new('> In progress...', 'yellow'), Message.new('> Press any key to continue.', 'yellow')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
   @main_win.getch_no_echo
 end
 
 def prompt_map_name_to_load
   messages = [Message.new('> Enter a map name to load', 'yellow'), Message.new('--> ', 'normal')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
   map_name_input = $message_win.win.getstr.titleize
-  $message_log.append(map_name_input)
+  $message_win.message_log.append(map_name_input)
 
   map_name_input
 end
@@ -69,7 +69,7 @@ def display_map(map_input)
   @player.find_location(@map.current_map)
 
   messages = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
 end
 
 def move_player_loop
@@ -86,9 +86,9 @@ end
 def prompt_bag_command
   messages = [Message.new('> Enter a command and number seperated by a space (Ex. Equip 2)', 'yellow'),
               Message.new('--> ', 'normal')]
-  $message_log.show_msgs(messages)
+  $message_win.display_messages(messages)
   user_bag_input = $message_win.win.getstr.split
-  $message_log.append(user_bag_input.join(' '))
+  $message_win.message_log.append(user_bag_input.join(' '))
 
   user_bag_input
 end

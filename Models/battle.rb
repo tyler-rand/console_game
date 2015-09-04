@@ -22,16 +22,17 @@ class Battle
       user_input = $message_win.win.getstr.upcase
       $message_win.message_log.append(user_input)
 
-      case user_input
-      when 'ATTACK'
-        msgs = initiate_attack
-      when 'BAG'
-      when 'RUN'
-        msgs = attempt_run
-      else
-        msgs = [Message.new('> Command not recognized, try again', 'red'),
-                Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
-      end
+      msgs = case user_input
+             when 'ATTACK'
+               initiate_attack
+             when 'BAG'
+             when 'RUN'
+               attempt_run
+             else
+               [Message.new('> Command not recognized, try again', 'red'),
+                Message.new('> ATTACK | BAG | RUN', 'yellow'),
+                Message.new('--> ', 'normal')]
+             end
 
       $message_win.display_messages(msgs)
     end

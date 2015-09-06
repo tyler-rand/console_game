@@ -19,22 +19,18 @@ class Battle
   def engage
     loop do
       break if state == 1
-      user_input = $message_win.win.getstr.upcase
-      $message_win.message_log.append(user_input)
 
-      msgs = case user_input
-             when 'ATTACK'
-               initiate_attack
-             when 'BAG'
-             when 'RUN'
-               attempt_run
-             else
-               [Message.new('> Command not recognized, try again', 'red'),
-                Message.new('> ATTACK | BAG | RUN', 'yellow'),
-                Message.new('--> ', 'normal')]
-             end
+      user_input = prompt_battle_input
 
-      $message_win.display_messages(msgs)
+      case user_input
+      when 'ATTACK'
+        initiate_attack
+      when 'BAG'
+      when 'RUN'
+        attempt_run
+      else
+        battle_input_error
+      end
     end
   end
 
@@ -44,64 +40,73 @@ class Battle
     map.mobs.find { |m| m.location == location }
   end
 
+  def prompt_battle_input
+    msgs = [Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
+    $message_win.display_messages(msgs)
+
+    user_input = $message_win.win.getstr.upcase
+    $message_win.message_log.append(user_input)
+
+    user_input
+  end
+
   def initiate_attack
     mob.health -= player.damage
     msgs = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
+    $message_win.display_messages(msgs)
 
-    # Player kills mob
     if mob.health <= 0 && player.health > 0
-      killed_mob.each { |result_msg| msgs << result_msg }
-    # Mob attacks back
+      killed_mob
     else
-      mob_attack.each { |result_msg| msgs << result_msg }
+      mob_attack
     end
-
-    msgs
   end
 
   def killed_mob
-    map_movement.move_player(mob.location, player.location)
+    msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
+    $message_win.display_messages(msgs)
 
-    player.location = mob.location
+    map.remove_mob(location)
+
     player.add_exp(mob.level)
 
-    msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
     self.state = 1
-    msgs
+
+    map_movement.execute
   end
 
   def mob_attack
     player.health -= mob.damage
     msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
+    $message_win.display_messages(msgs)
 
-    if player.health <= 0 && mob.health > 0
-      msgs << mob_kills_player
-    else
-      msgs << Message.new('> ATTACK | BAG | RUN', 'yellow') << Message.new('--> ', 'normal')
-    end
-
-    msgs
-  end
-
-  def attempt_run
-    if [*1..100].sample > 25
-      msgs = [Message.new('> Got away!', 'green')]
-      self.state = 1
-    else
-      msgs = [Message.new('> Couldn\'t escape!', 'red')]
-      mob_attack.each { |result_msg| msgs << result_msg }
-    end
-
-    msgs
+    mob_kills_player if player.health <= 0 && mob.health > 0
   end
 
   def mob_kills_player
-    msgs          = Message.new('> You died.', 'red')
     self.state    = 1
     player.health = 0
     map.current_map[player.location[0]][player.location[1]] = '.'
     player.location = []
 
-    msgs
+    msgs = [Message.new('> You died.', 'red')]
+    $message_win.display_messages(msgs)
+  end
+
+  def attempt_run
+    if [*1..100].sample > 25
+      msgs = [Message.new('> Got away!', 'green')]
+      $message_win.display_messages(msgs)
+      self.state = 1
+    else
+      msgs = [Message.new('> Couldn\'t escape!', 'red')]
+      $message_win.display_messages(msgs)
+      mob_attack
+    end
+  end
+
+  def battle_input_error
+    msgs = [Message.new('Command not recognized, try again.', 'red')]
+    $message_win.display_messages(msgs)
   end
 end

@@ -12,7 +12,7 @@ end
 
 def prompt_user_bag_input
   user_bag_input = prompt_bag_command
-  command        = user_bag_input[0].downcase
+  command        = user_bag_input[0].downcase unless user_bag_input == []
   item_num       = user_bag_input[1].to_i
 
   return command, item_num

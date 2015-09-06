@@ -51,7 +51,7 @@ def move_player_loop
   loop do
     movement_input = @main_win.getch_no_echo
 
-    break if movement_input_exit?(movement_input)
+    break if movement_input_exit?(movement_input) || @player.location == []
 
     move_player(movement_input)
 

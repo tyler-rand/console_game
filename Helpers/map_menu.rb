@@ -3,13 +3,17 @@ def map_menu
   @main_win.refresh_display(title: @player.name) { Map.list_all(@main_win) }
 
   # query user for map name and validate
-  loop do
-    map_name = prompt_map_name_to_load
-    break if map_name_valid?(map_name)
-  end
+  map_name = map_name_query
 
   display_map(map_name)
   move_player_loop
+end
+
+def map_name_query
+  loop do
+    map_name = prompt_map_name_to_load
+    break map_name if map_name_valid?(map_name)
+  end
 end
 
 def prompt_map_name_to_load
@@ -33,7 +37,7 @@ def map_name_valid?(map_name)
   end
 end
 
-def display_map(map_input)
+def display_map(map_name)
   @map = Map.load(map_name)
 
   @main_win.build_map(@map)
@@ -46,12 +50,34 @@ end
 def move_player_loop
   loop do
     movement_input = @main_win.getch_no_echo
-    map_movement = MapMovement.new(@map, @player, movement_input)
 
-    break if @player.location == []
+    break if movement_input_exit?(movement_input)
 
-    map_movement.execute
+    move_player(movement_input)
+
     @right_win.build_display(@player)
     @main_win.display_colored_map(@map)
   end
+end
+
+def move_player(movement_input)
+  if movement_input_valid?(movement_input)
+    map_movement = MapMovement.new(@map, @player, movement_input)
+    map_movement.execute
+  else
+    movement_input_error
+  end
+end
+
+def movement_input_valid?(movement_input)
+  %w(w a s d).include?(movement_input)
+end
+
+def movement_input_exit?(movement_input)
+  movement_input == 'c'
+end
+
+def movement_input_error
+  msgs = [Message.new('> Error, command not recognized.', 'red')]
+  $message_win.display_messages(msgs)
 end

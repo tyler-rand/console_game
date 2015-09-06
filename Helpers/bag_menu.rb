@@ -4,11 +4,10 @@ def bag_menu
   command, item_num = prompt_user_bag_input
 
   if bag_input_validated?(command, item_num)
-    execute_command(@player, command, item_num)
+    execute_command(command, item_num)
   else
     bag_command_error
   end
-
 end
 
 def prompt_user_bag_input
@@ -34,7 +33,7 @@ def bag_input_validated?(command, item_num)
 end
 
 def bag_command_valid?(command)
-  ['equip', 'use', 'inspect', 'drop'].include?(command) ? true : false
+  %w(equip use inspect drop).include?(command) ? true : false
 end
 
 def item_num_valid?(item_num)
@@ -43,10 +42,10 @@ end
 
 def bag_command_error
   msgs = [Message.new('> Bag command error.', 'red')]
-  $message_win.display_messages(msgs)  
+  $message_win.display_messages(msgs)
 end
 
-def execute_command(player, command, item_num)
+def execute_command(command, item_num)
   interaction = InventoryInteractor.new(@player, command, item_num)
   interaction.execute
 end

@@ -25,8 +25,6 @@ class MapMovement
       land_on_mob
     when 'x'
       land_on_wall
-    else
-      # exception
     end
 
     player.find_location(map.current_map)
@@ -45,11 +43,6 @@ class MapMovement
     elsif movement_input == 'c'
       player.location = []
       player_loc = player.location
-    else
-      player_loc = player.location
-      msgs = [Message.new('> Error, command not recognized.', 'red'),
-              Message.new('> \'WASD\' to move, \'C\' to exit', 'yellow')]
-      $message_win.display_messages(msgs)
     end
 
     player_loc

@@ -32,7 +32,7 @@ class Player
   end
 
   def self.verify_credentials(input_name, input_pass)
-    players = YAML.load_stream(open('PlayersDB.yml'))
+    players = YAML.load_stream(open('db/PlayersDB.yml'))
     player  = nil
     message = ''
 
@@ -90,7 +90,7 @@ class Player
   end
 
   def save
-    File.open('PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
+    File.open('db/PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
   def find_location(current_map)

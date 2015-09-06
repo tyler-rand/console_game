@@ -18,9 +18,20 @@ class InventoryInteractor
 
   def execute
     method_name = "command_#{command}".to_sym
-    msgs = send(method_name, item_num)
+    send(method_name, item_num)
     inventory.refresh_indexes
-    $message_win.display_messages(msgs)
+  end
+
+  private
+
+  def command_equip(item_num)
+    if equip_confirmed?
+      equipped.send("#{item.type}=", item)
+      player.update_stats
+      command_drop(item_num)
+      msgs = [Message.new("> #{item.name} equipped.", 'green')]
+      $message_win.display_messages(msgs)
+    end
   end
 
   def equip_confirmed?
@@ -31,20 +42,10 @@ class InventoryInteractor
     true
   end
 
-  private
-
-  def command_equip(item_num)
-    equipped.send("#{item.type}=", item)
-    player.update_stats
-    msgs = command_drop(item_num)
-    msgs << Message.new("> #{item.name} equipped.", 'green')
-    msgs
-  end
-
   def command_drop(item_num)
     inventory.items.slice!(item_num - 1)
     msgs = [Message.new("> #{item.name} removed from bag", 'green')]
-    msgs
+    $message_win.display_messages(msgs)
   end
 
   def prompt_equipment_replace

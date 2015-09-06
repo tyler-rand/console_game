@@ -6,20 +6,20 @@ class Map
   ## CLASS METHODS
   #
 
-  def self.all
-    YAML.load_stream(open('MapsDB.yml'))
+  def self.open_all
+    YAML.load_stream(open('db/MapsDB.yml'))
   end
 
   def self.load(map)
-    map = Map.all.find { |m| m.name == map }
+    map = Map.open_all.find { |m| m.name == map }
   end
 
   def self.names_ary
-    Map.all.map(&:name)
+    Map.open_all.map(&:name)
   end
 
   def self.list_all(window)
-    maps = Map.all
+    maps = Map.open_all
     line = 4
 
     window.win.setpos(2, 2)
@@ -64,7 +64,7 @@ class Map
   end
 
   def save
-    File.open('MapsDB.yml', 'a') { |f| f.write(to_yaml) }
+    File.open('db/MapsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
   private

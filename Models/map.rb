@@ -14,7 +14,7 @@ class Map
     map = Map.open_all.find { |m| m.name == map }
   end
 
-  def self.names_ary
+  def self.names
     Map.open_all.map(&:name)
   end
 
@@ -31,23 +31,6 @@ class Map
       window.win.addstr(map_name)
       line += 1
     end
-  end
-
-  def self.verify_name(map_name)
-    loop do
-      return map_name if Map.names_ary.include?(map_name)
-      map_name = self.error_prompt_map_name
-    end
-  end
-
-  def self.error_prompt_map_name
-    msgs = [Message.new('> Map name error, try again.', 'red'), Message.new('--> ', 'normal')]
-    $message_win.display_messages(msgs)
-
-    map_name = $message_win.win.getstr.titleize
-    $message_win.message_log.append(map_name)
-
-    map_name
   end
 
   #

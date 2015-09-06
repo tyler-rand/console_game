@@ -50,4 +50,3 @@ def execute_command(player, command, item_num)
   interaction = InventoryInteractor.new(@player, command, item_num)
   interaction.execute
 end
-

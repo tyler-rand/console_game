@@ -13,7 +13,7 @@ class MapMovement
     @new_player_loc = find_new_player_loc(movement_input)
   end
 
-  def move
+  def execute
     case map.current_map[new_player_loc[0]][new_player_loc[1]]
     when '.'
       land_on_open_space

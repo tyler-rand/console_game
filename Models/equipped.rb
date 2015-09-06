@@ -21,22 +21,33 @@ class Equipped
   def list(window)
     window.win.setpos(1, 2)
     window.win.addstr("---- #{player.name.upcase}\'S EQUIPPED ITEMS ----")
-    window.win.setpos(2, 2)
-    window.win.addstr('-------------')
     window.win.setpos(3, 3)
-    !weapon.nil? ? window.win.addstr("Weapon: #{weapon.name}, dmg: #{weapon.attributes[:damage]}, speed: #{weapon.attributes[:speed]}") : window.win.addstr('Weapon not equipped')
-    window.win.setpos(4, 3)
-    !chest.nil? ? window.win.addstr("Chest Armor: #{chest.name}, armor: #{chest.attributes[:armor]}") : window.win.addstr('Chest not equipped')
-    window.win.setpos(5, 3)
-    !pants.nil? ? window.win.addstr("Pants: #{pants.name}, armor: #{pants.attributes[:armor]}") : window.win.addstr('Pants not equipped')
-    window.win.setpos(6, 3)
-    !helm.nil? ? window.win.addstr("Helm: #{helm.name}, armor: #{helm.attributes[:armor]}") : window.win.addstr('Helm not equipped')
-    window.win.setpos(7, 3)
-    !gloves.nil? ? window.win.addstr("Gloves: #{gloves.name}, armor: #{gloves.attributes[:armor]}") : window.win.addstr('Gloves not equipped')
-    window.win.setpos(8, 3)
-    !boots.nil? ? window.win.addstr("Boots: #{boots.name}, armor: #{boots.attributes[:armor]}") : window.win.addstr('Boots not equipped')
-    window.win.setpos(9, 3)
-    window.win.addstr('--------------')
+
+    display_equipped(window.win)
+
     window.win.refresh
+  end
+
+  def display_equipped(win)
+    %w(weapon chest pants helm gloves boots).each do |item|
+      display_item(item, win)
+      win.setpos(win.cury + 1, 3)
+    end
+  end
+
+  def display_item(item, win)
+    item_slot = send(item)
+
+    return win.addstr("#{item.capitalize} not equipped.") if item_slot.nil?
+
+    print_item_attr(item_slot, win)
+  end
+
+  def print_item_attr(item, win)
+    if item != weapon
+      win.addstr("#{item.type.capitalize}: #{item.name}, armor: #{item.attributes[:armor]}")
+    else
+      win.addstr("Weapon: #{item.name}, dmg: #{item.attributes[:damage]}, speed: #{item.attributes[:speed]}")
+    end
   end
 end

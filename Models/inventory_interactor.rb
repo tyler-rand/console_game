@@ -25,13 +25,12 @@ class InventoryInteractor
   private
 
   def command_equip(item_num)
-    if equip_confirmed?
-      equipped.send("#{item.type}=", item)
-      player.update_stats
-      command_drop(item_num)
-      msgs = [Message.new("> #{item.name} equipped.", 'green')]
-      $message_win.display_messages(msgs)
-    end
+    return unless equip_confirmed?
+    equipped.send("#{item.type}=", item)
+    player.update_stats
+    command_drop(item_num)
+    msgs = [Message.new("> #{item.name} equipped.", 'green')]
+    $message_win.display_messages(msgs)
   end
 
   def equip_confirmed?
@@ -54,7 +53,7 @@ class InventoryInteractor
                           "speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow')]
     else
       msgs = [Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?"\
-                          " [Y/N]", 'yellow')]
+                          ' [Y/N]', 'yellow')]
     end
     msgs << Message.new('--> ', 'normal')
 

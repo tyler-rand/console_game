@@ -22,15 +22,7 @@ class Battle
 
       user_input = prompt_battle_input
 
-      case user_input
-      when 'ATTACK'
-        initiate_attack
-      when 'BAG'
-      when 'RUN'
-        attempt_run
-      else
-        battle_input_error
-      end
+      choose_turn(user_input)
     end
   end
 
@@ -50,23 +42,35 @@ class Battle
     user_input
   end
 
-  def initiate_attack
+  def choose_turn(turn)
+    case turn
+    when 'ATTACK'
+      attack_turn
+    when 'BAG'
+    when 'RUN'
+      attempt_run
+    else
+      battle_input_error
+    end
+  end
+
+  def attack_turn
+    player_attack
+
+    mob.health <= 0 && player.health > 0 ? killed_mob : mob_attack_turn
+  end
+
+  def player_attack
     mob.health -= player.damage
     msgs = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
     $message_win.display_messages(msgs)
-
-    if mob.health <= 0 && player.health > 0
-      killed_mob
-    else
-      mob_attack
-    end
   end
 
   def killed_mob
     msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
     $message_win.display_messages(msgs)
 
-    map.remove_mob(location)
+    map.remove_at_loc(location)
 
     player.add_exp(mob.level)
 
@@ -75,18 +79,22 @@ class Battle
     map_movement.execute
   end
 
-  def mob_attack
-    player.health -= mob.damage
-    msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
-    $message_win.display_messages(msgs)
+  def mob_attack_turn
+    mob_attack
 
     mob_kills_player if player.health <= 0 && mob.health > 0
   end
 
+  def mob_attack
+    player.health -= mob.damage
+    msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
+    $message_win.display_messages(msgs)
+  end
+
   def mob_kills_player
-    self.state    = 1
-    player.health = 0
-    map.current_map[player.location[0]][player.location[1]] = '.'
+    map.remove_at_loc(player.location)
+    self.state      = 1
+    player.health   = 0
     player.location = []
 
     msgs = [Message.new('> You died.', 'red')]

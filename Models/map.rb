@@ -50,7 +50,7 @@ class Map
     File.open('db/MapsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
-  def remove_mob(location)
+  def remove_at_loc(location)
     current_map[location[0]][location[1]] = '.'
   end
 

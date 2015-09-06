@@ -17,17 +17,8 @@ class Inventory
     window.win.setpos(2, 2)
     window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
     window.win.setpos(3, 2)
-    window.win.addstr('-------------')
-    items.map do |item, i|
-      if item.type == 'weapon'
-        window.win.setpos(i + 3, 2)
-        window.win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.attributes[:damage]},"\
-                          " speed: #{item.attributes[:speed]}")
-      else
-        window.win.setpos(i + 3, 2)
-        window.win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.attributes[:armor]}")
-      end
-    end
+
+    display_bag(window.win)
   end
 
   def add_money(money)
@@ -50,5 +41,23 @@ class Inventory
 
   def refresh_indexes
     self.items = items.map { |item, _| item }.each_with_index.map { |item, i| [item, i + 1] }
+  end
+
+  private
+
+  def display_bag(win)
+    items.each do |item, i|
+      print_item_attr(item, i, win)
+      win.setpos(win.cury + 1, 2)
+    end
+  end
+
+  def print_item_attr(item, i, win)
+    if item.type == 'weapon'
+      win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.attributes[:damage]},"\
+                        " speed: #{item.attributes[:speed]}")
+    else
+      win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.attributes[:armor]}")
+    end
   end
 end

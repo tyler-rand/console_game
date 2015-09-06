@@ -28,6 +28,8 @@ class Equipped
     window.win.refresh
   end
 
+  private
+
   def display_equipped(win)
     %w(weapon chest pants helm gloves boots).each do |item|
       display_item(item, win)

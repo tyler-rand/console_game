@@ -43,13 +43,13 @@ class Game
     puts "\nA new adventure begins... what's your character's name?"
     print '-->'
 
-    name = gets.chomp.capitalize
-    loop do
-      break if name != ''
+    name = loop do
+      name = gets.chomp.capitalize
+      break name unless name == ''
       puts 'You need a name!'
       print '-->'
-      name = gets.chomp.capitalize
     end
+
     puts "\n#{name} it is!"
 
     name
@@ -60,12 +60,11 @@ class Game
     Game.species_info
     print '-->'
 
-    species = gets.chomp.capitalize
-    loop do
-      break if species != ''
+    species = loop do
+      species = gets.chomp.capitalize
+      break species unless species == ''
       puts 'Choose a species!'
       print '-->'
-      species = gets.chomp.capitalize
     end
 
     species
@@ -76,12 +75,11 @@ class Game
     Game.type_info
     print '-->'
 
-    player_type = gets.chomp.capitalize
-    loop do
-      break if player_type != ''
+    player_type = loop do
+      player_type = gets.chomp.capitalize
+      break player_type unless player_type == ''
       puts 'Gotta choose a class!'
       print '-->'
-      player_type = gets.chomp.capitalize
     end
 
     player_type
@@ -91,12 +89,11 @@ class Game
     puts "\nAnd finally, enter a password so you can load your game."
     print '-->'
 
-    password = gets.chomp
-    loop do
-      break if password != ''
+    password = loop do
+      password = gets.chomp
+      break password unless password == ''
       puts 'Password can\'t be blank!'
       print '-->'
-      password = gets.chomp
     end
 
     password

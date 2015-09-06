@@ -39,7 +39,6 @@ class Equipped
     item_slot = send(item)
 
     return win.addstr("#{item.capitalize} not equipped.") if item_slot.nil?
-
     print_item_attr(item_slot, win)
   end
 

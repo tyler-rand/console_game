@@ -4,3 +4,6 @@ Metrics/LineLength:
 GlobalVars:
   AllowedVariables:
     - $message_win
+
+RedundantReturn:
+  AllowMultipleReturnValues: true

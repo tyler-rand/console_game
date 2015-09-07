@@ -10,7 +10,7 @@ describe Player do
     player = build(:player)
     player.save
 
-    loaded = Player.verify_credentials(player.name, player.password)
+    # loaded = Player.verify_credentials(player.name, player.password)
   end
 
   # it 'should load a saved player by id' do

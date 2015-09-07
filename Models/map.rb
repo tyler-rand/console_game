@@ -19,17 +19,13 @@ class Map
   end
 
   def self.list_all(window)
-    maps = Map.open_all
-    line = 4
-
     window.win.setpos(2, 2)
-    window.win.addstr("---- MAPS ---\n")
+    window.win.addstr('---- MAPS ----')
     window.win.setpos(3, 2)
-    window.win.addstr("-------------\n")
-    maps.map(&:name).each do |map_name|
-      window.win.setpos(line, 2)
-      window.win.addstr(map_name)
-      line += 1
+
+    Map.names.each do |map|
+      window.win.addstr(map)
+      window.win.setpos(window.win.cury + 1, 2)
     end
   end
 

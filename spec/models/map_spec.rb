@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Map do
   it 'should build a map factory' do
-    map = build(:map)
+    # map = build(:map)
   end
 
   it 'should load mobs ary for map' do

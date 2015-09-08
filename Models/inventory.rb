@@ -54,10 +54,10 @@ class Inventory
 
   def print_item_attr(item, i, win)
     if item.type == 'weapon'
-      win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.attributes[:damage]},"\
-                        " speed: #{item.attributes[:speed]}")
+      win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.damage},"\
+                        " speed: #{item.speed}")
     else
-      win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.attributes[:armor]}")
+      win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.armor}")
     end
   end
 end

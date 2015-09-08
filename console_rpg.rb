@@ -29,11 +29,11 @@ loop do
 
   ## RULES
   elsif user_initialize_input == 'RULES'
-    Game.show_rules
+    show_rules
 
   ## ADMIN
   elsif user_initialize_input == 'ADMIN77'
-    Game.admin_menu
+    admin_menu
 
   # user input error
   else

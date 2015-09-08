@@ -9,10 +9,10 @@ class Player
   #
 
   def self.prompt_and_create
-    name = Game.prompt_player_name
-    species = Game.prompt_player_species
-    player_type = Game.prompt_player_type
-    password = Game.prompt_player_pass
+    name = prompt_player_name
+    species = prompt_player_species
+    player_type = prompt_player_type
+    password = prompt_player_pass
 
     player = Player.new(name: name, species: species, type: player_type, password: password)
     player.save

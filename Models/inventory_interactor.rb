@@ -62,21 +62,14 @@ class InventoryInteractor
 
   def confirm_equip?
     loop do
-      user_input = $message_win.win.getch
-      user_input.upcase! if equip_input_valid?(user_input)
+      user_input = equip_replace_input
 
       if user_input == 'Y'
-        $message_win.message_log.append(user_input)
-        inventory.items << equipped_item
-        return true
+        return confirm_replace_item(user_input)
       elsif user_input == 'N'
-        $message_win.message_log.append(user_input)
-        msgs = [Message.new('> You got it boss.', 'green')]
-        $message_win.display_messages(msgs)
-        return false
+        return dont_replace_item(user_input)
       else
-        msgs = [Message.new('> Must enter \'Y\' or \'N\'', 'red'), Message.new('--> ', 'normal')]
-        $message_win.display_messages(msgs)
+        equip_confirm_error
       end
     end
   end
@@ -85,7 +78,30 @@ class InventoryInteractor
     player.equipped.send(item.type)
   end
 
+  def equip_replace_input
+    input = $message_win.win.getch
+    input.upcase! if equip_input_valid?(input)
+  end
+
   def equip_input_valid?(input)
     %w(y n).include?(input)
+  end
+
+  def confirm_replace_item(input)
+    $message_win.message_log.append(input)
+    inventory.items << equipped_item
+    true
+  end
+
+  def dont_replace_item(input)
+    $message_win.message_log.append(input)
+    msgs = [Message.new('> You got it boss.', 'green')]
+    $message_win.display_messages(msgs)
+    false
+  end
+
+  def equip_confirm_error
+    msgs = [Message.new('> Must enter \'Y\' or \'N\'', 'red'), Message.new('--> ', 'normal')]
+    $message_win.display_messages(msgs)
   end
 end

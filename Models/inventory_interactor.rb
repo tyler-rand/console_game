@@ -49,10 +49,10 @@ class InventoryInteractor
 
   def prompt_equipment_replace
     if equipped_item.type == 'weapon'
-      msgs = [Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.attributes[:damage]}, "\
-                          "speed: #{equipped_item.attributes[:speed]})? [Y/N]", 'yellow')]
+      msgs = [Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.damage}, "\
+                          "speed: #{equipped_item.speed})? [Y/N]", 'yellow')]
     else
-      msgs = [Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.attributes[:armor]})?"\
+      msgs = [Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.armor})?"\
                           ' [Y/N]', 'yellow')]
     end
     msgs << Message.new('--> ', 'normal')

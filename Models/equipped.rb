@@ -46,9 +46,9 @@ class Equipped
 
   def print_item_attr(item, win)
     if item != weapon
-      win.addstr("#{item.type.capitalize}: #{item.name}, armor: #{item.attributes[:armor]}")
+      win.addstr("#{item.type.capitalize}: #{item.name}, armor: #{item.armor}")
     else
-      win.addstr("Weapon: #{item.name}, dmg: #{item.attributes[:damage]}, speed: #{item.attributes[:speed]}")
+      win.addstr("Weapon: #{item.name}, dmg: #{item.damage}, speed: #{item.speed}")
     end
   end
 end

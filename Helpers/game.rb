@@ -3,14 +3,13 @@ def admin_menu
 
   user_input = gets.chomp.split
 
-  if user_input[0..1].map(&:upcase) == %w(NEW MAP)
-    name    = user_input[2].split('_').map(&:capitalize).join(' ')
-    level   = user_input[3]
-    file    = user_input[4]
+  return unless user_input[0..1].map(&:upcase) == %w(NEW MAP)
+  name    = user_input[2].split('_').map(&:capitalize).join(' ')
+  level   = user_input[3]
+  file    = user_input[4]
 
-    new_map = Map.new(name: name, level: level, file: "maps/#{file}.txt")
-    new_map.save
-  end
+  new_map = Map.new(name: name, level: level, file: "maps/#{file}.txt")
+  new_map.save
 end
 
 def show_rules

@@ -62,13 +62,15 @@ class InventoryInteractor
 
   def confirm_equip?
     loop do
-      user_input = $message_win.win.getch.upcase
-      $message_win.message_log.append(user_input)
+      user_input = $message_win.win.getch
+      user_input.upcase! if equip_input_valid?(user_input)
 
       if user_input == 'Y'
+        $message_win.message_log.append(user_input)
         inventory.items << equipped_item
         return true
       elsif user_input == 'N'
+        $message_win.message_log.append(user_input)
         msgs = [Message.new('> You got it boss.', 'green')]
         $message_win.display_messages(msgs)
         return false
@@ -81,5 +83,9 @@ class InventoryInteractor
 
   def equipped_item
     player.equipped.send(item.type)
+  end
+
+  def equip_input_valid?(input)
+    %w(y n).include?(input)
   end
 end

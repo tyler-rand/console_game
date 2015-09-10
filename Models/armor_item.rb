@@ -9,7 +9,7 @@ class ArmorItem < Item
     @armor = roll_armor
   end
 
-  # private
+  private
 
   def roll_armor
     ((((100 + ilvl) * 2) - 40) * (rand(0.5..2))).floor

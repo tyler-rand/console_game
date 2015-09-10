@@ -25,8 +25,8 @@ class Item
     qualities.each { |qual, weight| qualities[qual] = weight_total += weight }
 
     rand_weight = rand(0..weight_total)
-    selected    = qualities.find { |_, weight| weight > rand_weight }
-    selected[0]
+
+    qualities.find { |_, weight| weight > rand_weight }
   end
 
   #
@@ -40,9 +40,5 @@ class Item
     @type       = type
     @quality    = quality
     @attributes = attributes
-  end
-
-  def save
-    File.open('db/ItemsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 end

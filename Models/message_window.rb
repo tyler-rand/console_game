@@ -31,15 +31,12 @@ class MessageWindow
   private
 
   def print_log
-    line = 1
+    window_line = 1
 
-    message_log.display_range.each do |line_number|
-      message = message_log.log[line_number][0]
-      msg_color = message_log.log[line_number][1]
-
-      win.setpos(line, 2)
-      win.attron(Curses.color_pair(message_color[msg_color])) { win.addstr(message) }
-      line += 1
+    message_log.display_range.each do |line|
+      win.setpos(window_line, 2)
+      win.attron(Curses.color_pair(message_color[color(line)])) { win.addstr(msg(line)) }
+      window_line += 1
     end
   end
 
@@ -48,5 +45,13 @@ class MessageWindow
       'normal' => Curses::A_NORMAL, 'green' => Curses::COLOR_GREEN, 'red' => Curses::COLOR_RED,
       'yellow' => Curses::COLOR_YELLOW
     }
+  end
+
+  def msg(line)
+    message_log.log[line][0]
+  end
+
+  def color(line)
+    message_log.log[line][1]
   end
 end

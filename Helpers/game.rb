@@ -41,7 +41,6 @@ def prompt_player_create
   player
 end
 
-
 def prompt_player_name
   puts "\nA new adventure begins... what's your character's name?"
   print '-->'

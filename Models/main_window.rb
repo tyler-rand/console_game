@@ -18,33 +18,21 @@ class MainWindow
 
   def build_map(map)
     display_colored_map(map)
-    # seperate into map legend method
+
     win.setpos(20, 3)
     win.addstr('WASD to move, C to exit')
     win.setpos(22, 3)
     win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
-    win.box('|', '-')
-    win.setpos(0, 35 - map.name.length / 2)
-    win.attron(Curses.color_pair(3)) { win.addstr("Map - #{map.name}") }
+
+    box_with_title("Map: #{map.name}")
   end
 
   def display_colored_map(map)
     indexed_map = map.current_map.each_with_index.map { |line, i| [line, i] }
 
     indexed_map.each do |line, i|
-      win.setpos(i + 1, 2)
-      line_ary = line.split('')
-
-      line_ary.each do |c|
-        win.attron(Curses.color_pair(map_colors[c])) { win.addch(c) }
-      end
+      print_map_line(line, i)
     end
-  end
-
-  def box_with_title(title)
-    win.box('|', '-')
-    win.setpos(0, 29 - title.length / 2)
-    win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{title}") }
   end
 
   def getch_no_echo
@@ -60,6 +48,11 @@ class MainWindow
 
   private
 
+  def print_map_line(line, index)
+    win.setpos(index + 1, 2)
+    line.split('').each { |c| win.attron(Curses.color_pair(map_colors[c])) { win.addch(c) } }
+  end
+
   def map_colors
     {
       '.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE,
@@ -67,5 +60,11 @@ class MainWindow
       'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, 'Q' => Curses::A_NORMAL,
       'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL
     }
+  end
+
+  def box_with_title(title)
+    win.box('|', '-')
+    win.setpos(0, 29 - title.length / 2)
+    win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{title}") }
   end
 end

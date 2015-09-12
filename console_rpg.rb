@@ -21,11 +21,11 @@ loop do
 
   ## NEW PLAYER
   if user_initialize_input == 'NEW'
-    @player = Player.prompt_and_create
+    @player = prompt_player_create
 
   ## LOAD PLAYER
   elsif user_initialize_input == 'LOAD'
-    @player = Player.load
+    @player = load_player
 
   ## RULES
   elsif user_initialize_input == 'RULES'

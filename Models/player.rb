@@ -8,51 +8,21 @@ class Player
   ## CLASS METHODS
   #
 
-  def self.prompt_and_create
-    name = prompt_player_name
-    species = prompt_player_species
-    player_type = prompt_player_type
-    password = prompt_player_pass
-
-    player = Player.new(name: name, species: species, type: player_type, password: password)
-    player.save
-    player
-  end
-
-  def self.load
-    puts "\nEnter username:password (Ex: ghostpineapple:SA32es!sx)"
-    print '-->'
-
-    user_input = gets.chomp.split(':')
-    input_name = user_input[0].capitalize
-    input_pass = user_input[1]
-
-    player = Player.verify_credentials(input_name, input_pass)
-    player
-  end
-
   def self.verify_credentials(input_name, input_pass)
     players = YAML.load_stream(open('db/PlayersDB.yml'))
-    player  = nil
-    message = ''
 
-    # first try to match input name
-    unauth_player = players.find { |p| p.name == input_name }
+    # try to match input name
+    player = players.reverse.find { |p| p.name == input_name }
 
-    if unauth_player.nil?
-      message = 'Name not found'.colorize(101)
+    return puts 'Name not found'.colorize(101) if player.nil?
+
     # then try and match password
+    if input_pass == player.password
+      puts 'Loaded player successfully.'.colorize(92)
+      player
     else
-      if input_pass == unauth_player.password
-        player  = unauth_player
-        message = 'Loaded player successfully.'.colorize(92)
-      else
-        message = "Error: incorrect password. pw: #{input_pass}//#{unauth_player.password}".colorize(101)
-      end
+      puts "Error: incorrect password. input: #{input_pass}, pass: #{player.password}".colorize(101)
     end
-
-    puts message
-    player
   end
 
   #

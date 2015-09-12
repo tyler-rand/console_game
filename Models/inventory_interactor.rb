@@ -19,7 +19,6 @@ class InventoryInteractor
   def execute
     method_name = "command_#{command}".to_sym
     send(method_name, item_num)
-    inventory.refresh_indexes
   end
 
   private
@@ -27,8 +26,8 @@ class InventoryInteractor
   def command_equip(item_num)
     return unless equip_confirmed?
     equipped.send("#{item.type}=", item)
-    player.update_stats
     command_drop(item_num)
+    player.update_stats
     msgs = [Message.new("> #{item.name} equipped.", 'green')]
     $message_win.display_messages(msgs)
   end
@@ -43,6 +42,7 @@ class InventoryInteractor
 
   def command_drop(item_num)
     inventory.items.slice!(item_num - 1)
+    inventory.refresh_indexes
     msgs = [Message.new("> #{item.name} removed from bag", 'green')]
     $message_win.display_messages(msgs)
   end

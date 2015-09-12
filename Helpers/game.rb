@@ -30,6 +30,18 @@ def type_info
   puts '<< hero class info goes here >>'
 end
 
+def prompt_player_create
+  name = prompt_player_name
+  species = prompt_player_species
+  player_type = prompt_player_type
+  password = prompt_player_pass
+
+  player = Player.new(name: name, species: species, type: player_type, password: password)
+  player.save
+  player
+end
+
+
 def prompt_player_name
   puts "\nA new adventure begins... what's your character's name?"
   print '-->'
@@ -78,4 +90,18 @@ def prompt_player_pass
     puts 'Password can\'t be blank!'
     print '-->'
   end
+end
+
+def load_player
+  puts "\nEnter username:password (Ex: ghostpineapple:SA32es!sx)"
+  print '-->'
+
+  user_input = gets.chomp.split(':')
+  input_name = user_input[0].capitalize
+  input_pass = user_input[1]
+
+  puts "[#{input_name.inspect}, #{input_pass.inspect}]"
+  sleep 2
+
+  Player.verify_credentials(input_name, input_pass)
 end

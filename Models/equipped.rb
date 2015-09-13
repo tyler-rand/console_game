@@ -28,6 +28,14 @@ class Equipped
     window.win.refresh
   end
 
+  def calc_damage
+    weapon ? (weapon.damage * weapon.speed).round(1) : 5
+  end
+
+  def calc_armor
+    armors.inject(:+)
+  end
+
   private
 
   def display_equipped(win)
@@ -50,5 +58,15 @@ class Equipped
     else
       win.addstr("Weapon: #{item.name}, dmg: #{item.damage}, speed: #{item.speed}")
     end
+  end
+
+  def armors
+    [
+      chest ? chest.armor : 0,
+      pants ? pants.armor : 0,
+      helm ? helm.armor : 0,
+      gloves ? gloves.armor : 0,
+      boots ? boots.armor : 0
+    ]
   end
 end

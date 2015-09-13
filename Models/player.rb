@@ -70,8 +70,8 @@ class Player
   end
 
   def update_stats
-    calc_armor
-    calc_damage
+    self.armor = equipped.calc_armor
+    self.damage = equipped.calc_damage
     save
   end
 
@@ -82,31 +82,17 @@ class Player
 
   def level_up
     self.level += 1
-    reset_current_exp
-    reset_max_exp
+    reset_current_exp_after_lvl_up
+    reset_max_exp_after_lvl_up
   end
 
   private
 
-  def calc_armor
-    armor = 0
-    armor += equipped.chest.armor unless equipped.chest.nil?
-    armor += equipped.pants.armor unless equipped.pants.nil?
-    armor += equipped.helm.armor unless equipped.helm.nil?
-    armor += equipped.gloves.armor unless equipped.gloves.nil?
-    armor += equipped.boots.armor unless equipped.boots.nil?
-    self.armor = armor
-  end
-
-  def calc_damage
-    self.damage = (equipped.weapon.damage * equipped.weapon.speed).round(1) unless equipped.weapon.nil?
-  end
-
-  def reset_current_exp
+  def reset_current_exp_after_lvl_up
     self.current_exp = current_exp - max_exp
   end
 
-  def reset_max_exp
+  def reset_max_exp_after_lvl_up
     self.max_exp = level_exp[level]
   end
 

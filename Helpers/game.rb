@@ -99,8 +99,5 @@ def load_player
   input_name = user_input[0].capitalize
   input_pass = user_input[1]
 
-  puts "[#{input_name.inspect}, #{input_pass.inspect}]"
-  sleep 2
-
-  Player.verify_credentials(input_name, input_pass)
+  Player.load(input_name, input_pass)
 end

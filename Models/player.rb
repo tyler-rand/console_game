@@ -8,16 +8,21 @@ class Player
   ## CLASS METHODS
   #
 
-  def self.verify_credentials(input_name, input_pass)
-    players = YAML.load_stream(open('db/PlayersDB.yml'))
+  def self.open_all
+    YAML.load_stream(open('db/PlayersDB.yml'))
+  end
 
+  def self.load(input_name, input_pass)
     # try to match input name
-    player = players.reverse.find { |p| p.name == input_name }
+    player = Player.open_all.reverse.find { |p| p.name == input_name }
+    # then try to match password
+    Player.verify_credentials(player, input_pass)
+  end
 
-    return puts 'Name not found'.colorize(101) if player.nil?
-
-    # then try and match password
-    if input_pass == player.password
+  def self.verify_credentials(player, input_pass)
+    if player.nil?
+      puts 'Name not found'.colorize(101)
+    elsif input_pass == player.password
       puts 'Loaded player successfully.'.colorize(92)
       player
     else

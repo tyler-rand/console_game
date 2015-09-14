@@ -68,12 +68,6 @@ class Player
     File.open('db/PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
-  def find_location(current_map)
-    current_map.each do |line|
-      self.location = [current_map.index(line), line.index('P')] if line.include?('P')
-    end
-  end
-
   def update_stats
     self.armor = equipped.calc_armor
     self.damage = equipped.calc_damage

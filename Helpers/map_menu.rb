@@ -39,9 +39,10 @@ end
 
 def display_map(map_name)
   @map = Map.load(map_name)
+  @map_display = MapDisplayer.new(@map, @main_win.win)
 
-  @main_win.build_map(@map)
-  @player.find_location(@map.current_map)
+  @main_win.build_map(@map_display)
+  @player.location = @map.find_player
 
   msgs = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
   $message_win.display_messages(msgs)
@@ -56,7 +57,8 @@ def move_player_loop
     move_player(movement_input)
 
     @right_win.build_display(@player)
-    @main_win.display_colored_map(@map)
+    # TODO: battle window, so player stats update during battle instead of after
+    @map_display.display_colored_map
   end
 end
 

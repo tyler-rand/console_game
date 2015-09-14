@@ -46,6 +46,12 @@ class Map
     File.open('db/MapsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 
+  def find_player
+    current_map.each do |line|
+      return [current_map.index(line), line.index('P')] if line.include?('P')
+    end
+  end
+
   def remove_at_loc(location)
     current_map[location[0]][location[1]] = '.'
   end

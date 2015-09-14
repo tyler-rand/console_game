@@ -15,7 +15,7 @@ class MapMovement
 
   def execute
     player_movement
-    player.find_location(map.current_map)
+    player.location = map.find_player
   end
 
   private

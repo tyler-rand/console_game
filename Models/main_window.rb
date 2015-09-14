@@ -16,23 +16,15 @@ class MainWindow
     win.refresh
   end
 
-  def build_map(map)
-    display_colored_map(map)
+  def build_map(map_display)
+    map_display.display_colored_map
 
     win.setpos(20, 3)
     win.addstr('WASD to move, C to exit')
     win.setpos(22, 3)
     win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
 
-    box_with_title("Map: #{map.name}")
-  end
-
-  def display_colored_map(map)
-    indexed_map = map.current_map.each_with_index.map { |line, i| [line, i] }
-
-    indexed_map.each do |line, i|
-      print_map_line(line, i)
-    end
+    box_with_title("Map: #{map_display.map.name}")
   end
 
   def getch_no_echo
@@ -47,20 +39,6 @@ class MainWindow
   end
 
   private
-
-  def print_map_line(line, index)
-    win.setpos(index + 1, 2)
-    line.split('').each { |c| win.attron(Curses.color_pair(map_colors[c])) { win.addch(c) } }
-  end
-
-  def map_colors
-    {
-      '.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE,
-      'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_MAGENTA,
-      'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, 'Q' => Curses::A_NORMAL,
-      'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL
-    }
-  end
 
   def box_with_title(title)
     win.box('|', '-')

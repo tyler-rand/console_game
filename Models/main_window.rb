@@ -17,6 +17,7 @@ class MainWindow
   end
 
   def build_map(map_display)
+    win.clear
     map_display.display_colored_map
 
     win.setpos(20, 3)

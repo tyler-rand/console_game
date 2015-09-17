@@ -7,8 +7,8 @@ class MapDisplayer
     @win = win
     @cur_x_range = nil
     @cur_y_range = nil
-    @max_x = map.current_map[0].size
-    @max_y = map.current_map.size
+    @max_x = map.current_map[0].size - 1
+    @max_y = map.current_map.size - 1
   end
 
   def display_colored_map
@@ -35,11 +35,11 @@ class MapDisplayer
     right_pos = player_loc[1] + 9
 
     self.cur_x_range = if left_pos < 1 # on left edge
-                         (0..20)
-                       elsif right_pos > max_x # on right edge
-                         (max_x - 20..max_x)
+                         (0..19)
+                       elsif right_pos >= max_x # on right edge
+                         (max_x - 19..max_x)
                        else # not on left or right edge
-                         (player_loc[1] - 10..player_loc[1] + 10)
+                         (player_loc[1] - 9..player_loc[1] + 10)
                        end
   end
 
@@ -48,9 +48,9 @@ class MapDisplayer
     bot_pos = player_loc[0] + 10
 
     self.cur_y_range = if top_pos < 1 # on top edge
-                         (0..19)
+                         (0..18)
                        elsif bot_pos > max_y # on bottom edge
-                         (max_y - 19..max_y)
+                         (max_y - 18..max_y)
                        else # not on top or bottom edge
                          (player_loc[0] - 9..player_loc[0] + 9)
                        end

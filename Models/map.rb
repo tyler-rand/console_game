@@ -75,7 +75,7 @@ class Map
       line_num = current_map.index(line)
       line.split('').each_with_index.select { |c| mob_positions << [line_num, c[1]] if c[0] == 'm' }
     end
-    
+
     mob_positions
   end
 end

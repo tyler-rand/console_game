@@ -31,29 +31,37 @@ class MapDisplayer
   end
 
   def find_x_range(player_loc)
-    left_pos = player_loc[1] - 9
-    right_pos = player_loc[1] + 9
+    left_from_edge = player_loc[1] - 9
+    right_from_edge = player_loc[1] + 9
 
-    self.cur_x_range = if left_pos < 1 # on left edge
-                         (0..19)
-                       elsif right_pos >= max_x # on right edge
-                         (max_x - 19..max_x)
-                       else # not on left or right edge
-                         (player_loc[1] - 9..player_loc[1] + 10)
-                       end
+    self.cur_x_range = x_range(left_from_edge, right_from_edge)
+  end
+
+  def x_range(left_from_edge, right_from_edge)
+    if left_from_edge < 1 # on left edge
+      (0..19)
+    elsif right_from_edge >= max_x # on right edge
+      (max_x - 19..max_x)
+    else # not on left or right edge
+      (left_from_edge..right_from_edge + 1)
+    end
   end
 
   def find_y_range(player_loc)
-    top_pos = player_loc[0] - 10
-    bot_pos = player_loc[0] + 10
+    top_from_edge = player_loc[0] - 10
+    bot_from_edge = player_loc[0] + 10
 
-    self.cur_y_range = if top_pos < 1 # on top edge
-                         (0..18)
-                       elsif bot_pos > max_y # on bottom edge
-                         (max_y - 18..max_y)
-                       else # not on top or bottom edge
-                         (player_loc[0] - 9..player_loc[0] + 9)
-                       end
+    self.cur_y_range = y_range(top_from_edge, bot_from_edge)
+  end
+
+  def y_range(top_from_edge, bot_from_edge)
+    if top_from_edge < 0 # on top edge
+      (0..18)
+    elsif bot_from_edge > max_y # on bottom edge
+      (max_y - 18..max_y)
+    else # not on top or bottom edge
+      (top_from_edge + 1..bot_from_edge - 1)
+    end
   end
 
   def print_map_line(line, index)

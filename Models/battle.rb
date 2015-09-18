@@ -114,7 +114,7 @@ class Battle
   end
 
   def battle_input_error
-    msgs = [Message.new('Command not recognized, try again.', 'red')]
+    msgs = [Message.new('> Command not recognized, try again.', 'red')]
     $message_win.display_messages(msgs)
   end
 end

@@ -1,19 +1,20 @@
 # battle between player and mob
 class Battle
-  attr_accessor :id, :state, :map_movement, :map, :player, :location, :mob
+  attr_accessor :id, :state, :battle_displayer, :map_movement, :map, :player, :location, :mob
 
   #
   ## INSTANCE METHODS
   #
 
-  def initialize(map_movement)
-    @id           = object_id
-    @state        = 0 # 0 is ongoing battle, 1 is battle ended
-    @map_movement = map_movement
-    @map          = map_movement.map
-    @player       = map_movement.player
-    @location     = map_movement.new_player_loc
-    @mob          = find_mob
+  def initialize(battle_displayer, map_movement)
+    @id               = object_id
+    @state            = 0 # 0 is ongoing battle, 1 is battle ended
+    @battle_displayer = battle_displayer
+    @map_movement     = map_movement
+    @map              = map_movement.map
+    @player           = map_movement.player
+    @location         = map_movement.new_player_loc
+    @mob              = find_mob
   end
 
   def engage
@@ -33,6 +34,8 @@ class Battle
   end
 
   def prompt_battle_input
+    battle_displayer.refresh(self)
+
     msgs = [Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
     $message_win.display_messages(msgs)
 
@@ -62,16 +65,18 @@ class Battle
 
   def player_attack
     mob.health -= player.damage
+    battle_displayer.refresh(self)
     msgs = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
     $message_win.display_messages(msgs)
   end
 
   def killed_mob
+    sleep 1
     msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
     $message_win.display_messages(msgs)
 
+    battle_displayer.clear
     map.remove_at_loc(location)
-
     player.add_exp(mob.level)
 
     self.state = 1
@@ -80,18 +85,22 @@ class Battle
   end
 
   def mob_attack_turn
+    sleep 1
     mob_attack
+    sleep 1
 
     mob_kills_player if player.health <= 0 && mob.health > 0
   end
 
   def mob_attack
     player.health -= mob.damage
+    battle_displayer.refresh(self)
     msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
     $message_win.display_messages(msgs)
   end
 
   def mob_kills_player
+    battle_displayer.clear
     map.remove_at_loc(player.location)
     self.state      = 1
     player.health   = 0
@@ -103,6 +112,7 @@ class Battle
 
   def attempt_run
     if [*1..100].sample > 25
+      battle_displayer.clear
       msgs = [Message.new('> Got away!', 'green')]
       $message_win.display_messages(msgs)
       self.state = 1

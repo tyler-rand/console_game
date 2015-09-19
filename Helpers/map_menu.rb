@@ -64,11 +64,22 @@ end
 
 def move_player(movement_input)
   if movement_input_valid?(movement_input)
-    map_movement = MapMovement.new(@map, @player, movement_input)
-    next_map = map_movement.execute
-    display_map(next_map) unless next_map.nil?
+    @map_movement = MapMovement.new(@map, @player, movement_input)
+    action = @map_movement.execute
+
+    map_movement_action(action) unless action.nil?
   else
     movement_input_error
+  end
+end
+
+def map_movement_action(action)
+  if action[0] == :show_next_map
+    display_map(action[1])
+  elsif action[0] == :engage_mob
+    battle_displayer = BattleDisplayer.new(@main_win.win)
+    battle = Battle.new(battle_displayer, @map_movement)
+    battle.engage
   end
 end
 

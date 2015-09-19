@@ -14,7 +14,12 @@ class MapMovement
   end
 
   def execute
-    return show_next_map if player_movement == :next_map
+    action = player_movement
+
+    unless action.nil?
+      return action if action[0] == :engage_mob || :show_next_map
+    end
+
     player.location = map.find_player
     nil
   end
@@ -52,12 +57,13 @@ class MapMovement
     when 'c' then land_on_chest
     when '$' then land_on_money
     when 'm' then land_on_mob
-    when '^' then :next_map
+    when '^' then show_next_map
     end
   end
 
   def land_on_open_space
     move_player_icon(new_player_loc, player.location)
+    nil # return action
   end
 
   def land_on_chest
@@ -80,13 +86,13 @@ class MapMovement
     msgs = [Message.new('> A mob appears! Kill it!', 'yellow')]
     $message_win.display_messages(msgs)
 
-    battle = Battle.new(self)
-    battle.engage
+    [:engage_mob] # return action array
   end
 
   def show_next_map
     i = Map.names.index(map.name)
-    next_map = Map.names[i + 1]
+
+    [:show_next_map, Map.names[i + 1]] # return action array
   end
 
   def move_player_icon(new_player_loc, old_player_loc)

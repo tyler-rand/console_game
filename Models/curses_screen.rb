@@ -16,7 +16,8 @@ class CursesScreen
 
   def build_display
     main_win = MainWindow.new
-    message_win = MessageWindow.new
+    message_log = MessageLog.new
+    message_win = MessageWindow.new(message_log)
     right_win = RightWindow.new
 
     main_win.win.box('|', '-')

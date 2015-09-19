@@ -4,8 +4,8 @@ require 'curses'
 class MessageWindow
   attr_accessor :win, :message_log
 
-  def initialize
-    @message_log = MessageLog.new
+  def initialize(message_log)
+    @message_log = message_log
     @win = Curses::Window.new(10, 70, 26, 0)
     box_with_title
     @win.refresh

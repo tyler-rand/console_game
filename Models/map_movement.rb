@@ -14,8 +14,9 @@ class MapMovement
   end
 
   def execute
-    player_movement
+    return show_next_map if player_movement == :next_map
     player.location = map.find_player
+    nil
   end
 
   private
@@ -51,7 +52,7 @@ class MapMovement
     when 'c' then land_on_chest
     when '$' then land_on_money
     when 'm' then land_on_mob
-    when 'x' then land_on_wall
+    when '^' then :next_map
     end
   end
 
@@ -83,9 +84,9 @@ class MapMovement
     battle.engage
   end
 
-  def land_on_wall
-    msgs = [Message.new('> Can\'t move to spaces with \'x\'', 'red')]
-    $message_win.display_messages(msgs)
+  def show_next_map
+    i = Map.names.index(map.name)
+    next_map = Map.names[i + 1]
   end
 
   def move_player_icon(new_player_loc, old_player_loc)

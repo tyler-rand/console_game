@@ -28,7 +28,7 @@ class Inventory
   def add_items(map_level)
     index = items.length
 
-    20.times do
+    3.times do
       index += 1
       item = Item.roll_new(map_level)
       items << [item, index]

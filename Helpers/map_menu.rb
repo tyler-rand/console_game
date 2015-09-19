@@ -65,7 +65,8 @@ end
 def move_player(movement_input)
   if movement_input_valid?(movement_input)
     map_movement = MapMovement.new(@map, @player, movement_input)
-    map_movement.execute
+    next_map = map_movement.execute
+    display_map(next_map) unless next_map.nil?
   else
     movement_input_error
   end

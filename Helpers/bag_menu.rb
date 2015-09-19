@@ -33,11 +33,11 @@ def bag_input_validated?(command, item_num)
 end
 
 def bag_command_valid?(command)
-  %w(equip use inspect drop).include?(command) ? true : false
+  %w(equip use inspect drop).include?(command)
 end
 
 def item_num_valid?(item_num)
-  (1..@player.inventory.items.size).include?(item_num) ? true : false
+  (1..@player.inventory.items.size).include?(item_num)
 end
 
 def bag_command_error

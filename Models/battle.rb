@@ -71,7 +71,6 @@ class Battle
   end
 
   def killed_mob
-    sleep 1
     msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
     $message_win.display_messages(msgs)
 
@@ -85,11 +84,7 @@ class Battle
   end
 
   def mob_attack_turn
-    sleep 1
     mob_attack
-    sleep 1
-
-    mob_kills_player if player.health <= 0 && mob.health > 0
   end
 
   def mob_attack
@@ -97,6 +92,8 @@ class Battle
     battle_displayer.refresh(self)
     msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
     $message_win.display_messages(msgs)
+
+    mob_kills_player if player.health <= 0 && mob.health > 0
   end
 
   def mob_kills_player

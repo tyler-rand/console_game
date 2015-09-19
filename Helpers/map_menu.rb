@@ -51,13 +51,14 @@ end
 def move_player_loop
   loop do
     movement_input = @main_win.getch_no_echo
-
-    break if movement_input_exit?(movement_input) || @player.location == []
+    break if movement_input_exit?(movement_input)
 
     move_player(movement_input)
 
     @right_win.build_display(@player)
-    # TODO: battle window, so player stats update during battle instead of after
+
+    break if @player.location == []
+
     @map_display.display_colored_map
   end
 end

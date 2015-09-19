@@ -71,9 +71,8 @@ class Map
   def mob_positions
     mob_positions = []
 
-    current_map.each do |line|
-      line_num = current_map.index(line)
-      line.split('').each_with_index.select { |c| mob_positions << [line_num, c[1]] if c[0] == 'm' }
+    current_map.each_with_index.map do |line, i|
+      line.split('').each_with_index.select { |c| mob_positions << [i, c[1]] if c[0] == 'm' }
     end
 
     mob_positions

@@ -3,13 +3,26 @@ def admin_menu
 
   user_input = gets.chomp.split
 
-  return unless user_input[0..1].map(&:upcase) == %w(NEW MAP)
-  name    = user_input[2].split('_').map(&:capitalize).join(' ')
-  level   = user_input[3]
-  file    = user_input[4]
+  if user_input[0..1].map(&:upcase) == %w(NEW MAP)
+    name  = user_input[2].split('_').map(&:capitalize).join(' ')
+    level = user_input[3]
+    file  = user_input[4]
 
-  new_map = Map.new(name: name, level: level, file: "maps/#{file}.txt")
-  new_map.save
+    new_map = Map.new(name: name, level: level, file: "maps/#{file}.txt")
+    new_map.save
+  elsif user_input[0..1].map(&:upcase) == %w(CREATE SKILLS)
+    create_all_skills
+  end
+end
+
+def create_all_skills
+  skills_ary = [['Crit 1', 'Increases crit chance by 5%', 'incr_crit_chance'],
+                ['Crit 2', 'Increases crit chance by 5%', 'incr_crit_chance'],
+                ['Crit 3', 'Increases crit chance by 5%', 'incr_crit_chance'],
+                ['Armor 1', 'Increases armor by 200', 'incr_armor'],
+                ['Armor 2', 'Increases armor by 200', 'incr_armor']]
+
+  skills_ary.each { |s| Skill.new(s[0], s[1], s[2]) }
 end
 
 def show_rules

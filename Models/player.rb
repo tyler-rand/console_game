@@ -2,7 +2,7 @@
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
                 :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location,
-                :energy, :max_energy, :strength, :agility, :intelligence
+                :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
 
   #
   ## CLASS METHODS
@@ -42,9 +42,10 @@ class Player
     @species = options[:species]
     @type    = options[:type]
 
-    @level       = 1
-    @current_exp = 0
-    @max_exp     = 10
+    @level         = 1
+    @current_exp   = 0
+    @max_exp       = 10
+    @unused_skills = 1
 
     @health      = 100
     @max_health  = 100
@@ -81,6 +82,7 @@ class Player
 
   def level_up
     self.level += 1
+    self.unused_skills += 1
     reset_current_exp_after_lvl_up
     reset_max_exp_after_lvl_up
   end

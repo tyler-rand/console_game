@@ -28,8 +28,10 @@ def stats_menu
 end
 
 def skills_menu
-  msgs = [Message.new('> In progress...', 'yellow'),
-          Message.new('> Press any key to continue.', 'yellow')]
+  @main_win.refresh_display(title: "Skills Menu") { Skill.list(@main_win.win) }
+  msgs = [Message.new("> Skill points remaining: #{@player.unused_skills}", 'yellow'),
+          Message.new('> Choose a skill:', 'yellow'),
+          Message.new('--> ', 'normal')]
   $message_win.display_messages(msgs)
   @main_win.getch_no_echo
 end

@@ -108,16 +108,20 @@ class Battle
   end
 
   def attempt_run
-    if [*1..100].sample > 25
-      battle_displayer.clear
-      msgs = [Message.new('> Got away!', 'green')]
-      $message_win.display_messages(msgs)
-      self.state = 1
-    else
-      msgs = [Message.new('> Couldn\'t escape!', 'red')]
-      $message_win.display_messages(msgs)
-      mob_attack
-    end
+    [*1..100].sample > 25 ? got_away_safe : couldnt_escape
+  end
+
+  def got_away_safe
+    battle_displayer.clear
+    msgs = [Message.new('> Got away!', 'green')]
+    $message_win.display_messages(msgs)
+    self.state = 1
+  end
+
+  def couldnt_escape
+    msgs = [Message.new('> Couldn\'t escape!', 'red')]
+    $message_win.display_messages(msgs)
+    mob_attack
   end
 
   def battle_input_error

@@ -2,7 +2,6 @@ require 'curses'
 require 'io/console'
 require 'YAML'
 
-# load models and helpers
 Dir[File.join(__dir__, 'Models', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'Helpers', '*.rb')].each { |file| require file }
 
@@ -19,23 +18,15 @@ loop do
 
   user_initialize_input = gets.chomp.upcase
 
-  ## NEW PLAYER
-  if user_initialize_input == 'NEW'
+  case user_initialize_input
+  when 'NEW'
     @player = prompt_player_create
-
-  ## LOAD PLAYER
-  elsif user_initialize_input == 'LOAD'
+  when 'LOAD'
     @player = load_player
-
-  ## RULES
-  elsif user_initialize_input == 'RULES'
+  when 'RULES'
     show_rules
-
-  ## ADMIN
-  elsif user_initialize_input == 'ADMIN77'
+  when 'ADMIN77'
     admin_menu
-
-  # user input error
   else
     puts 'Must enter \'NEW\', \'LOAD\', or \'RULES\'.'.colorize(101)
   end
@@ -57,27 +48,17 @@ begin
 
     user_menu_input = main_menu_query
 
-    ## MENU > MAP
-    if user_menu_input == 'MAP'
+    case user_menu_input
+    when 'MAP'
       map_menu
-
-    ## MENU > BAG
-    elsif user_menu_input == 'BAG'
+    when 'BAG'
       bag_menu
-
-    ## MENU > EQUIPPED
-    elsif user_menu_input == 'EQUIPPED'
+    when 'EQUIPPED'
       equipped_menu
-
-    ## MENU > STATS
-    elsif user_menu_input == 'STATS'
+    when 'STATS'
       stats_menu
-
-    ## MENU > SKILLS
-    elsif user_menu_input == 'SKILLS'
+    when 'SKILLS'
       skills_menu
-
-    # Menu input error
     else
       msgs = [Message.new('> Error, command not recognized.', 'red')]
       $message_win.display_messages(msgs)

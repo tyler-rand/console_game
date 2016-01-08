@@ -58,12 +58,7 @@ def prompt_player_name
   puts "\nA new adventure begins... what's your character's name?"
   print '-->'
 
-  loop do
-    name = gets.chomp.capitalize
-    break name unless name == ''
-    puts 'You need a name!'
-    print '-->'
-  end
+  player_attribute_loop('Name')
 end
 
 def prompt_player_species
@@ -71,12 +66,7 @@ def prompt_player_species
   species_info
   print '-->'
 
-  loop do
-    species = gets.chomp.capitalize
-    break species unless species == ''
-    puts 'Choose a species!'
-    print '-->'
-  end
+  player_attribute_loop('Species')
 end
 
 def prompt_player_type
@@ -84,22 +74,21 @@ def prompt_player_type
   type_info
   print '-->'
 
-  loop do
-    player_type = gets.chomp.capitalize
-    break player_type unless player_type == ''
-    puts 'Gotta choose a class!'
-    print '-->'
-  end
+  player_attribute_loop('Class')
 end
 
 def prompt_player_pass
   puts "\nAnd finally, enter a password so you can load your game."
   print '-->'
 
+  player_attribute_loop('Password')
+end
+
+def player_attribute_loop(player_attribute)
   loop do
-    password = gets.chomp
-    break password unless password == ''
-    puts 'Password can\'t be blank!'
+    attribute = gets.chomp
+    break attribute unless attribute == ''
+    puts "#{player_attribute} can't be blank!"
     print '-->'
   end
 end

@@ -4,6 +4,7 @@ def map_menu
 
   # query user for map name and validate
   map_name = map_name_query
+  return if map_name.upcase == 'BACK'
 
   display_map(map_name)
   move_player_loop
@@ -17,7 +18,7 @@ def map_name_query
 end
 
 def prompt_map_name_to_load
-  msgs = [Message.new('> Enter a map name to load', 'yellow'),
+  msgs = [Message.new("> Enter a map name to load, or 'back' to exit.", 'yellow'),
           Message.new('--> ', 'normal')]
   $message_win.display_messages(msgs)
 
@@ -28,7 +29,7 @@ def prompt_map_name_to_load
 end
 
 def map_name_valid?(map_name)
-  if Map.names.include?(map_name)
+  if Map.names.include?(map_name) || map_name.upcase == 'BACK'
     true
   else
     msgs = [Message.new('> Map name error, try again.', 'red')]

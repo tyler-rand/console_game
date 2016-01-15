@@ -1,8 +1,8 @@
 # Getting Started
 
-After cloning the repo, type 'ruby init.rb' when in the directory to create the empty database .yml files and maps.
+After cloning the repo and bundling gems, type `ruby init.rb` when in the directory to create the empty database .yml files and maps.
 
-Then start the game with 'ruby console_rpg.rb'
+Then start the game with `ruby console_rpg.rb`
 
 # ConsoleRPG
 

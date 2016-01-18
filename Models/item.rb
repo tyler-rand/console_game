@@ -7,9 +7,9 @@ class Item
   #
 
   def self.roll_new(ilvl)
-    quality  = randomize_quality
-    name     = %w(Occulus Buriza Windforce Enigma HOTO Gore).sample
-    type     = %w(weapon chest helm boots gloves pants).sample
+    quality = random_quality
+    type    = %w(weapon chest helm boots gloves pants).sample
+    name    = random_name(type)
 
     if type == 'weapon'
       WeaponItem.new(ilvl: ilvl, name: name, type: type, quality: quality)
@@ -18,7 +18,7 @@ class Item
     end
   end
 
-  def self.randomize_quality
+  def self.random_quality
     qualities = { 'Shitty' => 0.2, 'Normal' => 0.5, 'Magic' => 0.3, 'Rare' => 0.1,
                   'Unique' => 0.05, 'Legendary' => 0.01 }
     weight_total = 0
@@ -27,6 +27,23 @@ class Item
     rand_weight = rand(0..weight_total)
 
     qualities.find { |_, weight| weight > rand_weight }
+  end
+
+  def self.random_name(type)
+    case type
+    when 'weapon'
+      %w(axe mace sword dagger).sample
+    when 'chest'
+      %w(chainmail leather cloth plate).sample
+    when 'helm'
+      %w(cap mask horns visor).sample
+    when 'boots'
+      %w(boots heavy\ boots plate\ boots treads).sample
+    when 'gloves'
+      %w(gloves heavy\ gloves mitts plate\ gloves).sample
+    when 'pants'
+      %w(cloth leather plate chainmail).sample
+    end
   end
 
   #

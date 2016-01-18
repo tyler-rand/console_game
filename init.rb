@@ -4,7 +4,7 @@ require 'FileUtils'
 require './Models/map.rb'
 require './Models/mob.rb'
 
-FileUtils.mkdir('./db')
+FileUtils.mkdir('./db') unless File.exists?('./db')
 
 # create db files
 File.open('./db/PlayersDB.yml', 'w') {}

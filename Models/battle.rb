@@ -60,14 +60,20 @@ class Battle
   def attack_turn
     player_attack
 
-    mob.health <= 0 && player.health > 0 ? killed_mob : mob_attack_turn
+    if mob.health <= 0 && player.health > 0 then killed_mob else mob_attack end
   end
 
   def player_attack
-    mob.health -= player.damage
+    mob.health -= player.damage # TODO: factor in armor, crit, etc
+    # mob.health -= adjusted_attack_damage(player, mob)
     battle_displayer.refresh(self)
     msgs = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
     $message_win.display_messages(msgs)
+  end
+
+  def adjusted_attack_damage(attacker, victem)
+    # adjusts attack damage based on armor, crit chance, resists, etc
+    # returns attack dmg
   end
 
   def killed_mob
@@ -83,12 +89,9 @@ class Battle
     map_movement.execute
   end
 
-  def mob_attack_turn
-    mob_attack
-  end
-
   def mob_attack
-    player.health -= mob.damage
+    player.health -= mob.damage # TODO: factor in armor, crit, etc
+    # player.health -= adjusted_attack_damage(mob, player)
     battle_displayer.refresh(self)
     msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
     $message_win.display_messages(msgs)

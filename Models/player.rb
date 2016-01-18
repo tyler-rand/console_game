@@ -84,7 +84,7 @@ class Player
     self.level += 1
     self.unused_skills += 1
     reset_current_exp_after_lvl_up
-    reset_max_exp_after_lvl_up
+    update_max_exp_after_lvl_up
   end
 
   private
@@ -93,7 +93,7 @@ class Player
     self.current_exp = current_exp - max_exp
   end
 
-  def reset_max_exp_after_lvl_up
+  def update_max_exp_after_lvl_up
     self.max_exp = level_exp[level]
   end
 

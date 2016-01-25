@@ -1,7 +1,7 @@
 # tracks player stats and skills
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-                :health, :max_health, :armor, :damage, :crit_chance, :equipped, :inventory, :location,
+                :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :location,
                 :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
 
   #
@@ -56,7 +56,7 @@ class Player
     @agility      = 1
     @intelligence = 1
 
-    @armor       = 0
+    @defense     = 0
     @damage      = 5
     @crit_chance = 0
 
@@ -70,7 +70,7 @@ class Player
   end
 
   def update_stats
-    self.armor = equipped.calc_armor
+    self.defense = equipped.calc_armor
     self.damage = equipped.calc_damage
     save
   end

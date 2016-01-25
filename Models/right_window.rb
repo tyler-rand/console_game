@@ -59,7 +59,7 @@ class RightWindow
     win.setpos(win.cury + 1, 2)
     win.addstr("Crit chance: #{player.crit_chance}%")
     win.setpos(win.cury + 1, 2)
-    win.addstr("Armor: #{player.armor}")
+    win.addstr("Defense: #{player.defense}")
   end
 
   def display_stats_info(player)

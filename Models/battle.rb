@@ -64,16 +64,30 @@ class Battle
   end
 
   def player_attack
-    mob.health -= player.damage # TODO: factor in armor, crit, etc
-    # mob.health -= adjusted_attack_damage(player, mob)
+    damage = adjusted_attack_damage(player, mob)
+    mob.health -= damage
     battle_displayer.refresh(self)
-    msgs = [Message.new("> You hit #{mob.name} for #{player.damage}!", 'green')]
+    msgs = [Message.new("> You hit #{mob.name} for #{damage}!", 'green')]
     $message_win.display_messages(msgs)
   end
 
-  def adjusted_attack_damage(attacker, victem)
-    # adjusts attack damage based on armor, crit chance, resists, etc
-    # returns attack dmg
+  def adjusted_attack_damage(attacker, defender)
+    (attacker.damage * defense_adjusted_dmg_percent(defender)).round(0)
+  end
+
+  def defense_adjusted_dmg_percent(defender)
+    defense = defender.defense
+    count = 0
+    while defense >= 20 do count += 1; defense -= 20 end
+    defense_dmg_reduction_table[defender.level-1][count*20]
+  end
+
+  def defense_dmg_reduction_table
+    [
+      {'level' => 1, 0 => 1, 20 => 0.8, 40 => 0.6, 60 => 0.4, 80 => 0.2},
+      {'level' => 2, 0 => 1, 40 => 0.8, 80 => 0.6, 120 => 0.4, 160 => 0.2},
+      {'level' => 3, 0 => 1, 60 => 0.8, 120 => 0.6, 180 => 0.4, 240 => 0.2}
+    ]
   end
 
   def killed_mob
@@ -90,10 +104,10 @@ class Battle
   end
 
   def mob_attack
-    player.health -= mob.damage # TODO: factor in armor, crit, etc
-    # player.health -= adjusted_attack_damage(mob, player)
+    damage = adjusted_attack_damage(mob, player)
+    player.health -= damage
     battle_displayer.refresh(self)
-    msgs = [Message.new("> #{mob.name} hits you for #{mob.damage}!", 'red')]
+    msgs = [Message.new("> #{mob.name} hits you for #{damage}!", 'red')]
     $message_win.display_messages(msgs)
 
     mob_kills_player if player.health <= 0 && mob.health > 0

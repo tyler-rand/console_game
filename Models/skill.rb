@@ -51,6 +51,6 @@ class Skill
   end
 
   def incr_armor(player)
-    player.armor += 200
+    player.defense += 200
   end
 end

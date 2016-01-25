@@ -1,6 +1,6 @@
 # npc monster
 class Mob
-  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :map_id, :movement_type,
+  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_id, :movement_type,
                 :location
 
   #
@@ -11,10 +11,11 @@ class Mob
     name   = %w(terror vicious bloodthirsty).sample
     type   = %w(dragon zombie bear).sample
     damage = map.level * 2
+    defense = map.level * 20
     max_health = map.level * 10
 
     mob = Mob.new(name: name, type: type, level: map.level, damage: damage, max_health: max_health,
-                  map_id: map.id, movement_type: 0, location: location)
+                  defense: defense, map_id: map.id, movement_type: 0, location: location)
     mob
   end
 
@@ -30,6 +31,7 @@ class Mob
     @health        = options[:max_health]
     @max_health    = options[:max_health]
     @damage        = options[:damage]
+    @defense       = options[:defense]
     @map_id        = options[:map_id]
     @movement_type = options[:movement_type]
     @location      = options[:location]

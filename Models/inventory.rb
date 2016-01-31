@@ -57,7 +57,7 @@ class Inventory
       win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.damage},"\
                         " speed: #{item.speed}")
     else
-      win.addstr("[#{i}] #{item.name} #{item.type}. armor: #{item.armor}")
+      win.addstr("[#{i}] #{item.name} #{item.type}. defense: #{item.defense}")
     end
   end
 end

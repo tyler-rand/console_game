@@ -70,7 +70,7 @@ class Player
   end
 
   def update_stats
-    self.defense = equipped.calc_armor
+    self.defense = equipped.calc_defense
     self.damage = equipped.calc_damage
     save
   end

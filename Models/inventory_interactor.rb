@@ -63,7 +63,7 @@ class InventoryInteractor
   end
 
   def armor_replace_msg
-    msgs = [Message.new("> Replace #{equipped_item.type}(armor: #{equipped_item.armor})? "\
+    msgs = [Message.new("> Replace #{equipped_item.type}(defense: #{equipped_item.defense})? "\
                         '[Y/N]', 'yellow'), Message.new('--> ', 'normal')]
     $message_win.display_messages(msgs)
   end

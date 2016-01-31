@@ -32,7 +32,7 @@ class Equipped
     weapon ? (weapon.damage * weapon.speed).round(1) : 5
   end
 
-  def calc_armor
+  def calc_defense
     armors.inject(:+)
   end
 
@@ -54,7 +54,7 @@ class Equipped
 
   def print_item_attr(item, win)
     if item != weapon
-      win.addstr("#{item.type.capitalize}: #{item.name}, armor: #{item.armor}")
+      win.addstr("#{item.type.capitalize}: #{item.name}, defense: #{item.defense}")
     else
       win.addstr("Weapon: #{item.name}, dmg: #{item.damage}, speed: #{item.speed}")
     end
@@ -62,11 +62,11 @@ class Equipped
 
   def armors
     [
-      chest ? chest.armor : 0,
-      pants ? pants.armor : 0,
-      helm ? helm.armor : 0,
-      gloves ? gloves.armor : 0,
-      boots ? boots.armor : 0
+      chest ? chest.defense : 0,
+      pants ? pants.defense : 0,
+      helm ? helm.defense : 0,
+      gloves ? gloves.defense : 0,
+      boots ? boots.defense : 0
     ]
   end
 end

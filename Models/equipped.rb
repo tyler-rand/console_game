@@ -29,7 +29,7 @@ class Equipped
   end
 
   def calc_damage
-    weapon ? (weapon.damage * weapon.speed).round(1) : 5
+    weapon ? (weapon.damage * weapon.speed).round(1) : 0
   end
 
   def calc_defense

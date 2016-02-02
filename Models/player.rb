@@ -57,7 +57,7 @@ class Player
     @intelligence = 1
 
     @defense     = 0
-    @damage      = 5
+    @damage      = base_damage
     @crit_chance = 0
 
     @location  = []
@@ -70,31 +70,45 @@ class Player
   end
 
   def update_stats
-    self.defense = equipped.calc_defense
-    self.damage = equipped.calc_damage
+    @defense = equipped.calc_defense
+    @damage = equipped.calc_damage + base_damage
     save
   end
 
   def add_exp(exp)
-    self.current_exp += exp
+    @current_exp += exp
     level_up if current_exp >= max_exp
   end
 
   def level_up
-    self.level += 1
-    self.unused_skills += 1
+    @level += 1
+    @unused_skills += 1
+    add_stats_after_lvl_up
     reset_current_exp_after_lvl_up
     update_max_exp_after_lvl_up
+    update_stats
   end
 
   private
 
+  def base_damage
+    5 + @strength
+  end
+
+  def add_stats_after_lvl_up
+    @strength += 1
+    @agility += 1
+    @intelligence += 1
+    @health += level
+    @max_health += level
+  end
+
   def reset_current_exp_after_lvl_up
-    self.current_exp = current_exp - max_exp
+    @current_exp = current_exp - max_exp
   end
 
   def update_max_exp_after_lvl_up
-    self.max_exp = level_exp[level]
+    @max_exp = level_exp[level]
   end
 
   def level_exp

@@ -72,6 +72,7 @@ class Battle
   end
 
   def adjusted_attack_damage(attacker, defender)
+    puts "#{attacker.damage}"
     (attacker.damage * defense_adjusted_dmg_percent(defender)).round(0)
   end
 

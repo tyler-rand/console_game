@@ -14,9 +14,9 @@ class Inventory
   end
 
   def list(window) # list items in inventory
-    window.win.setpos(2, 30)
+    window.win.setpos(2, 2)
     window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
-    window.win.setpos(3, 30)
+    window.win.setpos(3, 2)
 
     display_bag(window.win)
   end
@@ -48,7 +48,7 @@ class Inventory
   def display_bag(win)
     items.each do |item, i|
       print_item_attr(item, i, win)
-      win.setpos(win.cury + 1, 30)
+      win.setpos(win.cury + 1, 2)
     end
   end
 

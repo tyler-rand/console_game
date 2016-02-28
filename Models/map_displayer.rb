@@ -65,7 +65,7 @@ class MapDisplayer
   end
 
   def print_map_line(line, index)
-    win.setpos(index + 1, 2)
+    win.setpos(index + 2, 5)
     line.split('').each { |c| win.attron(Curses.color_pair(map_colors[c])) { win.addch(c) } }
   end
 

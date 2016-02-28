@@ -39,7 +39,7 @@ end
 ########################################
 
 screen = CursesScreen.new
-@main_win, $message_win, @right_win = screen.build_display
+@main_win, $message_win, @right_win, @action_win = screen.build_display
 
 begin
   loop do
@@ -59,6 +59,8 @@ begin
       stats_menu
     when 'SKILLS'
       skills_menu
+    when 'EXIT'
+      exit
     else
       msgs = [Message.new('> Error, command not recognized.', 'red')]
       $message_win.display_messages(msgs)

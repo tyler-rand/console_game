@@ -16,6 +16,7 @@ class CursesScreen
 
   def build_display
     main_win = MainWindow.new
+    action_win = ActionWindow.new
     message_log = MessageLog.new
     message_win = MessageWindow.new(message_log)
     right_win = RightWindow.new
@@ -23,6 +24,6 @@ class CursesScreen
     main_win.win.box('|', '-')
     main_win.win.setpos(20, 3)
 
-    return main_win, message_win, right_win
+    return main_win, message_win, right_win, action_win
   end
 end

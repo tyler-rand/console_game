@@ -5,7 +5,7 @@ class MainWindow
   attr_accessor :win
 
   def initialize
-    @win = Curses::Window.new(26, 70, 0, 0)
+    @win = Curses::Window.new(26, 30, 0, 40)
     @win.refresh
   end
 
@@ -20,10 +20,12 @@ class MainWindow
     win.clear
     map_display.display_colored_map
 
-    win.setpos(20, 3)
-    win.addstr('WASD to move, C to exit')
     win.setpos(22, 3)
-    win.addstr('P = Player, m = mob, c = item chest, $ = money chest, x = barrier')
+    win.addstr('WASD to move, C to exit')
+    win.setpos(23, 3)
+    win.addstr('L for map legend')
+    win.setpos(24, 3)
+    win.addstr('B to open bag')
 
     box_with_title("Map: #{map_display.map.name}")
   end
@@ -43,7 +45,8 @@ class MainWindow
 
   def box_with_title(title)
     win.box('|', '-')
-    win.setpos(0, 29 - title.length / 2)
-    win.attron(Curses.color_pair(3)) { win.addstr("ConsoleRPG - #{title}") }
+    title_indent = (13 - (title.length / 2)).floor
+    win.setpos(0, title_indent)
+    win.attron(Curses.color_pair(3)) { win.addstr(" #{title} ") }
   end
 end

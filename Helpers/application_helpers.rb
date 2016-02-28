@@ -3,7 +3,7 @@
 ##################################################
 
 def main_menu_query
-  msgs = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS', 'yellow'),
+  msgs = [Message.new('> MAP | BAG | EQUIPPED | STATS | SKILLS | EXIT', 'yellow'),
           Message.new('--> ', 'normal')]
   $message_win.display_messages(msgs)
 
@@ -14,15 +14,16 @@ def main_menu_query
 end
 
 def equipped_menu
-  @player.equipped.list(@main_win)
+  @player.equipped.list(@action_win)
   msgs = [Message.new('> Press any key to continue.', 'yellow')]
   $message_win.display_messages(msgs)
-  @main_win.getch_no_echo
+  @action_win.getch_no_echo
+  @action_win.refresh_display
 end
 
 def stats_menu
   msgs = [Message.new('> In progress...', 'yellow'),
           Message.new('> Press any key to continue.', 'yellow')]
   $message_win.display_messages(msgs)
-  @main_win.getch_no_echo
+  @action_win.getch_no_echo
 end

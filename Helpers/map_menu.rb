@@ -1,9 +1,10 @@
 def map_menu
   # list maps
-  @main_win.refresh_display(title: @player.name) { Map.list_all(@main_win) }
+  @action_win.refresh_display { Map.list_all(@action_win) }
 
   # query user for map name and validate
   map_name = map_name_query
+  @action_win.refresh_display
   return if map_name.upcase == 'BACK'
 
   display_map(map_name)

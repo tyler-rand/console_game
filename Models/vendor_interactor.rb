@@ -9,15 +9,7 @@ class VendorInteractor
   end
 
   def engage
-    msgs = [Message.new('> "What do ya need?"', 'normal'),
-            Message.new('> BUY | SELL', 'yellow'),
-            Message.new('--> ', 'normal')]
-    $message_win.display_messages(msgs)
-
-    input = $message_win.win.getstr.downcase
-    $message_win.message_log.append(input)
-
-    input = input.split(' ')
+    input = vendor_action_prompt
 
     if input[0] == 'sell'
       sell_menu
@@ -29,6 +21,18 @@ class VendorInteractor
   end
 
   private
+
+  def vendor_action_prompt
+    msgs = [Message.new('> "What do ya need?"', 'normal'),
+            Message.new('> BUY | SELL', 'yellow'),
+            Message.new('--> ', 'normal')]
+    $message_win.display_messages(msgs)
+
+    input = $message_win.win.getstr.downcase
+    $message_win.message_log.append(input)
+
+    input.split(' ')
+  end
 
   def sell_menu
     @player.inventory.list(@win)

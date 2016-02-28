@@ -75,7 +75,7 @@ class MapDisplayer
       'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_MAGENTA,
       'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, 'Q' => Curses::A_NORMAL,
       'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL, '^' => Curses::COLOR_GREEN,
-      'v' => Curses::COLOR_GREEN
+      'v' => Curses::COLOR_GREEN, 'N' => Curses::COLOR_YELLOW,
     }
   end
 end

@@ -15,9 +15,10 @@ class MapMovement
 
   def execute
     action = player_movement
+    possible_actions = [:engage_mob, :show_next_map, :open_shop]
 
     unless action.nil?
-      return action if action[0] == :engage_mob || :show_next_map
+      return action if possible_actions.include?(action[0])
     end
 
     player.location = map.find_player
@@ -51,12 +52,14 @@ class MapMovement
     [player.location[0], player.location[1] + 1]
   end
 
-  def player_movement
+  def player_movement # each method must return an array of action symbols or nil
     case map.current_map[new_player_loc[0]][new_player_loc[1]]
     when '.' then land_on_open_space
     when 'c' then land_on_chest
     when '$' then land_on_money
-    when 'm' then land_on_mob
+    when Mob.map_character then land_on_mob
+    when 'Q' then land_on_quest_npc
+    when Vendor.map_character then land_on_vendor
     when '^' then show_next_map
     end
   end
@@ -67,7 +70,7 @@ class MapMovement
   end
 
   def land_on_chest
-    player.inventory.add_items(map.level)
+    player.inventory.add_random_items(map.level, qty: 3)
     move_player_icon(new_player_loc, player.location)
 
     msgs = [Message.new('> Picked up items from a chest.', 'green')]
@@ -89,6 +92,16 @@ class MapMovement
     [:engage_mob] # return action array
   end
 
+  def land_on_quest_npc
+    # npc says 'welcoe playername'
+    # opens quest menu
+  end
+
+  def land_on_vendor
+    return [:open_shop] if open_shop?
+    nil
+  end
+
   def show_next_map
     i = Map.names.index(map.name)
 
@@ -98,5 +111,24 @@ class MapMovement
   def move_player_icon(new_player_loc, old_player_loc)
     map.current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
     map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
+  end
+
+  def open_shop?
+    msgs = [Message.new('> "Take a look at the shop?" (Yes/No)', 'yellow'),
+            Message.new('--> ', 'normal')]
+    $message_win.display_messages(msgs)
+
+    input = $message_win.win.getstr.downcase
+    $message_win.message_log.append(input)
+
+    if input == 'yes'
+      true
+    elsif input == 'no'
+      false
+    else
+      msgs = [Message.new('> "What?"', 'red')]
+      $message_win.display_messages(msgs)
+      open_shop?
+    end
   end
 end

@@ -1,6 +1,6 @@
 # map
 class Map
-  attr_accessor :id, :name, :level, :file, :current_map, :mobs
+  attr_accessor :id, :name, :level, :file, :current_map, :mobs, :vendors
 
   #
   ## CLASS METHODS
@@ -40,6 +40,7 @@ class Map
     @file        = options[:file]
     @current_map = load_current_map
     @mobs        = load_mobs
+    @vendors     = load_vendors
   end
 
   def save
@@ -64,17 +65,23 @@ class Map
 
   def load_mobs
     mobs = []
-    mob_positions.each { |pos| mobs << Mob.roll_new(self, pos) }
+    map_positions(Mob.map_character).each { |pos| mobs << Mob.roll_new(self, pos) }
     self.mobs = mobs
   end
 
-  def mob_positions
-    mob_positions = []
+  def load_vendors
+    vendors = []
+    map_positions(Vendor.map_character).each { |pos| vendors << Vendor.roll_new(self, pos) }
+    self.vendors = vendors
+  end
+
+  def map_positions(map_letter)
+    positions = []
 
     current_map.each_with_index.map do |line, i|
-      line.split('').each_with_index.select { |c| mob_positions << [i, c[1]] if c[0] == 'm' }
+      line.split('').each_with_index.select { |c| positions << [i, c[1]] if c[0] == map_letter }
     end
 
-    mob_positions
+    positions
   end
 end

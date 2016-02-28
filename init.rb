@@ -1,9 +1,7 @@
 # required for creating maps
 require 'YAML'
 require 'FileUtils'
-require './Models/map.rb'
-require './Models/mob.rb'
-
+Dir[File.join(__dir__, 'Models', '*.rb')].each { |file| require file }
 FileUtils.mkdir('./db') unless File.exists?('./db')
 
 # create db files

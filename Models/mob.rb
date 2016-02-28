@@ -19,6 +19,10 @@ class Mob
     mob
   end
 
+  def self.map_character
+    'm'
+  end
+
   #
   ## INSTANCE METHODS
   #

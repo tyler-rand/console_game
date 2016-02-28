@@ -76,12 +76,17 @@ def move_player(movement_input)
 end
 
 def map_movement_action(action)
-  if action[0] == :show_next_map
+  case action[0]
+  when :show_next_map
     display_map(action[1])
-  elsif action[0] == :engage_mob
+  when :engage_mob
     battle_displayer = BattleDisplayer.new(@main_win.win)
     battle = Battle.new(battle_displayer, @map_movement)
     battle.engage
+  when :open_shop
+    vendor = @map.vendors.find { |v| v.location == @map_movement.new_player_loc }
+    interaction = VendorInteractor.new(vendor: vendor, player: @player, win: @main_win)
+    interaction.engage
   end
 end
 

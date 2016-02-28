@@ -20,7 +20,7 @@ __oooo..oooooooooo..ooooo..ooooooooo
 __o......o_______o..o___o..ooooooooo
 __o......ooooo___om.o___o..ooooooooo
 __o..........o___om.o___o..ooooooooo
-__o..Q..W..A.o___o$co___o..ooooooooo
+__o..Q..N..N.o___o$co___o..ooooooooo
 __oooooooooooo___oooo___o..ooooooooo
 _______________________oo..ooooooooo
 ___________________oooooo..ooooooooo

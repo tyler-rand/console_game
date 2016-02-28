@@ -1,4 +1,4 @@
-# player's inventory, basicslly means player's items
+# player's inventory, holds all of a player's items and money
 class Inventory
   attr_accessor :id, :player, :items, :money
 
@@ -14,9 +14,9 @@ class Inventory
   end
 
   def list(window) # list items in inventory
-    window.win.setpos(2, 2)
+    window.win.setpos(2, 30)
     window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
-    window.win.setpos(3, 2)
+    window.win.setpos(3, 30)
 
     display_bag(window.win)
   end
@@ -25,10 +25,10 @@ class Inventory
     self.money += money
   end
 
-  def add_items(map_level)
+  def add_random_items(map_level, qty:)
     index = items.length
 
-    3.times do
+    qty.times do
       index += 1
       item = Item.roll_new(map_level)
       items << [item, index]
@@ -48,16 +48,16 @@ class Inventory
   def display_bag(win)
     items.each do |item, i|
       print_item_attr(item, i, win)
-      win.setpos(win.cury + 1, 2)
+      win.setpos(win.cury + 1, 30)
     end
   end
 
   def print_item_attr(item, i, win)
     if item.type == 'weapon'
-      win.addstr("[#{i}] #{item.name} #{item.type}. dmg: #{item.damage},"\
+      win.addstr("[#{i}] #{item.name}, dmg: #{item.damage},"\
                         " speed: #{item.speed}")
     else
-      win.addstr("[#{i}] #{item.name} #{item.type}. defense: #{item.defense}")
+      win.addstr("[#{i}] #{item.name}, defense: #{item.defense}")
     end
   end
 end

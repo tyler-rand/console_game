@@ -79,10 +79,12 @@ class Battle
     defense = defender.defense
     count = 0
     while defense >= 20 do count += 1; defense -= 20 end
-    defense_dmg_reduction_table[defender.level-1][count*20]
+
+    # defense_dmg_reduction_table[defender.level-1][count*20]
+    0.4 # til method is fixed
   end
 
-  def defense_dmg_reduction_table
+  def defense_dmg_reduction_table # FIXME: if defense doesnt fall into preset values... need a better way to do this
     [
       {'level' => 1, 0 => 1, 20 => 0.8, 40 => 0.6, 60 => 0.4, 80 => 0.2},
       {'level' => 2, 0 => 1, 40 => 0.8, 80 => 0.6, 120 => 0.4, 160 => 0.2},

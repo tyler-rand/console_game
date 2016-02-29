@@ -53,15 +53,20 @@ end
 def move_player_loop
   loop do
     movement_input = @main_win.getch_no_echo
-    break if movement_input_exit?(movement_input)
 
-    move_player(movement_input)
-
-    @right_win.build_display(@player)
-
-    break if @player.location == []
-
-    @map_display.display_colored_map
+    case movement_input
+    when bag_menu_input
+      next bag_menu
+    when equipped_menu_input
+      next equipped_menu
+    when movement_input_exit
+      break
+    else
+      move_player(movement_input)
+      @right_win.build_display(@player)
+      break if @player.location == []
+      @map_display.display_colored_map
+    end
   end
 end
 
@@ -96,8 +101,16 @@ def movement_input_valid?(movement_input)
   %w(w a s d).include?(movement_input)
 end
 
-def movement_input_exit?(movement_input)
-  movement_input == 'c'
+def movement_input_exit
+  'c'
+end
+
+def bag_menu_input
+  'b'
+end
+
+def equipped_menu_input
+  'e'
 end
 
 def movement_input_error

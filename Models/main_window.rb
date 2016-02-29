@@ -30,8 +30,9 @@ class MainWindow
     win.addstr(' for map legend')
     win.setpos(24, 3)
     win.attron(Curses.color_pair(3)) { win.addstr('B') }
-    win.addstr(' to open bag')
-
+    win.addstr(' bag, ')
+    win.attron(Curses.color_pair(3)) { win.addstr('E') }
+    win.addstr(' equipped')
     box_with_title("Map: #{map_display.map.name}")
   end
 
@@ -39,7 +40,7 @@ class MainWindow
     Curses.noecho
     Curses.curs_set(0)
     win.setpos(24, 2)
-    input = win.getch
+    input = win.getch.downcase
     Curses.curs_set(1)
     Curses.echo
 

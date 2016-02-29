@@ -91,7 +91,8 @@ class Battle
   end
 
   def killed_mob
-    msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green')]
+    msgs = [Message.new("> You killed it! Gained #{mob.level} exp.", 'green'),
+            Message.new('> ', 'normal')]
     $message_win.display_messages(msgs)
 
     battle_displayer.clear
@@ -130,7 +131,8 @@ class Battle
 
   def got_away_safe
     battle_displayer.clear
-    msgs = [Message.new('> Got away!', 'green')]
+    msgs = [Message.new('> Got away!', 'green'),
+            Message.new('> ', 'normal')]
     $message_win.display_messages(msgs)
     self.state = 1
   end

@@ -81,7 +81,7 @@ def map_movement_action(action)
   when :show_next_map
     display_map(action[1])
   when :engage_mob
-    battle_displayer = BattleDisplayer.new(@main_win.win)
+    battle_displayer = BattleDisplayer.new(@action_win.win)
     battle = Battle.new(battle_displayer, @map_movement)
     battle.engage
   when :open_shop

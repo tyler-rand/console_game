@@ -1,6 +1,6 @@
 # Item -- any armor, weapon, etc
 class Item
-  attr_accessor :id, :ilvl, :name, :type, :quality, :attributes
+  attr_accessor :id, :ilvl, :name, :type, :quality, :value, :attributes
 
   #
   ## CLASS METHODS
@@ -10,11 +10,12 @@ class Item
     quality = random_quality
     type    = %w(weapon chest helm boots gloves pants).sample
     name    = random_name(type)
+    value   = ilvl * 100
 
     if type == 'weapon'
-      WeaponItem.new(ilvl: ilvl, name: name, type: type, quality: quality)
+      WeaponItem.new(ilvl: ilvl, name: name, type: type, quality: quality, value: value)
     else # any armor
-      ArmorItem.new(ilvl: ilvl, name: name, type: type, quality: quality)
+      ArmorItem.new(ilvl: ilvl, name: name, type: type, quality: quality, value: value)
     end
   end
 
@@ -42,7 +43,7 @@ class Item
     when 'gloves'
       %w(gloves heavy\ gloves mitts plate\ gloves).sample
     when 'pants'
-      %w(cloth leather plate chainmail).sample
+      %w(cloth leather platemail chainmail).sample
     end
   end
 
@@ -50,12 +51,13 @@ class Item
   ## INSTANCE METHODS
   #
 
-  def initialize(ilvl:, name:, type:, quality:, **attributes)
+  def initialize(ilvl:, name:, type:, quality:, value:, **attributes)
     @id         = object_id
     @ilvl       = ilvl.to_i
     @name       = name
     @type       = type
     @quality    = quality
+    @value      = value
     @attributes = attributes
   end
 end

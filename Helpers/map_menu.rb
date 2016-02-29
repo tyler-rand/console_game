@@ -86,8 +86,9 @@ def map_movement_action(action)
     battle.engage
   when :open_shop
     vendor = @map.vendors.find { |v| v.location == @map_movement.new_player_loc }
-    interaction = VendorInteractor.new(vendor: vendor, player: @player, win: @main_win)
+    interaction = VendorInteractor.new(vendor: vendor, player: @player, win: @action_win)
     interaction.engage
+    @action_win.refresh_display
   end
 end
 

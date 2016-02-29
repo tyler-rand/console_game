@@ -21,11 +21,16 @@ class MainWindow
     map_display.display_colored_map
 
     win.setpos(22, 3)
-    win.addstr('WASD to move, C to exit')
+    win.attron(Curses.color_pair(2)) { win.addstr('WASD') }
+    win.addstr(' to move, ')
+    win.attron(Curses.color_pair(1)) { win.addstr('C') }
+    win.addstr(' to exit.')
     win.setpos(23, 3)
-    win.addstr('L for map legend')
+    win.attron(Curses.color_pair(3)) { win.addstr('L') }
+    win.addstr(' for map legend')
     win.setpos(24, 3)
-    win.addstr('B to open bag')
+    win.attron(Curses.color_pair(3)) { win.addstr('B') }
+    win.addstr(' to open bag')
 
     box_with_title("Map: #{map_display.map.name}")
   end

@@ -37,6 +37,7 @@ class Inventory
 
   def find_item(item_num)
     items.each { |item, index| return item if index == item_num }
+    nil
   end
 
   def refresh_indexes

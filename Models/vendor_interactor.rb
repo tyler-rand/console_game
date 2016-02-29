@@ -115,7 +115,7 @@ class VendorInteractor
 
   def buy_prompt
     msgs = [Message.new('> Enter an item number to buy, or \'BACK\'.', 'yellow'),
-            Message.new('-->', 'normal')]
+            Message.new('--> ', 'normal')]
     $message_win.display_messages(msgs)
 
     input = $message_win.win.getstr.downcase
@@ -145,7 +145,16 @@ class VendorInteractor
     $message_win.message_log.append(input)
 
     if input == 'yes'
-      @player.inventory.money -= (item.value * 1.2).floor
+      item_cost = (item.value * 1.2).floor
+
+      if item_cost > player.inventory.money
+        msgs = [Message.new('> Not enough money.', 'red')]
+        $message_win.display_messages(msgs)
+
+        return buy_menu
+      end
+
+      @player.inventory.money -= item_cost
       player_interaction = InventoryInteractor.new(@player, 'add', item)
       player_interaction.execute
 

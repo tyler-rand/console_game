@@ -40,6 +40,13 @@ class InventoryInteractor
     true
   end
 
+  def command_add(item)
+    index = inventory.items.length + 1
+    inventory.items << [item, index]
+    msgs = [Message.new("> #{item.name} added to bag", 'green')]
+    $message_win.display_messages(msgs)
+  end
+
   def command_drop(item_num)
     inventory.items.slice!(item_num - 1)
     inventory.refresh_indexes

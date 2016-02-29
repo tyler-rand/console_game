@@ -124,7 +124,8 @@ class MapMovement
     if input == 'yes'
       true
     elsif input == 'no'
-      msgs = [Message.new('> "Maybe next time!"', 'yellow')]
+      msgs = [Message.new('> "Maybe next time!"', 'yellow'),
+              Message.new('> ', 'normal')]
       $message_win.display_messages(msgs)
       false
     else

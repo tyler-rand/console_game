@@ -13,3 +13,5 @@ File.open('./db/SkillsDB.yml', 'w') {}
 Map.new(name: 'Trainers Court', level: 1, file: "./maps/trainers_court.txt").save
 Map.new(name: 'Trainers Mansion', level: 2, file: "./maps/trainers_mansion.txt").save
 Map.new(name: 'Road To City', level: 3, file: "./maps/road_to_city.txt").save
+
+puts "Created files successfully!"

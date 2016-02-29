@@ -38,26 +38,41 @@ class VendorInteractor
     @win.refresh_display { @player.inventory.list(@win) }
 
     item_index = sell_prompt
-    verify_sell(item_index)
+
+    if item_index == 'back'
+      msgs = [Message.new('> "Come back anytime."', 'normal'),
+              Message.new('> ', 'normal')]
+      $message_win.display_messages(msgs)
+
+      return
+    end
+
+    verify_sell(item_index.to_i)
   end
 
   def sell_prompt
-    msgs = [Message.new('> Enter an item number to sell.', 'yellow'),
-            Message.new('-->', 'normal')]
+    msgs = [Message.new('> Enter an item number to sell, or \'BACK\'.', 'yellow'),
+            Message.new('--> ', 'normal')]
     $message_win.display_messages(msgs)
 
     input = $message_win.win.getstr.downcase
     $message_win.message_log.append(input)
 
-    input.to_i
+    input
   end
 
   def verify_sell(item_index)
     item = @player.inventory.find_item(item_index)
+    if item.nil?
+      msgs = [Message.new('> Command not recognized.', 'red')]
+      $message_win.display_messages(msgs)
+
+      return sell_menu
+    end
 
     msgs = [Message.new("> Are you sure you want to sell #{item.name} for #{item.value}?", 'yellow'),
             Message.new('> YES | NO', 'yellow'),
-            Message.new('-->', 'normal')]
+            Message.new('--> ', 'normal')]
 
     $message_win.display_messages(msgs)
 
@@ -68,8 +83,13 @@ class VendorInteractor
       @player.inventory.money += item.value
       interaction = InventoryInteractor.new(@player, 'drop', item_index)
       interaction.execute
+
+      msgs = [Message.new("#{item.name} sold!", 'normal'),
+              Message.new('> ', 'normal')]
+
+      $message_win.display_messages(msgs)
     elsif input == 'no'
-      false
+      return sell_menu
     else
       msgs = [Message.new('> Reply not recognized, try again.', 'red')]
       $message_win.display_messages(msgs)
@@ -81,12 +101,20 @@ class VendorInteractor
     @win.refresh_display { @vendor.inventory.list(@win) }
 
     item_index = buy_prompt
-    item = @vendor.inventory.find_item(item_index)
-    verify_buy(item)
+
+    if item_index == 'back'
+      msgs = [Message.new('> "Come back anytime."', 'normal'),
+              Message.new('> ', 'normal')]
+      $message_win.display_messages(msgs)
+
+      return
+    end
+
+    verify_buy(item_index.to_i)
   end
 
   def buy_prompt
-    msgs = [Message.new('> Enter an item number to buy.', 'yellow'),
+    msgs = [Message.new('> Enter an item number to buy, or \'BACK\'.', 'yellow'),
             Message.new('-->', 'normal')]
     $message_win.display_messages(msgs)
 
@@ -96,7 +124,44 @@ class VendorInteractor
     input
   end
 
-  def verify_buy(item)
+  def verify_buy(item_index)
+    item = @vendor.inventory.find_item(item_index)
+
+    if item.nil?
+      msgs = [Message.new('> Command not recognized.', 'red')]
+      $message_win.display_messages(msgs)
+
+      return buy_menu
+    end
+
+
+    msgs = [Message.new("> Are you sure you want to buy #{item.name} for #{(item.value * 1.2).floor}?", 'yellow'),
+            Message.new('> YES | NO', 'yellow'),
+            Message.new('--> ', 'normal')]
+
+    $message_win.display_messages(msgs)
+
+    input = $message_win.win.getstr.downcase
+    $message_win.message_log.append(input)
+
+    if input == 'yes'
+      @player.inventory.money -= (item.value * 1.2).floor
+      player_interaction = InventoryInteractor.new(@player, 'add', item)
+      player_interaction.execute
+
+      msgs = [Message.new("#{item.name} bought!", 'normal'),
+              Message.new('> ', 'normal')]
+
+      $message_win.display_messages(msgs)
+    elsif input == 'no'
+      return buy_menu
+    else
+      msgs = [Message.new('> Reply not recognized, try again.', 'red')]
+      $message_win.display_messages(msgs)
+      verify_buy(item)
+    end
+
+
 
   end
 

@@ -1,5 +1,10 @@
 xxxxxxxxxxxooooooooooo^^^^^ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo.....ooooooooooooxxxxxxxxxxx
+xxxxxxxxxxxooooooooooo.......N.ooooooooxxxxxxxxxxx
+xxxxxxxxxxxooooooooooo....Q....N..oooooxxxxxxxxxxx
+xxxxxxxxxxxooooooooooo......xx....oooooxxxxxxxxxxx
+xxxxxxxxxxxooooooooooo......xx.N..oooooxxxxxxxxxxx
+xxxxxxxxxxxooooooooooo............oooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo.....ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo.....ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo...m.ooooooooooooxxxxxxxxxxx
@@ -7,7 +12,7 @@ xxxxxxxxxxxooooooooooom....ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo............cooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo.m...ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxooooooooooo.....ooooooooooooxxxxxxxxxxx
-xxxxxxxxxxxooooooooooo...m.ooooooooooooxxxxxxxxxxx
+xxxxxxxxxxxoooocoooooo...m.ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxoooo$oooooo.....ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxoooomoooooo.....ooooooooooooxxxxxxxxxxx
 xxxxxxxxxxxoooo.oooooo..m..ooooooooooooxxxxxxxxxxx

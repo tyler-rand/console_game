@@ -40,7 +40,8 @@ class MainWindow
     Curses.noecho
     Curses.curs_set(0)
     win.setpos(24, 2)
-    input = win.getch.downcase
+    i = win.getch
+    input = i.class == Fixnum ? 'm' : i.downcase # set to unused char CHANGE IF m gets used
     Curses.curs_set(1)
     Curses.echo
 

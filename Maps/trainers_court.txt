@@ -10,9 +10,9 @@ o_xx.mxx.m.....xx__o
 o_xx..xx....m..xx__o
 o_xx..xx.m..cxxxx__o
 o_xx..xxxxxxxxxxx__o
-o_xx..xxxxxxxxxxx__o
-o_xx..........Nxx__o
-o_xx...m.....P.xx__o
+o_xx..xxxN.....xx__o
+o_xx.......xxQ.xx__o
+o_xx...m...xx.Pxx__o
 o_xxxxxxxxxxxxxxx__o
 o__________________o
 o__________________o

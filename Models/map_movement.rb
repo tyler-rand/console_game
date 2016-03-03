@@ -15,11 +15,8 @@ class MapMovement
 
   def execute
     action = player_movement
-    possible_actions = [:engage_mob, :show_next_map, :open_shop]
 
-    unless action.nil?
-      return action if possible_actions.include?(action[0])
-    end
+    return action unless action.nil?
 
     player.location = map.find_player
     nil
@@ -58,7 +55,7 @@ class MapMovement
     when 'c' then land_on_chest
     when '$' then land_on_money
     when Mob.map_character then land_on_mob
-    when 'Q' then land_on_quest_npc
+    when Quest.map_character then land_on_quest
     when Vendor.map_character then land_on_vendor
     when '^' then show_next_map
     end
@@ -92,13 +89,15 @@ class MapMovement
     [:engage_mob] # return action array
   end
 
-  def land_on_quest_npc
+  def land_on_quest
     # npc says 'welcoe playername'
     # opens quest menu
+    return [:open_quest] if open_vendor?('quest')
+    nil
   end
 
   def land_on_vendor
-    return [:open_shop] if open_shop?
+    return [:open_shop] if open_vendor?('shop')
     nil
   end
 
@@ -113,25 +112,29 @@ class MapMovement
     map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
   end
 
-  def open_shop?
-    msgs = [Message.new('> "Take a look at the shop?" (Yes/No)', 'yellow'),
-            Message.new('--> ', 'normal')]
+  def open_vendor?(type)
+    msgs = if type == 'shop'
+      [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
+    elsif type == 'quest'
+      [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
+    end
+    msgs << Message.new('--> ', 'normal')
     $message_win.display_messages(msgs)
 
     input = $message_win.win.getstr.downcase
     $message_win.message_log.append(input)
 
-    if input == 'yes'
+    if ['yes', 'y'].include?(input)
       true
-    elsif input == 'no'
-      msgs = [Message.new('> "Maybe next time!"', 'yellow'),
+    elsif ['no', 'n'].include?(input)
+      msgs = [Message.new('> Maybe next time!', 'yellow'),
               Message.new('> ', 'normal')]
       $message_win.display_messages(msgs)
       false
     else
-      msgs = [Message.new('> "What?"', 'red')]
+      msgs = [Message.new('> Command not recognized', 'red')]
       $message_win.display_messages(msgs)
-      open_shop?
+      open_vendor?(type)
     end
   end
 end

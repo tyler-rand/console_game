@@ -26,13 +26,15 @@ class MainWindow
     win.attron(Curses.color_pair(1)) { win.addstr('C') }
     win.addstr(' to exit.')
     win.setpos(23, 3)
-    win.attron(Curses.color_pair(3)) { win.addstr('L') }
-    win.addstr(' for map legend')
-    win.setpos(24, 3)
     win.attron(Curses.color_pair(3)) { win.addstr('B') }
     win.addstr(' bag, ')
+    win.attron(Curses.color_pair(3)) { win.addstr('L') }
+    win.addstr(' map legend')
+    win.setpos(24, 3)
     win.attron(Curses.color_pair(3)) { win.addstr('E') }
-    win.addstr(' equipped')
+    win.addstr(' equipped, ')
+    win.attron(Curses.color_pair(3)) { win.addstr('Q') }
+    win.addstr(' quest log')
     box_with_title("Map: #{map_display.map.name}")
   end
 

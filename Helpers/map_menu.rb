@@ -94,6 +94,11 @@ def map_movement_action(action)
     interaction = VendorInteractor.new(vendor: vendor, player: @player, win: @action_win)
     interaction.engage
     @action_win.refresh_display
+  when :open_quest
+    quest = @map.quests.find { |q| q.location == @map_movement.new_player_loc }
+    msgs = [Message.new(quest.dialogue, 'yellow'),
+            Message.new(quest.formatted_rewards, 'yellow')]
+    $message_win.display_messages(msgs)
   end
 end
 

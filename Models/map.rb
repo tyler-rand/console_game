@@ -1,6 +1,6 @@
 # map
 class Map
-  attr_accessor :id, :name, :level, :file, :current_map, :mobs, :vendors
+  attr_accessor :id, :name, :level, :file, :current_map, :mobs, :vendors, :quests
 
   #
   ## CLASS METHODS
@@ -41,6 +41,7 @@ class Map
     @current_map = load_current_map
     @mobs        = load_mobs
     @vendors     = load_vendors
+    @quests      = load_quests
   end
 
   def save
@@ -73,6 +74,12 @@ class Map
     vendors = []
     map_positions(Vendor.map_character).each { |pos| vendors << Vendor.roll_new(self, pos) }
     self.vendors = vendors
+  end
+
+  def load_quests
+    quests = []
+    map_positions(Quest.map_character).each { |pos| quests << Quest.find(self.name, pos) }
+    self.quests = quests
   end
 
   def map_positions(map_letter)

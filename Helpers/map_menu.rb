@@ -59,26 +59,28 @@ def move_player_loop
       next bag_menu
     when equipped_menu_input
       next equipped_menu
-    when movement_input_exit
+    when quest_menu_input
+      next quest_menu
+    when map_legend_input
+      next map_legend
+    when 'w','a','s','d'
+      move_player(movement_input)
+    when movement_input_exit, @player.location == []
       break
     else
-      move_player(movement_input)
-      @right_win.build_display(@player)
-      break if @player.location == []
-      @map_display.display_colored_map
+      movement_input_error
     end
   end
 end
 
 def move_player(movement_input)
-  if movement_input_valid?(movement_input)
-    @map_movement = MapMovement.new(@map, @player, movement_input)
-    action = @map_movement.execute
+  @map_movement = MapMovement.new(@map, @player, movement_input)
+  action = @map_movement.execute
 
-    map_movement_action(action) unless action.nil?
-  else
-    movement_input_error
-  end
+  map_movement_action(action) unless action.nil?
+
+  @right_win.build_display(@player)
+  @map_display.display_colored_map
 end
 
 def map_movement_action(action)
@@ -96,14 +98,15 @@ def map_movement_action(action)
     @action_win.refresh_display
   when :open_quest
     quest = @map.quests.find { |q| q.location == @map_movement.new_player_loc }
+    @player.quest_log.quests << quest
     msgs = [Message.new(quest.dialogue, 'yellow'),
             Message.new(quest.formatted_rewards, 'yellow')]
     $message_win.display_messages(msgs)
   end
 end
 
-def movement_input_valid?(movement_input)
-  %w(w a s d).include?(movement_input)
+def move_player_input
+  ['w', 'a', 's', 'd']
 end
 
 def movement_input_exit
@@ -116,6 +119,14 @@ end
 
 def equipped_menu_input
   'e'
+end
+
+def quest_menu_input
+  'q'
+end
+
+def map_legend_input
+  'l'
 end
 
 def movement_input_error

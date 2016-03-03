@@ -1,7 +1,7 @@
 # tracks player stats and skills
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-                :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :location,
+                :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :quest_log, :location,
                 :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
 
   #
@@ -47,10 +47,10 @@ class Player
     @max_exp       = 10
     @unused_skills = 1
 
-    @health      = 100
-    @max_health  = 100
-    @energy      = 100
-    @max_energy  = 100
+    @health     = 100
+    @max_health = 100
+    @energy     = 100
+    @max_energy = 100
 
     @strength     = 1
     @agility      = 1
@@ -63,6 +63,7 @@ class Player
     @location  = []
     @equipped  = Equipped.new(player: self)
     @inventory = Inventory.new(player: self)
+    @quest_log = QuestLog.new(player: self)
   end
 
   def save

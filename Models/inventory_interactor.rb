@@ -64,14 +64,14 @@ class InventoryInteractor
 
   def wep_replace_msg
     msgs = [Message.new("> Replace #{equipped_item.type}(damage: #{equipped_item.damage}, "\
-                        "speed: #{equipped_item.speed})? [Y/N]", 'yellow'),
+                        "speed: #{equipped_item.speed})? (Y/N)", 'yellow'),
             Message.new('--> ', 'normal')]
     $message_win.display_messages(msgs)
   end
 
   def armor_replace_msg
     msgs = [Message.new("> Replace #{equipped_item.type}(defense: #{equipped_item.defense})? "\
-                        '[Y/N]', 'yellow'), Message.new('--> ', 'normal')]
+                        '(Y/N)', 'yellow'), Message.new('--> ', 'normal')]
     $message_win.display_messages(msgs)
   end
 

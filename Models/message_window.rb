@@ -11,13 +11,6 @@ class MessageWindow
     @win.refresh
   end
 
-  def box_with_title
-    win.box('|', '-')
-    win.setpos(0, 28)
-    win.attron(Curses.color_pair(3)) { win.addstr('Input/Message Log') }
-    win.setpos(1, 2)
-  end
-
   def display_messages(messages)
     message_log.add_msgs(messages)
 
@@ -28,7 +21,21 @@ class MessageWindow
     win.refresh
   end
 
+  def get_input
+    input = win.getstr.downcase
+    message_log.append(input)
+
+    input
+  end
+
   private
+
+  def box_with_title
+    win.box('|', '-')
+    win.setpos(0, 28)
+    win.attron(Curses.color_pair(3)) { win.addstr('Input/Message Log') }
+    win.setpos(1, 2)
+  end
 
   def print_log
     window_line = 1

@@ -90,8 +90,6 @@ class MapMovement
   end
 
   def land_on_quest
-    # npc says 'welcoe playername'
-    # opens quest menu
     return [:open_quest] if open_vendor?('quest')
     nil
   end
@@ -121,8 +119,7 @@ class MapMovement
     msgs << Message.new('--> ', 'normal')
     $message_win.display_messages(msgs)
 
-    input = $message_win.win.getstr.downcase
-    $message_win.message_log.append(input)
+    input = $message_win.get_input
 
     if ['yes', 'y'].include?(input)
       true

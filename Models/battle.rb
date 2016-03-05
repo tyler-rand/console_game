@@ -60,7 +60,7 @@ class Battle
   def attack_turn
     player_attack
 
-    if mob.health <= 0 && player.health > 0 then killed_mob else mob_attack end
+    mob.health <= 0 && player.health > 0 ? killed_mob : mob_attack
   end
 
   def player_attack
@@ -78,7 +78,11 @@ class Battle
   def defense_adjusted_dmg_percent(defender)
     defense = defender.defense
     count = 0
-    while defense >= 20 do count += 1; defense -= 20 end
+
+    while defense >= 20
+      count += 1
+      defense -= 20
+    end
 
     # defense_dmg_reduction_table[defender.level-1][count*20]
     0.4 # til method is fixed
@@ -86,9 +90,9 @@ class Battle
 
   def defense_dmg_reduction_table # FIXME: if defense doesnt fall into preset values... need a better way to do this
     [
-      {'level' => 1, 0 => 1, 20 => 0.8, 40 => 0.6, 60 => 0.4, 80 => 0.2},
-      {'level' => 2, 0 => 1, 40 => 0.8, 80 => 0.6, 120 => 0.4, 160 => 0.2},
-      {'level' => 3, 0 => 1, 60 => 0.8, 120 => 0.6, 180 => 0.4, 240 => 0.2}
+      { 'level' => 1, 0 => 1, 20 => 0.8, 40 => 0.6, 60 => 0.4, 80 => 0.2 },
+      { 'level' => 2, 0 => 1, 40 => 0.8, 80 => 0.6, 120 => 0.4, 160 => 0.2 },
+      { 'level' => 3, 0 => 1, 60 => 0.8, 120 => 0.6, 180 => 0.4, 240 => 0.2 }
     ]
   end
 

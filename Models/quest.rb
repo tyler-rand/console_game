@@ -6,7 +6,7 @@ class Quest
   end
 
   def self.find(map, location)
-    quest = Quest.all.find { |q| q.map_name == map && q.location == location }
+    Quest.all.find { |q| q.map_name == map && q.location == location }
   end
 
   def self.all

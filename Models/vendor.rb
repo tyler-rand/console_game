@@ -18,12 +18,12 @@ class Vendor
     @location  = location
     @level     = level
     @type      = type
-    @inventory = Inventory.new(player:self)
+    @inventory = Inventory.new(player: self)
   end
 
   private
 
   def vendor_name_list
-    ['Bob', 'Flo']
+    %w(Bob Flo)
   end
 end

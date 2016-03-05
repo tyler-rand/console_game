@@ -3,9 +3,7 @@ def admin_menu
 
   user_input = gets.chomp.split
 
-  if user_input[0..1].map(&:upcase) == %w(CREATE SKILLS)
-    create_all_skills
-  end
+  create_all_skills if user_input[0..1].map(&:upcase) == %w(CREATE SKILLS)
 end
 
 def create_all_skills

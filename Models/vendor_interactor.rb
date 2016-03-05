@@ -65,8 +65,8 @@ class VendorInteractor
   end
 
   def sell_action(input, item, item_index)
-    return sell_item(item, item_index) if ['y', 'yes'].include?(input)
-    return sell_menu if ['n', 'no'].include?(input)
+    return sell_item(item, item_index) if %w(yes y).include?(input)
+    return sell_menu if %w(no n).include?(input)
     msgs = [Message.new('> Reply not recognized, try again.', 'red')]
     $message_win.display_messages(msgs)
     verify_sell(item_index)
@@ -122,8 +122,8 @@ class VendorInteractor
   end
 
   def buy_action(input, item)
-    return buy_item(item) if ['y', 'yes'].include?(input)
-    return buy_menu if ['n', 'no'].include?(input)
+    return buy_item(item) if %w(yes y).include?(input)
+    return buy_menu if %w(no n).include?(input)
 
     msgs = [Message.new('> Reply not recognized, try again.', 'red')]
     $message_win.display_messages(msgs)
@@ -150,12 +150,12 @@ class VendorInteractor
   end
 
   def item_too_expensive?(item_cost)
-    if item_cost > @player.inventory.money
-      msgs = [Message.new('> Not enough money.', 'red')]
-      $message_win.display_messages(msgs)
+    return false unless item_cost > @player.inventory.money
 
-      true
-    end
+    msgs = [Message.new('> Not enough money.', 'red')]
+    $message_win.display_messages(msgs)
+
+    true
   end
 
   def exit_vendor

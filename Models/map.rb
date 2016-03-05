@@ -78,7 +78,7 @@ class Map
 
   def load_quests
     quests = []
-    map_positions(Quest.map_character).each { |pos| quests << Quest.find(self.name, pos) }
+    map_positions(Quest.map_character).each { |pos| quests << Quest.find(name, pos) }
     self.quests = quests
   end
 

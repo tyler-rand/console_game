@@ -12,7 +12,7 @@ class Skill
 
   def self.list(win)
     win.setpos(2, 2)
-    win.addstr("------ skills menu -------")
+    win.addstr('------ skills menu -------')
     win.setpos(3, 2)
 
     all.each do |skill|

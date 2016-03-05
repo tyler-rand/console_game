@@ -35,7 +35,7 @@ end
 
 def list_legend(window)
   window.win.setpos(1, 2)
-  window.win.addstr("---- Map Legend ----")
+  window.win.addstr('---- Map Legend ----')
   window.win.setpos(3, 3)
 
   display_legend(window.win)

@@ -38,12 +38,12 @@ class MessageLog
   def split_messages(msg, msg_max_length, scroll_amount)
     msg_sliced = formatted_line(msg.text, msg_max_length)
     log << [msg_sliced, msg.color, log.length]
-    scroll_amount += 1
+    scroll_amount + 1
   end
 
   def formatted_line(msg, msg_max_length)
     msg_sliced = msg.slice(0, msg_max_length).rpartition(' ')[0] + ' '
 
-    msg_sliced_formatted = msg.slice!(0, msg_sliced.length)
+    msg.slice!(0, msg_sliced.length)
   end
 end

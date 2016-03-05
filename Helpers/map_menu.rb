@@ -63,7 +63,7 @@ def move_player_loop
       next quest_menu
     when map_legend_input
       next map_legend
-    when 'w','a','s','d'
+    when 'w', 'a', 's', 'd'
       move_player(movement_input)
     when movement_input_exit, @player.location == []
       break
@@ -103,10 +103,6 @@ def map_movement_action(action)
             Message.new(quest.formatted_rewards, 'yellow')]
     $message_win.display_messages(msgs)
   end
-end
-
-def move_player_input
-  ['w', 'a', 's', 'd']
 end
 
 def movement_input_exit

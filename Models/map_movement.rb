@@ -112,18 +112,19 @@ class MapMovement
 
   def open_vendor?(type)
     msgs = if type == 'shop'
-      [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
-    elsif type == 'quest'
-      [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
-    end
+             [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
+           elsif type == 'quest'
+             [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
+           end
+
     msgs << Message.new('--> ', 'normal')
     $message_win.display_messages(msgs)
 
     input = $message_win.get_input
 
-    if ['yes', 'y'].include?(input)
+    if %w(yes y).include?(input)
       true
-    elsif ['no', 'n'].include?(input)
+    elsif %w(no n).include?(input)
       msgs = [Message.new('> Maybe next time!', 'yellow'),
               Message.new('> ', 'normal')]
       $message_win.display_messages(msgs)

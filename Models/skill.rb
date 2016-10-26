@@ -2,10 +2,6 @@
 class Skill
   attr_accessor :id, :name, :description, :effect
 
-  #
-  ## CLASS METHODS
-  #
-
   def self.all
     YAML.load_stream(open('db/SkillsDB.yml'))
   end
@@ -22,10 +18,6 @@ class Skill
       win.setpos(win.cury + 2, 2)
     end
   end
-
-  #
-  ## INSTANCE METHODS
-  #
 
   def initialize(name, description, effect)
     @id = object_id

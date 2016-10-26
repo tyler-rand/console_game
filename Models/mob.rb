@@ -1,11 +1,9 @@
 # npc monster
 class Mob
-  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_id, :movement_type,
-                :location
+  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_id,
+                :movement_type, :location
 
-  #
-  ## CLASS METHODS
-  #
+  MAP_ICON = 'm'
 
   def self.roll_new(map, location)
     name   = %w(terror vicious bloodthirsty).sample
@@ -18,14 +16,6 @@ class Mob
                   defense: defense, map_id: map.id, movement_type: 0, location: location)
     mob
   end
-
-  def self.map_character
-    'm'
-  end
-
-  #
-  ## INSTANCE METHODS
-  #
 
   def initialize(options = {})
     @id            = object_id

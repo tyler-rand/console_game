@@ -2,9 +2,15 @@
 class Item
   attr_accessor :id, :ilvl, :name, :type, :quality, :value, :attributes
 
-  #
-  ## CLASS METHODS
-  #
+  def initialize(ilvl:, name:, type:, quality:, value:, **attributes)
+    @id         = object_id
+    @ilvl       = ilvl.to_i
+    @name       = name
+    @type       = type
+    @quality    = quality
+    @value      = value
+    @attributes = attributes
+  end
 
   def self.roll_new(ilvl)
     quality = random_quality
@@ -45,19 +51,5 @@ class Item
     when 'pants'
       %w(cloth leather platemail chainmail).sample
     end
-  end
-
-  #
-  ## INSTANCE METHODS
-  #
-
-  def initialize(ilvl:, name:, type:, quality:, value:, **attributes)
-    @id         = object_id
-    @ilvl       = ilvl.to_i
-    @name       = name
-    @type       = type
-    @quality    = quality
-    @value      = value
-    @attributes = attributes
   end
 end

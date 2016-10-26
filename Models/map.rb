@@ -2,9 +2,16 @@
 class Map
   attr_accessor :id, :name, :level, :file, :current_map, :mobs, :vendors, :quests
 
-  #
-  ## CLASS METHODS
-  #
+  def initialize(options = {})
+    @id          = object_id
+    @name        = options[:name]
+    @level       = options[:level].to_i
+    @file        = options[:file]
+    @current_map = load_current_map
+    @mobs        = load_mobs
+    @vendors     = load_vendors
+    @quests      = load_quests
+  end
 
   def self.open_all
     YAML.load_stream(open('db/MapsDB.yml'))
@@ -29,21 +36,6 @@ class Map
     end
   end
 
-  #
-  ## INSTANCE METHODS
-  #
-
-  def initialize(options = {})
-    @id          = object_id
-    @name        = options[:name]
-    @level       = options[:level].to_i
-    @file        = options[:file]
-    @current_map = load_current_map
-    @mobs        = load_mobs
-    @vendors     = load_vendors
-    @quests      = load_quests
-  end
-
   def save
     File.open('db/MapsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
@@ -66,19 +58,19 @@ class Map
 
   def load_mobs
     mobs = []
-    map_positions(Mob.map_character).each { |pos| mobs << Mob.roll_new(self, pos) }
+    map_positions(Mob::MAP_ICON).each { |pos| mobs << Mob.roll_new(self, pos) }
     self.mobs = mobs
   end
 
   def load_vendors
     vendors = []
-    map_positions(Vendor.map_character).each { |pos| vendors << Vendor.roll_new(self, pos) }
+    map_positions(Vendor::MAP_ICON).each { |pos| vendors << Vendor.roll_new(self, pos) }
     self.vendors = vendors
   end
 
   def load_quests
     quests = []
-    map_positions(Quest.map_character).each { |pos| quests << Quest.find(name, pos) }
+    map_positions(Quest::MAP_ICON).each { |pos| quests << Quest.find(name, pos) }
     self.quests = quests
   end
 

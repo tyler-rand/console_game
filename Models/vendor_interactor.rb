@@ -8,15 +8,52 @@ class VendorInteractor
     @win    = win
   end
 
+  def self.open_vendor?(vendor_type)
+    vendor_welcome_message(vendor_type)
+
+    input = $message_win.get_input
+
+    if %w(yes y).include?(input)
+      true
+    elsif %w(no n).include?(input)
+      close_vendor
+    else
+      command_not_recognized { open_vendor?(vendor_type) }
+    end
+  end
+
+  def self.vendor_welcome_message(vendor_type)
+    msgs = if vendor_type == :shop
+             [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
+           elsif vendor_type == :quest
+             [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
+           end
+
+    msgs << Message.new('--> ', 'normal')
+    $message_win.display_messages(msgs)
+  end
+
+  def self.close_vendor
+    msgs = [Message.new(Vendor::EXIT_MSGS.sample, 'yellow'), Message.new('> ', 'normal')]
+    $message_win.display_messages(msgs)
+    false
+  end
+
+  def self.command_not_recognized
+    msgs = [Message.new(Vendor::INPUT_ERR_MSGS.sample, 'red')]
+    $message_win.display_messages(msgs)
+    yield
+  end
+
   def engage
     input = vendor_action_prompt
 
     if input[0] == 'sell'
-      sell_menu
+      VendorSellInteraction.perform(@win, @player)
     elsif input[0] == 'buy'
-      buy_menu
+      VendorBuyInteraction.perform(@win, @player, @vendor)
     else
-      vendor_input_error
+      VendorInteractor.command_not_recognized { engage }
     end
   end
 
@@ -29,138 +66,5 @@ class VendorInteractor
     $message_win.display_messages(msgs)
 
     $message_win.get_input.split(' ')
-  end
-
-  def sell_menu
-    @win.refresh_display { @player.inventory.list(@win) }
-
-    item_index = sell_prompt
-    return exit_vendor if item_index == 'back'
-
-    verify_sell(item_index.to_i)
-  end
-
-  def sell_prompt
-    msgs = [Message.new('> Enter an item number to sell, or \'BACK\'.', 'yellow'),
-            Message.new('--> ', 'normal')]
-    $message_win.display_messages(msgs)
-
-    $message_win.get_input
-  end
-
-  def verify_sell(item_index)
-    item = @player.inventory.find_item(item_index)
-    return not_recognized(:sell_menu) if item.nil?
-
-    input = prompt_confirm_sell(item)
-    sell_action(input, item, item_index)
-  end
-
-  def prompt_confirm_sell(item)
-    msgs = [Message.new("> Are you sure you want to sell #{item.name} for #{item.value}? (Y/N)", 'yellow'),
-            Message.new('--> ', 'normal')]
-    $message_win.display_messages(msgs)
-
-    $message_win.get_input
-  end
-
-  def sell_action(input, item, item_index)
-    return sell_item(item, item_index) if %w(yes y).include?(input)
-    return sell_menu if %w(no n).include?(input)
-    msgs = [Message.new('> Reply not recognized, try again.', 'red')]
-    $message_win.display_messages(msgs)
-    verify_sell(item_index)
-  end
-
-  def sell_item(item, item_index)
-    @player.inventory.money += item.value
-    interaction = InventoryInteractor.new(@player, 'drop', item_index)
-    interaction.execute
-
-    msgs = [Message.new("#{item.name} sold!", 'normal'),
-            Message.new('> ', 'normal')]
-    $message_win.display_messages(msgs)
-  end
-
-  def buy_menu
-    @win.refresh_display { @vendor.inventory.list(@win) }
-
-    item_index = buy_prompt
-    return exit_vendor if item_index == 'back'
-    verify_buy(item_index.to_i)
-  end
-
-  def buy_prompt
-    msgs = [Message.new('> Enter an item number to buy, or \'BACK\'.', 'yellow'),
-            Message.new('--> ', 'normal')]
-    $message_win.display_messages(msgs)
-
-    $message_win.get_input
-  end
-
-  def verify_buy(item_index)
-    item = @vendor.inventory.find_item(item_index)
-    return not_recognized(:buy_menu) if item.nil?
-
-    input = prompt_confirm_buy(item)
-    buy_action(input, item)
-  end
-
-  def not_recognized(return_method)
-    msgs = [Message.new('> Command not recognized.', 'red')]
-    $message_win.display_messages(msgs)
-
-    send(return_method)
-  end
-
-  def prompt_confirm_buy(item)
-    msgs = [Message.new("> Are you sure you want to buy #{item.name} for #{(item.value * 1.2).floor}? (Y/N)", 'yellow'),
-            Message.new('--> ', 'normal')]
-    $message_win.display_messages(msgs)
-
-    $message_win.get_input
-  end
-
-  def buy_action(input, item)
-    return buy_item(item) if %w(yes y).include?(input)
-    return buy_menu if %w(no n).include?(input)
-
-    msgs = [Message.new('> Reply not recognized, try again.', 'red')]
-    $message_win.display_messages(msgs)
-
-    verify_buy(item)
-  end
-
-  def buy_item(item)
-    item_cost = (item.value * 1.2).floor
-    return buy_menu if item_too_expensive?(item_cost)
-
-    @player.inventory.money -= item_cost
-    InventoryInteractor.new(@player, 'add', item).execute
-
-    msgs = [Message.new("#{item.name} bought!", 'normal'), Message.new('> ', 'normal')]
-    $message_win.display_messages(msgs)
-  end
-
-  def vendor_input_error
-    msgs = [Message.new('> "I didn\'t get that"', 'red')]
-    $message_win.display_messages(msgs)
-
-    engage
-  end
-
-  def item_too_expensive?(item_cost)
-    return false unless item_cost > @player.inventory.money
-
-    msgs = [Message.new('> Not enough money.', 'red')]
-    $message_win.display_messages(msgs)
-
-    true
-  end
-
-  def exit_vendor
-    msgs = [Message.new('> "Come back anytime."', 'normal'),
-            Message.new('> ', 'normal')]
-    $message_win.display_messages(msgs)
   end
 end

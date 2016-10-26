@@ -4,36 +4,7 @@ class Player
                 :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :quest_log, :location,
                 :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
 
-  #
-  ## CLASS METHODS
-  #
-
-  def self.open_all
-    YAML.load_stream(open('db/PlayersDB.yml'))
-  end
-
-  def self.load(input_name, input_pass)
-    # try to match input name
-    player = Player.open_all.reverse.find { |p| p.name == input_name }
-    # then try to match password
-    Player.verify_credentials(player, input_pass)
-  end
-
-  def self.verify_credentials(player, input_pass)
-    if player.nil?
-      puts 'Name not found'.colorize(101)
-    elsif input_pass == player.password
-      puts 'Loaded player successfully.'.colorize(92)
-      player
-    else
-      puts "Error: incorrect password. input: #{input_pass}, pass: #{player.password}".colorize(101)
-    end
-  end
-
-  #
-  ## INSTANCE METHODS
-  #
-
+  # TODO: refactor
   def initialize(options = {}) # type = players in-game class
     @id       = object_id
     @name     = options[:name]
@@ -64,6 +35,28 @@ class Player
     @equipped  = Equipped.new(player: self)
     @inventory = Inventory.new(player: self)
     @quest_log = QuestLog.new(player: self)
+  end
+
+  def self.open_all
+    YAML.load_stream(open('db/PlayersDB.yml'))
+  end
+
+  def self.load(input_name, input_pass)
+    # try to match input name
+    player = Player.open_all.reverse.find { |p| p.name == input_name }
+    # then try to match password
+    Player.verify_credentials(player, input_pass)
+  end
+
+  def self.verify_credentials(player, input_pass)
+    if player.nil?
+      puts 'Name not found'.colorize(101)
+    elsif input_pass == player.password
+      puts 'Loaded player successfully.'.colorize(92)
+      player
+    else
+      puts "Error: incorrect password. input: #{input_pass}, pass: #{player.password}".colorize(101)
+    end
   end
 
   def save

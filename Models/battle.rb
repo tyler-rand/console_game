@@ -2,10 +2,6 @@
 class Battle
   attr_accessor :id, :state, :battle_displayer, :map_movement, :map, :player, :location, :mob
 
-  #
-  ## INSTANCE METHODS
-  #
-
   def initialize(battle_displayer, map_movement)
     @id               = object_id
     @state            = 0 # 0 is ongoing battle, 1 is battle ended

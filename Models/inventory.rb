@@ -2,10 +2,6 @@
 class Inventory
   attr_accessor :id, :player, :items, :money
 
-  #
-  ## INSTANCE METHODS
-  #
-
   def initialize(player:)
     @id     = object_id
     @player = player

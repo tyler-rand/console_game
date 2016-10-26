@@ -1,18 +1,10 @@
 class Quest
-  attr_accessor :id, :level, :name, :location, :map_name, :requirements, :dialogue, :xp_reward, :cash_reward, :item_reward
+  attr_accessor :id, :level, :name, :location, :map_name, :requirements, :dialogue, :xp_reward,
+                :cash_reward, :item_reward
 
-  def self.map_character
-    'Q'
-  end
+  MAP_ICON = 'Q'
 
-  def self.find(map, location)
-    Quest.all.find { |q| q.map_name == map && q.location == location }
-  end
-
-  def self.all
-    YAML.load_stream(open('db/QuestsDB.yml'))
-  end
-
+  # TODO: fix this ridiculousness
   def initialize(level:, name:, location:, map_name:, requirements:, dialogue:, xp_reward:, cash_reward:0, item_reward:nil)
     @id           = object_id
     @level        = level
@@ -24,6 +16,14 @@ class Quest
     @xp_reward    = xp_reward
     @cash_reward  = cash_reward
     @item_reward  = item_reward
+  end
+
+  def self.find(map, location)
+    Quest.all.find { |q| q.map_name == map && q.location == location }
+  end
+
+  def self.all
+    YAML.load_stream(open('db/QuestsDB.yml'))
   end
 
   def save

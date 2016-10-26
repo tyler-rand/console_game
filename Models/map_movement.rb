@@ -2,10 +2,6 @@
 class MapMovement
   attr_accessor :map, :player, :movement_input, :new_player_loc
 
-  #
-  ## INSTANCE METHODS
-  #
-
   def initialize(map, player, movement_input)
     @map = map
     @player = player
@@ -54,9 +50,9 @@ class MapMovement
     when '.' then land_on_open_space
     when 'c' then land_on_chest
     when '$' then land_on_money
-    when Mob.map_character then land_on_mob
-    when Quest.map_character then land_on_quest
-    when Vendor.map_character then land_on_vendor
+    when Mob::MAP_ICON then land_on_mob
+    when Quest::MAP_ICON then land_on_quest
+    when Vendor::MAP_ICON then land_on_vendor
     when '^' then show_next_map
     end
   end
@@ -90,12 +86,12 @@ class MapMovement
   end
 
   def land_on_quest
-    return [:open_quest] if open_vendor?('quest')
+    return [:open_quest] if VendorInteractor.open_vendor?(:quest)
     nil
   end
 
   def land_on_vendor
-    return [:open_shop] if open_vendor?('shop')
+    return [:open_shop] if VendorInteractor.open_vendor?(:shop)
     nil
   end
 
@@ -110,29 +106,41 @@ class MapMovement
     map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
   end
 
-  def open_vendor?(type)
-    msgs = if type == 'shop'
-             [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
-           elsif type == 'quest'
-             [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
-           end
-
-    msgs << Message.new('--> ', 'normal')
-    $message_win.display_messages(msgs)
-
-    input = $message_win.get_input
-
-    if %w(yes y).include?(input)
-      true
-    elsif %w(no n).include?(input)
-      msgs = [Message.new('> Maybe next time!', 'yellow'),
-              Message.new('> ', 'normal')]
-      $message_win.display_messages(msgs)
-      false
-    else
-      msgs = [Message.new('> Command not recognized', 'red')]
-      $message_win.display_messages(msgs)
-      open_vendor?(type)
-    end
-  end
+  # # VENDOR INTERACTION - refactor into something
+  # def open_vendor?(vendor_type)
+  #   vendor_welcome_message(vendor_type)
+  #
+  #   input = $message_win.get_input
+  #
+  #   if %w(yes y).include?(input)
+  #     true
+  #   elsif %w(no n).include?(input)
+  #     close_vendor
+  #   else
+  #     command_not_recognized { open_vendor?(vendor_type) }
+  #   end
+  # end
+  #
+  # def vendor_welcome_message(vendor_type)
+  #   msgs = if vendor_type == :shop
+  #            [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
+  #          elsif vendor_type == :quest
+  #            [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
+  #          end
+  #
+  #   msgs << Message.new('--> ', 'normal')
+  #   $message_win.display_messages(msgs)
+  # end
+  #
+  # def close_vendor
+  #   msgs = [Message.new('> Maybe next time!', 'yellow'), Message.new('> ', 'normal')]
+  #   $message_win.display_messages(msgs)
+  #   false
+  # end
+  #
+  # def command_not_recognized
+  #   msgs = [Message.new('> Command not recognized', 'red')]
+  #   $message_win.display_messages(msgs)
+  #   yield
+  # end
 end

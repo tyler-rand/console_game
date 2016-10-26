@@ -2,10 +2,6 @@
 class MessageLog
   attr_accessor :id, :log, :display_range
 
-  #
-  ## INSTANCE METHODS
-  #
-
   def initialize
     @id = object_id
     @log = [['> ', 'yellow', 0], ['> ', 'yellow', 1], ['> ', 'yellow', 2], ['> ', 'yellow', 3],

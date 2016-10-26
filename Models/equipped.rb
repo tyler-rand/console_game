@@ -2,10 +2,6 @@
 class Equipped
   attr_accessor :id, :player, :weapon, :chest, :pants, :helm, :gloves, :boots
 
-  #
-  ## INSTANCE METHODS
-  #
-
   def initialize(player:)
     @id     = object_id
     @player = player

@@ -2,10 +2,6 @@
 class InventoryInteractor
   attr_accessor :id, :player, :equipped, :inventory, :command, :item, :item_num
 
-  #
-  ## INSTANCE METHODS
-  #
-
   def initialize(player, command, item_num)
     @id        = object_id
     @player    = player

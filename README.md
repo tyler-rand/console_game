@@ -4,13 +4,18 @@ A terminal-based adventure game displayed using the Ruby Curses gem.
 
 # Getting Started
 
-After cloning the repo and bundling gems, type `ruby init.rb` when in the directory to create the empty database .yml files and maps.
+First install the gems
+`bundle install`
 
-Then start the game with `ruby console_rpg.rb`
+Then create database .yml files and seed data
+`ruby init.rb`
+
+Finally, start playing!
+`ruby console_rpg.rb`
 
 # Gameplay
 
 Follow the prompts to create a character and password, then type 'map' followed by a map name to load a map.
 WASD keys are used to move up/left/right/down, with C exiting the map view.
 
-Fight monsters, level up, find and use items, and try not to die!
+Fight monsters, level up, use items, and try not to die!

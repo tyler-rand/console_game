@@ -5,12 +5,15 @@ A terminal-based adventure game displayed using the Ruby Curses gem.
 # Getting Started
 
 First install the gems
+
 `bundle install`
 
 Then create database .yml files and seed data
+
 `ruby init.rb`
 
-Finally, start playing!
+Start playing with
+
 `ruby console_rpg.rb`
 
 # Gameplay

@@ -2,6 +2,9 @@
 
 A terminal-based adventure game displayed using the Ruby Curses gem.
 
+![](http://i.imgur.com/b6mHP8l.gif)
+
+
 # Getting Started
 
 First install the gems

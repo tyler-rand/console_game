@@ -49,9 +49,9 @@ class VendorInteractor
     input = vendor_action_prompt
 
     if input[0] == 'sell'
-      VendorSellInteraction.perform(@win, @player)
+      VendorSellInteraction.execute(@win, @player)
     elsif input[0] == 'buy'
-      VendorBuyInteraction.perform(@win, @player, @vendor)
+      VendorBuyInteraction.execute(@win, @player, @vendor)
     else
       VendorInteractor.command_not_recognized { engage }
     end

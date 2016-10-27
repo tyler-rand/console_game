@@ -4,32 +4,17 @@ class Player
                 :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :quest_log, :location,
                 :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
 
-  # TODO: refactor
-  def initialize(options = {}) # type = players in-game class
+  def initialize(name:, password:, species:, type:)
     @id       = object_id
-    @name     = options[:name]
-    @password = options[:password]
+    @name     = name
+    @password = password
+    @species  = species
+    @type     = type
 
-    @species = options[:species]
-    @type    = options[:type]
-
-    @level         = 1
-    @current_exp   = 0
-    @max_exp       = 10
-    @unused_skills = 1
-
-    @health     = 100
-    @max_health = 100
-    @energy     = 100
-    @max_energy = 100
-
-    @strength     = 1
-    @agility      = 1
-    @intelligence = 1
-
-    @defense     = 0
-    @damage      = base_damage
-    @crit_chance = 0
+    init_experience_and_level
+    init_resources
+    init_stats
+    init_damage_and_armor
 
     @location  = []
     @equipped  = Equipped.new(player: self)
@@ -77,28 +62,50 @@ class Player
   def level_up
     @level += 1
     @unused_skills += 1
-    add_stats_after_lvl_up
-    reset_current_exp_after_lvl_up
+    @current_exp = current_exp - max_exp
+    increase_stats_after_lvl_up
     update_max_exp_after_lvl_up
     update_stats
   end
 
   private
 
+  def init_experience_and_level
+    @level         = 1
+    @current_exp   = 0
+    @max_exp       = 10
+    @unused_skills = 1
+  end
+
+  def init_resources
+    @health     = 100
+    @max_health = 100
+    @energy     = 100
+    @max_energy = 100
+  end
+
+  def init_stats
+    @strength     = 1
+    @agility      = 1
+    @intelligence = 1
+  end
+
+  def init_damage_and_armor
+    @defense     = 0
+    @damage      = base_damage
+    @crit_chance = 0
+  end
+
   def base_damage
     5 + @strength
   end
 
-  def add_stats_after_lvl_up
+  def increase_stats_after_lvl_up
     @strength += 1
     @agility += 1
     @intelligence += 1
     @health += level
     @max_health += level
-  end
-
-  def reset_current_exp_after_lvl_up
-    @current_exp = current_exp - max_exp
   end
 
   def update_max_exp_after_lvl_up

@@ -5,7 +5,8 @@ class Quest
   MAP_ICON = 'Q'
 
   # TODO: fix this ridiculousness
-  def initialize(level:, name:, location:, map_name:, requirements:, dialogue:, xp_reward:, cash_reward:0, item_reward:nil)
+  def initialize(level:, name:, location:, map_name:, requirements:, dialogue:, xp_reward:,
+                 cash_reward: 0, item_reward: nil)
     @id           = object_id
     @level        = level
     @name         = name

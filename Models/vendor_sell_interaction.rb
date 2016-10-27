@@ -1,5 +1,5 @@
 class VendorSellInteraction
-  def self.perform(win, player)
+  def self.execute(win, player)
     @win = win
     @player = player
 

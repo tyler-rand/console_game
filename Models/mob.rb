@@ -17,17 +17,18 @@ class Mob
     mob
   end
 
-  def initialize(options = {})
+  def initialize(name:, type:, level:, damage:, max_health:, defense:, map_id:, movement_type:,
+                 location:)
     @id            = object_id
-    @name          = options[:name]
-    @type          = options[:type]
-    @level         = options[:level].to_i
-    @health        = options[:max_health]
-    @max_health    = options[:max_health]
-    @damage        = options[:damage]
-    @defense       = options[:defense]
-    @map_id        = options[:map_id]
-    @movement_type = options[:movement_type]
-    @location      = options[:location]
+    @name          = name
+    @type          = type
+    @level         = level
+    @health        = max_health
+    @max_health    = max_health
+    @damage        = damage
+    @defense       = defense
+    @map_id        = map_id
+    @movement_type = movement_type
+    @location      = location
   end
 end

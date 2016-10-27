@@ -2,11 +2,11 @@
 class Map
   attr_accessor :id, :name, :level, :file, :current_map, :mobs, :vendors, :quests
 
-  def initialize(options = {})
+  def initialize(name:, level:, file:)
     @id          = object_id
-    @name        = options[:name]
-    @level       = options[:level].to_i
-    @file        = options[:file]
+    @name        = name
+    @level       = level.to_i
+    @file        = file
     @current_map = load_current_map
     @mobs        = load_mobs
     @vendors     = load_vendors

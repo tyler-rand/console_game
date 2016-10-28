@@ -1,3 +1,4 @@
+# vendor interaction in the sell menu
 class VendorSellInteraction
   def self.execute(win, player)
     @win = win
@@ -27,7 +28,11 @@ class VendorSellInteraction
 
   def self.verify_sell(item_index)
     item = @player.inventory.find_item(item_index)
-    return VendorInteractor.command_not_recognized { sell_menu } if item.nil?
+
+    if item.nil?
+      VendorInteractor.command_not_recognized
+      return sell_menu
+    end
 
     input = prompt_confirm_sell(item)
     sell_action(input, item, item_index)
@@ -46,7 +51,8 @@ class VendorSellInteraction
     when 'yes', 'y' then sell_item(item, item_index)
     when 'no', 'n' then sell_menu
     else
-      VendorInteractor.command_not_recognized { verify_sell(item_index) }
+      VendorInteractor.command_not_recognized
+      verify_sell(item_index)
     end
   end
 

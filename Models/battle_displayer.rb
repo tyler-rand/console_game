@@ -36,7 +36,7 @@ class BattleDisplayer
     win.setpos(4, 14)
     win.addstr('   ')
     win.setpos(4, 14)
-    win.attron(Curses.color_pair(health_color(player))) { win.addstr("#{player.health}") }
+    win.attron(Curses.color_pair(health_color(player))) { win.addstr(player.health.to_s) }
   end
 
   def colored_mob_health(mob)
@@ -45,7 +45,7 @@ class BattleDisplayer
     win.setpos(4, 28)
     win.addstr('   ')
     win.setpos(4, 28)
-    win.attron(Curses.color_pair(health_color(mob))) { win.addstr("#{mob.health}") }
+    win.attron(Curses.color_pair(health_color(mob))) { win.addstr(mob.health.to_s) }
   end
 
   def health_color(char)

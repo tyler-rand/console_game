@@ -1,3 +1,5 @@
+# handles the 'main menu' or first level of interaction that is shared amongst
+# questgivers and vendors
 class VendorInteractor
   attr_accessor :id, :vendor, :player
 
@@ -18,7 +20,8 @@ class VendorInteractor
     elsif %w(no n).include?(input)
       close_vendor
     else
-      command_not_recognized { open_vendor?(vendor_type) }
+      command_not_recognized
+      open_vendor?(vendor_type)
     end
   end
 
@@ -42,7 +45,6 @@ class VendorInteractor
   def self.command_not_recognized
     msgs = [Message.new(Vendor::INPUT_ERR_MSGS.sample, 'red')]
     $message_win.display_messages(msgs)
-    yield
   end
 
   def engage
@@ -53,7 +55,8 @@ class VendorInteractor
     elsif input[0] == 'buy'
       VendorBuyInteraction.execute(@win, @player, @vendor)
     else
-      VendorInteractor.command_not_recognized { engage }
+      VendorInteractor.command_not_recognized
+      engage
     end
   end
 

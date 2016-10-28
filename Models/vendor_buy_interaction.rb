@@ -1,3 +1,4 @@
+# vendor interaction in the buy menu
 class VendorBuyInteraction
   def self.execute(win, player, vendor)
     @win = win
@@ -27,7 +28,10 @@ class VendorBuyInteraction
 
   def self.verify_buy(item_index)
     item = @vendor.inventory.find_item(item_index)
-    return VendorInteractor.command_not_recognized { buy_menu } if item.nil?
+    if item.nil?
+      VendorInteractor.command_not_recognized
+      return buy_menu
+    end
 
     input = prompt_confirm_buy(item)
     buy_action(input, item)
@@ -46,7 +50,8 @@ class VendorBuyInteraction
     when 'yes', 'y' then buy_item(item)
     when 'no', 'n' then buy_menu
     else
-      VendorInteractor.command_not_recognized { verify_buy(item) }
+      VendorInteractor.command_not_recognized
+      verify_buy(item)
     end
   end
 

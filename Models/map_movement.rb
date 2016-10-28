@@ -105,42 +105,4 @@ class MapMovement
     map.current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
     map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
   end
-
-  # # VENDOR INTERACTION - refactor into something
-  # def open_vendor?(vendor_type)
-  #   vendor_welcome_message(vendor_type)
-  #
-  #   input = $message_win.get_input
-  #
-  #   if %w(yes y).include?(input)
-  #     true
-  #   elsif %w(no n).include?(input)
-  #     close_vendor
-  #   else
-  #     command_not_recognized { open_vendor?(vendor_type) }
-  #   end
-  # end
-  #
-  # def vendor_welcome_message(vendor_type)
-  #   msgs = if vendor_type == :shop
-  #            [Message.new('> Take a look at the shop? (Y/N)', 'yellow')]
-  #          elsif vendor_type == :quest
-  #            [Message.new('> New quest found! Check it out? (Y/N)', 'yellow')]
-  #          end
-  #
-  #   msgs << Message.new('--> ', 'normal')
-  #   $message_win.display_messages(msgs)
-  # end
-  #
-  # def close_vendor
-  #   msgs = [Message.new('> Maybe next time!', 'yellow'), Message.new('> ', 'normal')]
-  #   $message_win.display_messages(msgs)
-  #   false
-  # end
-  #
-  # def command_not_recognized
-  #   msgs = [Message.new('> Command not recognized', 'red')]
-  #   $message_win.display_messages(msgs)
-  #   yield
-  # end
 end

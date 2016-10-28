@@ -12,9 +12,9 @@ class Skill
     win.setpos(3, 2)
 
     all.each do |skill|
-      win.addstr("#{skill.name}")
+      win.addstr(skill.name.to_s)
       win.setpos(win.cury + 1, 2)
-      win.addstr("#{skill.description}")
+      win.addstr(skill.description.to_s)
       win.setpos(win.cury + 2, 2)
     end
   end

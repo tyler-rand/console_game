@@ -75,13 +75,9 @@ class InventoryInteractor
     loop do
       user_input = equip_replace_input
 
-      if user_input == 'Y'
-        return confirm_replace_item(user_input)
-      elsif user_input == 'N'
-        return dont_replace_item(user_input)
-      else
-        equip_confirm_error
-      end
+      return confirm_replace_item(user_input) if user_input == 'Y'
+      return dont_replace_item(user_input) if user_input == 'N'
+      equip_confirm_error
     end
   end
 

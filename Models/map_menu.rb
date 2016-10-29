@@ -95,9 +95,10 @@ class MapMenu
     @map_movement = MapMovement.new(@map, @player, movement_input)
     action = @map_movement.execute
 
-    map_movement_action(action) unless action.nil?
-
-    @right_win.build_display(@player)
+    unless action.nil?
+      map_movement_action(action)
+      @right_win.build_display(@player)
+    end
 
     @map_displayer.update_player_location(@player.location, @map_movement.old_player_loc)
   end

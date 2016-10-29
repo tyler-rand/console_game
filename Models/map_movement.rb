@@ -1,4 +1,4 @@
-# handles a player moving on a map
+# handles a player moving on a map object, but not the display of the movement
 class MapMovement
   attr_accessor :map, :player, :movement_input, :old_player_loc, :new_player_loc
 

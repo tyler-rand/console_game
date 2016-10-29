@@ -4,7 +4,7 @@ class Player
                 :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :quest_log, :location,
                 :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
 
-  MAP_ICON = 'P'
+  MAP_ICON = 'P'.freeze
 
   def initialize(name:, password:, species:, type:)
     @id       = object_id

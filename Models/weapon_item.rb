@@ -11,7 +11,7 @@ class WeaponItem < Item
   private
 
   def roll_damage
-    ((((50 + ilvl) * 2) - 90) * (rand(0.85..1.15))).floor
+    ((((50 + ilvl) * 2) - 90) * rand(0.85..1.15)).floor
   end
 
   def roll_speed

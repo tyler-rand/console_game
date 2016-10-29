@@ -2,10 +2,11 @@
 class Vendor
   attr_accessor :id, :name, :location, :level, :type, :inventory
 
-  MAP_ICON = 'N'
-  INPUT_ERR_MSGS = ['> I didn\'t get that', '> What\'s that?', '> You\'re making no sense!']
-  EXIT_MSGS = ['> Maybe next time!', '> See ya later!', '> Have a good one!', '> Take it easy!']
-  VENDOR_NAME_LIST = %w(Bob Flo)
+  MAP_ICON = 'N'.freeze
+  INPUT_ERR_MSGS = ['> I didn\'t get that', '> What\'s that?', '> You\'re making no sense!'].freeze
+  EXIT_MSGS = ['> Maybe next time!', '> See ya later!', '> Have a good one!',
+               '> Take it easy!'].freeze
+  VENDOR_NAME_LIST = %w(Bob Flo).freeze
 
   def initialize(level:, location:, type:)
     @id        = object_id

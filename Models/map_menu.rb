@@ -1,11 +1,11 @@
 # map specific interations from the games main menu
 class MapMenu
-  MAP_LEGEND = 'l'
-  QUEST_MENU = 'q'
-  EQUIPPED_MENU = 'e'
-  BAG_MENU = 'b'
-  EXIT = 'c'
-  MOVE_PLAYER = %w(w a s d)
+  MAP_LEGEND = 'l'.freeze
+  QUEST_MENU = 'q'.freeze
+  EQUIPPED_MENU = 'e'.freeze
+  BAG_MENU = 'b'.freeze
+  EXIT = 'c'.freeze
+  MOVE_PLAYER = %w(w a s d).freeze
 
   def initialize(action_win, main_win, right_win, player)
     @action_win = action_win

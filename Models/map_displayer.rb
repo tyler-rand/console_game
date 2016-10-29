@@ -17,7 +17,9 @@ class MapDisplayer
   def display_colored_map
     new_display_ranges
 
-    indexed_map = map.current_map[cur_y_range].each_with_index.map { |line, i| [line[cur_x_range], i] }
+    indexed_map = map.current_map[cur_y_range].each_with_index.map do
+      |line, i| [line[cur_x_range], i]
+    end
 
     indexed_map.each do |line, i|
       print_map_line(line, i)
@@ -79,20 +81,18 @@ class MapDisplayer
 
   def map_colors
     {
-      '.' => Curses::COLOR_GREEN, Player::MAP_ICON => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE,
-      'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, Mob::MAP_ICON => Curses::COLOR_MAGENTA,
-      'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, Quest::MAP_ICON => Curses::COLOR_YELLOW,
-      'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL, '^' => Curses::COLOR_GREEN,
-      'v' => Curses::COLOR_GREEN, Vendor::MAP_ICON => Curses::COLOR_YELLOW
+      '.' => Curses::COLOR_GREEN, Player::MAP_ICON => Curses::COLOR_BLUE,
+      '$' => Curses::COLOR_WHITE, 'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW,
+      Mob::MAP_ICON => Curses::COLOR_MAGENTA, 'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL,
+      Quest::MAP_ICON => Curses::COLOR_YELLOW, 'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL,
+      '^' => Curses::COLOR_GREEN, 'v' => Curses::COLOR_GREEN,
+      Vendor::MAP_ICON => Curses::COLOR_YELLOW
     }
   end
 
   def update_display(map_loc)
-    map_row = map_loc[0]
-    map_col = map_loc[1]
-    win_row = map_row + TOP_BEZEL
-    win_col = map_col + LEFT_BEZEL
-
+    win_row = map_loc[0] + TOP_BEZEL
+    win_col = map_loc[1] + LEFT_BEZEL
     map_char = map.current_map[map_loc[0]][map_loc[1]]
 
     win.setpos(win_row, win_col)

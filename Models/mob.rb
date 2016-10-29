@@ -3,7 +3,7 @@ class Mob
   attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_id,
                 :movement_type, :location
 
-  MAP_ICON = 'm'
+  MAP_ICON = 'm'.freeze
 
   def self.roll_new(map, location)
     name   = %w(terror vicious bloodthirsty).sample

@@ -14,11 +14,11 @@ class MapDisplayer
     @cur_y_range = nil
     @max_x = map.current_map[0].size - 1
     @max_y = map.current_map.size - 1
+
+    new_display_ranges
   end
 
   def display_colored_map
-    new_display_ranges
-
     indexed_map = map.current_map[cur_y_range].each_with_index.map do
       |line, i| [line[cur_x_range], i]
     end
@@ -29,6 +29,13 @@ class MapDisplayer
   end
 
   def update_player_location(new_player_loc, old_player_loc)
+    # refresh whole map if it needs to scroll
+    # TODO: try instead writing each char, checking which are same and only writing the changes to
+    # see if its faster / doesnt give the screen blinking
+    return display_colored_map if scroll_map?
+
+    # only change 2 locations if map doesnt need to scroll
+    new_display_ranges
     update_display(old_player_loc)
     update_display(new_player_loc)
   end
@@ -92,8 +99,18 @@ class MapDisplayer
     }
   end
 
+  def scroll_map?
+    y = cur_y_range
+    x = cur_x_range
+
+    new_display_ranges
+
+    true unless cur_y_range == y && cur_x_range == x
+  end
+
   def update_display(map_loc)
     @map_loc = map_loc
+
     win.setpos(window_row, window_column)
     win.attron(Curses.color_pair(map_colors[map_char])) { win.addch(map_char) }
   end

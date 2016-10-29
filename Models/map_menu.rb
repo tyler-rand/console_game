@@ -95,12 +95,16 @@ class MapMenu
     @map_movement = MapMovement.new(@map, @player, movement_input)
     action = @map_movement.execute
 
-    unless action.nil?
+    # dont refresh right window when no changes, player moved between empty spaces
+    if action
       map_movement_action(action)
       @right_win.build_display(@player)
     end
 
-    @map_displayer.update_player_location(@player.location, @map_movement.old_player_loc)
+    # dont update player location during map transition
+    unless action && action[0] == :show_next_map
+      @map_displayer.update_player_location(@player.location, @map_movement.old_player_loc)
+    end
   end
 
   def map_movement_action(action)

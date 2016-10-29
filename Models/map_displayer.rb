@@ -2,6 +2,8 @@
 class MapDisplayer
   attr_accessor :map, :win, :cur_x_range, :cur_y_range, :max_x, :max_y
 
+  MAP_HEIGHT = 19
+  MAP_WIDTH = 20
   TOP_BEZEL = 2
   LEFT_BEZEL = 5
 
@@ -91,11 +93,24 @@ class MapDisplayer
   end
 
   def update_display(map_loc)
-    win_row = map_loc[0] + TOP_BEZEL
-    win_col = map_loc[1] + LEFT_BEZEL
-    map_char = map.current_map[map_loc[0]][map_loc[1]]
-
-    win.setpos(win_row, win_col)
+    @map_loc = map_loc
+    win.setpos(window_row, window_column)
     win.attron(Curses.color_pair(map_colors[map_char])) { win.addch(map_char) }
+  end
+
+  def window_row
+    y_difference = 1 + cur_y_range.last(1)[0] - @map_loc[0]
+
+    MAP_HEIGHT + TOP_BEZEL - y_difference
+  end
+
+  def window_column
+    x_difference = 1 + cur_x_range.last(1)[0] - @map_loc[1]
+
+    MAP_WIDTH + LEFT_BEZEL - x_difference
+  end
+
+  def map_char
+    map.current_map[@map_loc[0]][@map_loc[1]]
   end
 end

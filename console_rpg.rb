@@ -50,7 +50,7 @@ begin
 
     case user_menu_input
     when 'MAP'
-      map_menu
+      MapMenu.new(@action_win, @main_win, @right_win, @player).menu
     when 'BAG'
       bag_menu
     when 'EQUIPPED'

@@ -42,7 +42,9 @@ class Map
 
   def find_player
     current_map.each do |line|
-      return [current_map.index(line), line.index('P')] if line.include?('P')
+      if line.include?(Player::MAP_ICON)
+        return [current_map.index(line), line.index(Player::MAP_ICON)]
+      end
     end
   end
 

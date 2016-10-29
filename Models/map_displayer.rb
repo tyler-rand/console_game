@@ -2,6 +2,9 @@
 class MapDisplayer
   attr_accessor :map, :win, :cur_x_range, :cur_y_range, :max_x, :max_y
 
+  TOP_BEZEL = 2
+  LEFT_BEZEL = 5
+
   def initialize(map, win)
     @map = map
     @win = win
@@ -19,6 +22,11 @@ class MapDisplayer
     indexed_map.each do |line, i|
       print_map_line(line, i)
     end
+  end
+
+  def update_player_location(new_player_loc, old_player_loc)
+    update_display(old_player_loc)
+    update_display(new_player_loc)
   end
 
   private
@@ -71,11 +79,23 @@ class MapDisplayer
 
   def map_colors
     {
-      '.' => Curses::COLOR_GREEN, 'P' => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE,
-      'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, 'm' => Curses::COLOR_MAGENTA,
-      'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, 'Q' => Curses::COLOR_YELLOW,
+      '.' => Curses::COLOR_GREEN, Player::MAP_ICON => Curses::COLOR_BLUE, '$' => Curses::COLOR_WHITE,
+      'x' => Curses::COLOR_RED, 'c' => Curses::COLOR_YELLOW, Mob::MAP_ICON => Curses::COLOR_MAGENTA,
+      'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL, Quest::MAP_ICON => Curses::COLOR_YELLOW,
       'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL, '^' => Curses::COLOR_GREEN,
-      'v' => Curses::COLOR_GREEN, 'N' => Curses::COLOR_YELLOW
+      'v' => Curses::COLOR_GREEN, Vendor::MAP_ICON => Curses::COLOR_YELLOW
     }
+  end
+
+  def update_display(map_loc)
+    map_row = map_loc[0]
+    map_col = map_loc[1]
+    win_row = map_row + TOP_BEZEL
+    win_col = map_col + LEFT_BEZEL
+
+    map_char = map.current_map[map_loc[0]][map_loc[1]]
+
+    win.setpos(win_row, win_col)
+    win.attron(Curses.color_pair(map_colors[map_char])) { win.addch(map_char) }
   end
 end

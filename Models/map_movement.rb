@@ -1,11 +1,12 @@
 # handles a player moving on a map
 class MapMovement
-  attr_accessor :map, :player, :movement_input, :new_player_loc
+  attr_accessor :map, :player, :movement_input, :old_player_loc, :new_player_loc
 
   def initialize(map, player, movement_input)
     @map = map
     @player = player
     @movement_input = movement_input
+    @old_player_loc = player.location
     @new_player_loc = find_new_player_loc(movement_input)
   end
 
@@ -102,7 +103,7 @@ class MapMovement
   end
 
   def move_player_icon(new_player_loc, old_player_loc)
-    map.current_map[new_player_loc[0]][new_player_loc[1]] = 'P'
+    map.current_map[new_player_loc[0]][new_player_loc[1]] = Player::MAP_ICON
     map.current_map[old_player_loc[0]][old_player_loc[1]] = '.'
   end
 end

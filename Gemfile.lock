@@ -39,5 +39,8 @@ DEPENDENCIES
   factory_girl (~> 4.0)
   rspec
 
+RUBY VERSION
+   ruby 2.2.3p173
+
 BUNDLED WITH
-   1.11.2
+   1.13.5

@@ -19,8 +19,8 @@ class Quest
     @item_reward  = item_reward
   end
 
-  def self.find(map, location)
-    Quest.all.find { |q| q.map_name == map && q.location == location }
+  def self.find(map_name, location)
+    Quest.all.find { |q| q.map_name == map_name && q.location == location }
   end
 
   def self.all

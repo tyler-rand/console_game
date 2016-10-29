@@ -32,8 +32,8 @@ class MessageWindow
 
   def box_with_title
     win.box('|', '-')
-    win.setpos(0, 28)
-    win.attron(Curses.color_pair(3)) { win.addstr('Input/Message Log') }
+    win.setpos(0, 25)
+    win.attron(Curses.color_pair(3)) { win.addstr(' Input/Message Log ') }
     win.setpos(1, 2)
   end
 

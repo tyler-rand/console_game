@@ -12,8 +12,8 @@ class RightWindow
 
   def box_with_title
     @win.box('|', '-')
-    @win.setpos(0, 8)
-    @win.attron(Curses.color_pair(3)) { @win.addstr('Stats/Equipped') }
+    @win.setpos(0, 7)
+    @win.attron(Curses.color_pair(3)) { @win.addstr(' Stats/Equipped ') }
   end
 
   def build_display(player)

@@ -6,12 +6,12 @@ FactoryGirl.find_definitions
 
 require_relative '../models/battle'
 require_relative '../models/equipped'
-require_relative '../models/game'
+# require_relative '../models/game'
 require_relative '../models/inventory'
 require_relative '../models/item'
 require_relative '../models/map'
 require_relative '../models/mob'
-require_relative '../models/npc'
+# require_relative '../models/npc'
 require_relative '../models/player'
 require_relative '../models/skill'
 

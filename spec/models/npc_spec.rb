@@ -1,4 +1,4 @@
-require 'spec_helper'
-
-describe NPC do
-end
+# require 'spec_helper'
+#
+# describe NPC do
+# end

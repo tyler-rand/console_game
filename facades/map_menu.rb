@@ -7,10 +7,9 @@ class MapMenu
   EXIT = 'c'.freeze
   MOVE_PLAYER = %w(w a s d).freeze
 
-  def initialize(action_win, main_win, right_win, player)
+  def initialize(action_win, main_win, player)
     @action_win = action_win
     @main_win   = main_win
-    @right_win  = right_win
     @player     = player
   end
 
@@ -98,7 +97,7 @@ class MapMenu
     # dont refresh right window when no changes, player moved between empty spaces
     if action
       map_movement_action(action)
-      @right_win.build_display(@player)
+      $right_win.build_display(@player)
     end
 
     # dont update player location during map transition

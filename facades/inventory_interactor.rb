@@ -26,10 +26,11 @@ class InventoryInteractor
     player.update_stats
     msgs = [Message.new("> #{item.name} equipped.", 'green')]
     $message_win.display_messages(msgs)
+    $right_win.build_display(player)
   end
 
   def equip_confirmed?
-    unless equipped_item.nil?
+    if equipped_item
       prompt_equipment_replace
       return confirm_equip?
     end
@@ -51,11 +52,7 @@ class InventoryInteractor
   end
 
   def prompt_equipment_replace
-    if equipped_item.type == 'weapon'
-      wep_replace_msg
-    else
-      armor_replace_msg
-    end
+    equipped_item.type == 'weapon' ? wep_replace_msg : armor_replace_msg
   end
 
   def wep_replace_msg

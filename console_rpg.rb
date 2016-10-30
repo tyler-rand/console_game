@@ -41,18 +41,18 @@ end
 ########################################
 
 screen = CursesScreen.new
-@main_win, $message_win, @right_win, @action_win = screen.build_display
+@main_win, $message_win, $right_win, @action_win = screen.build_display
 
 begin
   loop do
     @main_win.refresh_display(title: @player.name)
-    @right_win.build_display(@player)
+    $right_win.build_display(@player)
 
     user_menu_input = main_menu_query
 
     case user_menu_input
     when 'MAP'
-      MapMenu.new(@action_win, @main_win, @right_win, @player).menu
+      MapMenu.new(@action_win, @main_win, @player).menu
     when 'BAG'
       bag_menu
     when 'EQUIPPED'

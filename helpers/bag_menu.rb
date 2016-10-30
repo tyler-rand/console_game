@@ -48,6 +48,5 @@ def bag_command_error
 end
 
 def execute_command(command, item_num)
-  interaction = InventoryInteractor.new(@player, command, item_num)
-  interaction.execute
+  InventoryInteractor.new(@player, command, item_num).execute
 end

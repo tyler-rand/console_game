@@ -64,8 +64,7 @@ begin
     when 'EXIT'
       exit
     else
-      msgs = [Message.new('> Error, command not recognized.', 'red')]
-      $message_win.display_messages(msgs)
+      $message_win.display_messages(Message.new('> Error, command not recognized.', 'red'))
     end
   end
 ensure

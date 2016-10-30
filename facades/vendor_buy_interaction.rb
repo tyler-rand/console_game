@@ -62,15 +62,15 @@ class VendorBuyInteraction
     @player.inventory.money -= item_cost
     InventoryInteractor.new(@player, 'add', item).execute
 
-    msgs = [Message.new("#{item.name} bought!", 'normal'), Message.new('> ', 'normal')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(
+      Message.new("#{item.name} bought!", 'normal'), Message.new('> ', 'normal')
+    )
   end
 
   def self.item_too_expensive?(item_cost)
     return false unless item_cost > @player.inventory.money
 
-    msgs = [Message.new('> Not enough money.', 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> Not enough money.', 'red'))
 
     true
   end

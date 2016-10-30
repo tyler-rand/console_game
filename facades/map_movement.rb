@@ -67,21 +67,18 @@ class MapMovement
     player.inventory.add_random_items(map.level, qty: 3)
     move_player_icon(new_player_loc, player.location)
 
-    msgs = [Message.new('> Picked up items from a chest.', 'green')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> Picked up items from a chest.', 'green'))
   end
 
   def land_on_money
     player.inventory.add_money(10)
     move_player_icon(new_player_loc, player.location)
 
-    msgs = [Message.new('> Picked up some money.', 'green')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> Picked up some money.', 'green'))
   end
 
   def land_on_mob
-    msgs = [Message.new('> A mob appears! Kill it!', 'yellow')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> A mob appears! Kill it!', 'yellow'))
 
     [:engage_mob] # return action array
   end

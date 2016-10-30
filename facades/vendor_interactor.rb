@@ -43,8 +43,7 @@ class VendorInteractor
   end
 
   def self.command_not_recognized
-    msgs = [Message.new(Vendor::INPUT_ERR_MSGS.sample, 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new(Vendor::INPUT_ERR_MSGS.sample, 'red'))
   end
 
   def engage

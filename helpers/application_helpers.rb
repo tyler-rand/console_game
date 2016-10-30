@@ -60,8 +60,7 @@ def display_legend(win)
 end
 
 def press_any_key
-  msgs = [Message.new('> Press any key to continue.', 'yellow')]
-  $message_win.display_messages(msgs)
+  $message_win.display_messages(Message.new('> Press any key to continue.', 'yellow'))
   @action_win.getch_no_echo
   @action_win.refresh_display
 end

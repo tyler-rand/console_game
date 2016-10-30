@@ -43,8 +43,7 @@ def item_num_valid?(item_num)
 end
 
 def bag_command_error
-  msgs = [Message.new('> Bag command error.', 'red')]
-  $message_win.display_messages(msgs)
+  $message_win.display_messages(Message.new('> Bag command error.', 'red'))
 end
 
 def execute_command(command, item_num)

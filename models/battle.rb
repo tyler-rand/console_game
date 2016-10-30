@@ -63,8 +63,7 @@ class Battle
     damage = adjusted_attack_damage(player, mob)
     mob.health -= damage
     battle_displayer.refresh(self)
-    msgs = [Message.new("> You hit #{mob.name} for #{damage}!", 'green')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new("> You hit #{mob.name} for #{damage}!", 'green'))
   end
 
   def adjusted_attack_damage(attacker, defender)
@@ -110,8 +109,7 @@ class Battle
     damage = adjusted_attack_damage(mob, player)
     player.health -= damage
     battle_displayer.refresh(self)
-    msgs = [Message.new("> #{mob.name} hits you for #{damage}!", 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new("> #{mob.name} hits you for #{damage}!", 'red'))
 
     mob_kills_player if player.health <= 0 && mob.health > 0
   end
@@ -123,8 +121,7 @@ class Battle
     player.health   = 0
     player.location = []
 
-    msgs = [Message.new('> You died.', 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> You died.', 'red'))
   end
 
   def attempt_run
@@ -140,13 +137,11 @@ class Battle
   end
 
   def couldnt_escape
-    msgs = [Message.new('> Couldn\'t escape!', 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> Couldn\'t escape!', 'red'))
     mob_attack
   end
 
   def battle_input_error
-    msgs = [Message.new('> Command not recognized, try again.', 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> Command not recognized, try again.', 'red'))
   end
 end

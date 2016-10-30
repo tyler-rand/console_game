@@ -14,18 +14,20 @@ class InventoryInteractor
 
   def execute
     method_name = "command_#{command}".to_sym
-    send(method_name, item_num)
+    send(method_name)
   end
 
   private
 
-  def command_equip(item_num)
+  def command_equip
     return unless equip_confirmed?
-    equipped.send("#{item.type}=", item)
-    command_drop(item_num)
-    player.update_stats
-    msgs = [Message.new("> #{item.name} equipped.", 'green')]
-    $message_win.display_messages(msgs)
+
+    equip_item
+    equip_update_displays
+  end
+
+  def equip_update_displays
+    $message_win.display_messages(Message.new("> #{item.name} equipped.", 'green'))
     $right_win.build_display(player)
   end
 
@@ -37,18 +39,22 @@ class InventoryInteractor
     true
   end
 
-  def command_add(item)
-    index = inventory.items.length + 1
-    inventory.items << [item, index]
-    msgs = [Message.new("> #{item.name} added to bag", 'green')]
-    $message_win.display_messages(msgs)
-  end
+  # not implemented yet... use case is adding specific items, unlike chest which rolls random ones
+  # def command_add
+  #   index = inventory.items.length + 1
+  #   inventory.items << [item, index]
+  #   msgs = [Message.new("> #{item.name} added to bag", 'green')]
+  #   $message_win.display_messages(msgs)
+  # end
 
-  def command_drop(item_num)
+  def command_drop
     inventory.items.slice!(item_num - 1)
     inventory.refresh_indexes
-    msgs = [Message.new("> #{item.name} removed from bag", 'green')]
-    $message_win.display_messages(msgs)
+    item_removed_msg
+  end
+
+  def item_removed_msg
+    $message_win.display_messages(Message.new("> #{item.name} removed from bag", 'green'))
   end
 
   def prompt_equipment_replace
@@ -70,37 +76,43 @@ class InventoryInteractor
 
   def confirm_equip?
     loop do
-      user_input = equip_replace_input
+      input = equip_replace_input
+      $message_win.message_log.append(input)
 
-      return confirm_replace_item(user_input) if user_input == 'Y'
-      return dont_replace_item(user_input) if user_input == 'N'
-      equip_confirm_error
+      case input
+      when 'Y'
+        return confirm_replace_item
+      when 'N'
+        return dont_replace_item
+      else
+        equip_confirm_error
+      end
     end
   end
 
+  def equip_item
+    equipped.send("#{item.type}=", item)
+    command_drop
+    player.update_stats
+  end
+
   def equipped_item
-    player.equipped.send(item.type)
+    equipped.send(item.type)
   end
 
   def equip_replace_input
     input = $message_win.win.getch
-    input.upcase! if equip_input_valid?(input)
+    input.upcase! if %w(y n).include?(input)
+    input
   end
 
-  def equip_input_valid?(input)
-    %w(y n).include?(input)
-  end
-
-  def confirm_replace_item(input)
-    $message_win.message_log.append(input)
+  def confirm_replace_item
     inventory.items << equipped_item
     true
   end
 
-  def dont_replace_item(input)
-    $message_win.message_log.append(input)
-    msgs = [Message.new('> You got it boss.', 'green')]
-    $message_win.display_messages(msgs)
+  def dont_replace_item
+    $message_win.display_messages(Message.new('> You got it boss.', 'green'))
     false
   end
 

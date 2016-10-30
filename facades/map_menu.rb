@@ -50,8 +50,7 @@ class MapMenu
     if Map.names.include?(map_name) || map_name.upcase == 'BACK'
       true
     else
-      msgs = [Message.new('> Map name error, try again.', 'red')]
-      $message_win.display_messages(msgs)
+      $message_win.display_messages(Message.new('> Map name error, try again.', 'red'))
       false
     end
   end
@@ -63,8 +62,9 @@ class MapMenu
     @main_win.build_map(@map_displayer)
     @player.location = @map.find_player
 
-    msgs = [Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(
+      Message.new("> #{@map.name} loaded successfully, player: #{@player.location}", 'green')
+    )
   end
 
   def move_player_loop
@@ -137,7 +137,6 @@ class MapMenu
   end
 
   def movement_input_error
-    msgs = [Message.new('> Error, command not recognized.', 'red')]
-    $message_win.display_messages(msgs)
+    $message_win.display_messages(Message.new('> Error, command not recognized.', 'red'))
   end
 end

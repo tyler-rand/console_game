@@ -2,8 +2,10 @@ require 'curses'
 require 'io/console'
 require 'YAML'
 
-Dir[File.join(__dir__, 'Models', '*.rb')].each { |file| require file }
-Dir[File.join(__dir__, 'Helpers', '*.rb')].each { |file| require file }
+FOLDERS_TO_REQUIRE = %w(facades helpers models ruby_classes windows).freeze
+FOLDERS_TO_REQUIRE.each do |folder|
+  Dir[File.join(__dir__, folder, '*.rb')].each { |file| require file }
+end
 
 ################
 ### RUN GAME ###

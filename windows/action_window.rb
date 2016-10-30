@@ -1,5 +1,6 @@
 require 'curses'
 
+# displays different menus requiring input, ex. mob battle, map list, player/vendor inventory, etc
 class ActionWindow
   attr_accessor :win
 

@@ -1,6 +1,6 @@
 # player's inventory, holds all of a player's items and money
 class Inventory
-  attr_accessor :id, :player, :items, :money
+  attr_accessor :player, :items, :money
 
   def initialize(player:)
     @id     = object_id

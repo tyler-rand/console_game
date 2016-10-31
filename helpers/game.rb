@@ -89,7 +89,7 @@ def load_player
   print '-->'
 
   user_input = gets.chomp.split(':')
-  input_name = user_input[0].capitalize
+  input_name = user_input[0]
   input_pass = user_input[1]
 
   Player.load(input_name, input_pass)

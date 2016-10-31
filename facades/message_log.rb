@@ -1,6 +1,6 @@
 # a game's message log
 class MessageLog
-  attr_accessor :id, :log, :display_range
+  attr_accessor :log, :display_range
 
   MAX_MSG_LENGTH = 67
 

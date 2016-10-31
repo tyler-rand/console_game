@@ -6,5 +6,6 @@ ruby '2.2.3'
 gem 'curses', '>= 1.0.2'
 
 # dev / test
+gem 'pry'
 gem 'rspec'
 gem 'factory_girl', '~> 4.0'

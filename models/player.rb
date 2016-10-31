@@ -70,6 +70,13 @@ class Player
     update_stats
   end
 
+  def complete_quest(quest)
+    # TODO: handle item rewards
+    # InventoryInteractor.new(player, 'add', quest.item_reward).execute if quest.item_reward
+    inventory.money += quest.cash_reward
+    add_exp(quest.xp_reward)
+  end
+
   private
 
   def init_experience_and_level

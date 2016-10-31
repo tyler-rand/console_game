@@ -1,6 +1,6 @@
 # battle between player and mob
 class Battle
-  attr_accessor :id, :state, :battle_displayer, :map_movement, :map, :player, :location, :mob
+  attr_accessor :state, :battle_displayer, :map_movement, :map, :player, :location, :mob
 
   def initialize(battle_displayer, map_movement)
     @id               = object_id
@@ -103,6 +103,8 @@ class Battle
     self.state = 1
 
     map_movement.execute
+
+    EventTrigger.new(player: player, trigger: { killed_mob: { map: map } }).execute
   end
 
   def mob_attack

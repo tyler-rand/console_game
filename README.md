@@ -21,7 +21,7 @@ Start playing with
 
 # Gameplay
 
-Follow the prompts to create a character and password, then type 'map' followed by a map name to load a map.
+Follow the prompts to create a character and password, then type `map` followed by a map name to load a map.
 
 `WASD` keys are used to move up/left/right/down, with `C` exiting the map view.
 

@@ -131,7 +131,7 @@ class MapMenu
   def open_quest
     quest = @map.quests.find { |q| q.location == @map_movement.new_player_loc }
 
-    return quest_already_started(quest.name) if @player.quest_log.quests.include?(quest)
+    return quest_already_started(quest.name) if @player.quest_log.quests.map(&:name).include?(quest.name)
     return quest_already_completed if @player.quest_log.completed_quests.include?(quest.name)
 
     @player.quest_log.add(quest)

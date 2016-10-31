@@ -1,6 +1,7 @@
 # required for creating maps
 require 'YAML'
 require 'fileutils'
+load 'quests/quests.rb' # gives QUESTS constant
 
 folders = %w(models facades)
 folders.each { |folder| Dir[File.join(__dir__, folder, '*.rb')].each { |file| require file } }
@@ -14,25 +15,7 @@ File.open('./db/SkillsDB.yml', 'w') {}
 File.open('./db/QuestsDB.yml', 'w') {}
 
 # create quests
-quests = [
-  {
-    name: 'Welcome to ConsoleRPG',
-    level: 1,
-    location: [13, 13],
-    map_name: 'Trainers Court',
-    requirements: { 'kills': 10 },
-    start_text: '> Welcome to ConesoleRPG! Complete the first quest by getting 10 kills in Trainer\'s Court.',
-    end_text: '> Good job completing your first quest!',
-    xp_reward: 10,
-    cash_reward: 100,
-    item_reward: nil,
-    triggers: [
-      { killed_mob: { map: 'Trainers Court' } }
-    ],
-    progress: { kills: 0 }
-  }
-]
-quests.each do |quest|
+QUESTS.each do |quest|
   Quest.new(name: quest[:name], level: quest[:level], location: quest[:location],
             map_name: quest[:map_name], requirements: quest[:requirements],
             start_text: quest[:start_text], end_text: quest[:end_text], xp_reward: quest[:xp_reward],

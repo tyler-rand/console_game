@@ -29,7 +29,7 @@ class QuestLog
   end
 
   def update_progress(trigger)
-    quest = quests.detect { |quest| quest.triggers.include?(trigger) }
+    quest = quests.detect { |q| q.triggers.include?(trigger) }
     trigger_type = trigger.keys.first
 
     case trigger_type
@@ -46,7 +46,7 @@ class QuestLog
     quests.each do |quest|
       win.addstr("#{quest.name}, #{quest.map_name}")
       win.setpos(win.cury, 3)
-      win.addstr("#{quest.progress.keys.first.to_s.capitalize}: #{quest.progress.values.first.to_s}/#{quest.requirements.values.first.to_s}")
+      win.addstr("#{quest.progress.keys.first.capitalize}: #{quest.progress.values.first}/#{quest.requirements.values.first}")
       win.setpos(win.cury + 1, 3)
     end
   end

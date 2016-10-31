@@ -12,6 +12,6 @@ class ArmorItem < Item
   private
 
   def roll_defense
-    ((((100 + ilvl) * 2) - 40) * (rand(0.5..2))).floor
+    ((((100 + ilvl) * 2) - 40) * rand(0.5..2)).floor
   end
 end

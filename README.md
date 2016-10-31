@@ -23,6 +23,6 @@ Start playing with
 
 Follow the prompts to create a character and password, then type `map` followed by a map name to load a map.
 
-`WASD` keys are used to move up/left/right/down, with `C` exiting the map view.
+`WASD` keys are used to move up/left/down/right, with `C` exiting the map view.
 
 Fight monsters, level up, use items, and try not to die!

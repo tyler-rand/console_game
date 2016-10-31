@@ -68,6 +68,7 @@ class Player
     increase_stats_after_lvl_up
     update_max_exp_after_lvl_up
     update_stats
+    display_level_up_msg
   end
 
   def complete_quest(quest)
@@ -119,6 +120,12 @@ class Player
 
   def update_max_exp_after_lvl_up
     @max_exp = level_exp[level]
+  end
+
+  def display_level_up_msg
+    msgs = [Message.new("> You've leveled up! Now level #{level}.", 'green'),
+            Message.new('> Strength, Agility, Intelligence, and Health all increased.', 'green')]
+    $message_win.display_messages(msgs)
   end
 
   def level_exp

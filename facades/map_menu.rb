@@ -131,13 +131,22 @@ class MapMenu
   def open_quest
     quest = @map.quests.find { |q| q.location == @map_movement.new_player_loc }
 
+    return quest_already_started(quest.name) if @player.quest_log.quests.include?(quest)
     return quest_already_completed if @player.quest_log.completed_quests.include?(quest.name)
 
     @player.quest_log.add(quest)
   end
 
+  def quest_already_started(quest_name)
+    $message_win.display_messages(
+      Message.new("> You're already on that quest! (#{quest_name})", 'yellow')
+    )
+  end
+
   def quest_already_completed
-    $message_win.display_messages(Message.new('> Whoops, you already completed that quest.', 'yellow'))
+    $message_win.display_messages(
+      Message.new('> Whoops, you already completed that quest.', 'yellow')
+    )
   end
 
   def movement_input_error

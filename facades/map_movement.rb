@@ -75,6 +75,7 @@ class MapMovement
     move_player_icon(new_player_loc, player.location)
 
     $message_win.display_messages(Message.new('> Picked up some money.', 'green'))
+    $right_win.build_display(player)
   end
 
   def land_on_mob

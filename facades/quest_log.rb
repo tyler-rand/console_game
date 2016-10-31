@@ -45,6 +45,8 @@ class QuestLog
   def display_quests(win)
     quests.each do |quest|
       win.addstr("#{quest.name}, #{quest.map_name}")
+      win.setpos(win.cury, 3)
+      win.addstr("#{quest.progress.keys.first.to_s.capitalize}: #{quest.progress.values.first.to_s}/#{quest.requirements.values.first.to_s}")
       win.setpos(win.cury + 1, 3)
     end
   end

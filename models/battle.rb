@@ -104,7 +104,7 @@ class Battle
 
     map_movement.execute
 
-    EventTrigger.new(player: player, trigger: { killed_mob: { map: map } }).execute
+    EventTrigger.new(player: player, trigger: { killed_mob: { map: map.name } }).execute
   end
 
   def mob_attack

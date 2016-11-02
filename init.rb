@@ -1,7 +1,9 @@
 # required for creating maps
 require 'YAML'
 require 'fileutils'
-load 'quests/quests.rb' # gives QUESTS constant
+
+seeds = %w(mobs quests)
+seeds.each { |seed| load "seeds/#{seed}.rb" }
 
 folders = %w(models facades)
 folders.each { |folder| Dir[File.join(__dir__, folder, '*.rb')].each { |file| require file } }
@@ -11,6 +13,7 @@ FileUtils.mkdir('./db') unless File.exist?('./db')
 # create db files
 File.open('./db/PlayersDB.yml', 'w') {}
 File.open('./db/MapsDB.yml', 'w') {}
+File.open('./db/MobsDB.yml', 'w') {}
 File.open('./db/SkillsDB.yml', 'w') {}
 File.open('./db/QuestsDB.yml', 'w') {}
 
@@ -21,6 +24,11 @@ QUESTS.each do |quest|
             start_text: quest[:start_text], end_text: quest[:end_text], xp_reward: quest[:xp_reward],
             cash_reward: quest[:cash_reward], item_reward: quest[:item_reward],
             triggers: quest[:triggers], progress: quest[:progress]).save
+end
+
+# create named mobs
+MOBS.each do |mob|
+  Mob.new(map: mob[:map_name], location: mob[:location], options: mob[:options]).save
 end
 
 # create maps

@@ -60,7 +60,14 @@ class Map
 
   def load_mobs
     mobs = []
-    map_positions(Mob::MAP_ICON).each { |pos| mobs << Mob.roll_new(self, pos) }
+
+    map_positions(Mob::MAP_ICON).each do |location|
+      mobs << Mob.new(map: self, location: location)
+    end
+    map_positions(Mob::NAMED_MAP_ICON).each do |location|
+      mobs << Mob.load(map_name: name, location: location)
+    end
+
     self.mobs = mobs
   end
 

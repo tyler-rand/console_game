@@ -1,34 +1,34 @@
 # npc monster
 class Mob
-  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_id,
+  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_name,
                 :movement_type, :location
 
   MAP_ICON = 'm'.freeze
+  NAMED_MAP_ICON = 'M'.freeze
+  NAME_PREFIX= %w(Bloodthirsy Rabid Feral Angry Dreadful Fearless Violent Massive).freeze
+  NAME_SUFFIX = %w(Bear Zombie Werewolf Wolf Dragon Ape Ghoul Snake Lion Panther Shark).freeze
+  TYPES = %w(Animal Undead Human).freeze
 
-  def self.roll_new(map, location)
-    name   = %w(terror vicious bloodthirsty).sample
-    type   = %w(dragon zombie bear).sample
-    damage = map.level * 2
-    defense = map.level * 20
-    max_health = map.level * 10
-
-    mob = Mob.new(name: name, type: type, level: map.level, damage: damage, max_health: max_health,
-                  defense: defense, map_id: map.id, movement_type: 0, location: location)
-    mob
+  def initialize(map:, location:, options: {})
+    @id            = object_id
+    @location      = location
+    @name          = options[:name]  || NAME_PREFIX.sample + ' ' + NAME_SUFFIX.sample
+    @type          = options[:type]  || TYPES.sample
+    @level         = options[:level] || map.level
+    @health        = options[:health] || map.level * 10
+    @max_health    = options[:max_health] || map.level * 10
+    @damage        = options[:damage] || map.level * 2
+    @defense       = options[:defense] || map.level * 20
+    @movement_type = options[:movement_type] || 0
+    @map_name      = map || map.name
   end
 
-  def initialize(name:, type:, level:, damage:, max_health:, defense:, map_id:, movement_type:,
-                 location:)
-    @id            = object_id
-    @name          = name
-    @type          = type
-    @level         = level
-    @health        = max_health
-    @max_health    = max_health
-    @damage        = damage
-    @defense       = defense
-    @map_id        = map_id
-    @movement_type = movement_type
-    @location      = location
+  def self.load(map_name:, location:)
+    mobs = YAML.load_stream(open('db/MobsDB.yml'))
+    mobs.detect { |mob| mob.map_name == map_name && mob.location == location }
+  end
+
+  def save
+    File.open('db/MobsDB.yml', 'a') { |f| f.write(to_yaml) }
   end
 end

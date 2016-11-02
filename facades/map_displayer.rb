@@ -55,7 +55,7 @@ class MapDisplayer
       Mob::MAP_ICON => Curses::COLOR_MAGENTA, 'o' => Curses::A_NORMAL, '_' => Curses::A_NORMAL,
       Quest::MAP_ICON => Curses::COLOR_YELLOW, 'W' => Curses::A_NORMAL, 'A' => Curses::A_NORMAL,
       '^' => Curses::COLOR_GREEN, 'v' => Curses::COLOR_GREEN,
-      Vendor::MAP_ICON => Curses::COLOR_YELLOW
+      Vendor::MAP_ICON => Curses::COLOR_YELLOW, Mob::NAMED_MAP_ICON => Curses::COLOR_MAGENTA
     }
   end
 

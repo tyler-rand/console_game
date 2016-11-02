@@ -7,8 +7,8 @@ o_xx..xxxxxm...xx__o
 o_xx..xx.....m.xx__o
 o_xx..xx$..m...xx__o
 o_xx.mxx.m.....xx__o
-o_xx..xx....m..xx__o
-o_xx..xx.m..cxxxx__o
+o_xx..xxmmm.m..xx__o
+o_xx..xxMm..cxxxx__o
 o_xx..xxxxxxxxxxx__o
 o_xx..xxxN.....xx__o
 o_xx.......xxQ.xx__o

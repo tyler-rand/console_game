@@ -51,7 +51,7 @@ class MapMovement
     when '.' then land_on_open_space
     when 'c' then land_on_chest
     when '$' then land_on_money
-    when Mob::MAP_ICON then land_on_mob
+    when Mob::MAP_ICON, Mob::NAMED_MAP_ICON then land_on_mob
     when Quest::MAP_ICON then land_on_quest
     when Vendor::MAP_ICON then land_on_vendor
     when '^' then show_next_map

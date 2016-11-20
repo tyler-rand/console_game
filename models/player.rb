@@ -1,8 +1,9 @@
 # tracks player stats and skills
 class Player
   attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-                :health, :max_health, :defense, :damage, :crit_chance, :equipped, :inventory, :quest_log, :location,
-                :energy, :max_energy, :strength, :agility, :intelligence, :unused_skills
+                :health, :max_health, :defense, :damage, :crit_chance, :listeners, :equipped,
+                :inventory, :quest_log, :location, :energy, :max_energy, :strength, :agility,
+                :intelligence, :unused_skills
 
   MAP_ICON = 'P'.freeze
 
@@ -19,6 +20,7 @@ class Player
     init_damage_and_armor
 
     @location  = []
+    @listeners = []
     @equipped  = Equipped.new(player: self)
     @inventory = Inventory.new(player: self)
     @quest_log = QuestLog.new(player: self)

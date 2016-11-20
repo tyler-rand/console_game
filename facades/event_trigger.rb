@@ -10,16 +10,38 @@ class EventTrigger
   end
 
   def execute
-    if trigger.keys.first == :killed_mob # possibly others
-      check_player_quest_log
-    end
+    check_player_listeners
   end
 
   private
 
-  def check_player_quest_log
-    if player.quest_log.listeners.detect { |listener| listener[:triggers].include?(trigger) }
-      player.quest_log.update_progress(trigger)
+  def check_player_listeners
+    player.listeners.each do |listener|
+      trigger = listener[:triggers].first
+      trigger_type = trigger.keys.first # ex. :killed_mob
+
+      return unless trigger_type.to_s == @trigger[:type]
+
+      case trigger_type
+      when :killed_mob
+        check_killed_mob(listener)
+      end
     end
+  end
+
+  def check_killed_mob(listener)
+    trigger = listener[:triggers].first
+
+    trigger[:killed_mob].keys.each do |matcher|
+      if listening_for_map?(matcher, trigger)
+        player.quest_log.update_progress(
+          quest_name: listener[:quest], trigger_type: trigger.keys.first
+        )
+      end
+    end
+  end
+
+  def listening_for_map?(matcher, trigger)
+    matcher == :map && trigger[:killed_mob][:map] == @trigger[:mob].map_name.name
   end
 end

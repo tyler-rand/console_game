@@ -1,12 +1,11 @@
 # keeps track of what quests a player has, as well as their progress
 class QuestLog
-  attr_accessor :id, :player, :quests, :listeners, :completed_quests
+  attr_accessor :id, :player, :quests, :completed_quests
 
   def initialize(player:)
     @id        = object_id
     @player    = player
     @quests    = []
-    @listeners = []
     @completed_quests = []
   end
 
@@ -23,14 +22,13 @@ class QuestLog
   # adds a quest and its event triggers to QuestLog
   def add(quest)
     quests << quest
-    listeners << { quest: quest.name, triggers: quest.triggers, progress: quest.progress }
+    player.listeners << { quest: quest.name, triggers: quest.triggers, progress: quest.progress }
 
     display_add_quest_text(quest)
   end
 
-  def update_progress(trigger)
-    quest = quests.detect { |q| q.triggers.include?(trigger) }
-    trigger_type = trigger.keys.first
+  def update_progress(quest_name:, trigger_type:)
+    quest = quests.detect { |quest| quest.name == quest_name }
 
     case trigger_type
     when :killed_mob
@@ -70,7 +68,7 @@ class QuestLog
 
   def update_log(quest)
     completed_quests << quest.name
-    listeners.delete_if { |listener| listener[:quest] == quest.name }
+    player.listeners.delete_if { |listener| listener[:quest] == quest.name }
     quests.delete_if { |q| q.id == quest.id }
   end
 

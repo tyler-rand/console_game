@@ -1,4 +1,4 @@
-# map specific interations from the games main menu
+require 'pry'# map specific interations from the games main menu
 class MapMenu
   MAP_LEGEND = 'l'.freeze
   QUEST_MENU = 'q'.freeze
@@ -22,6 +22,8 @@ class MapMenu
     @action_win.refresh_display
     return if map_name.upcase == 'BACK'
 
+    Curses.close_screen
+    binding.pry
     display_map(map_name)
     move_player_loop
   end

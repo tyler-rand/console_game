@@ -1,27 +1,64 @@
 require 'spec_helper'
 
 describe Map do
-  it 'should build a map factory' do
-    # map = build(:map)
+  describe '.open_all' do
+    it 'returns all maps' do
+      maps = Map.open_all
+
+      expect(maps).not_to be_empty
+      expect(maps).to all(be_a(Map))
+    end
   end
 
-  it 'should load mobs ary for map' do
-    map = build(:map)
+  describe '.load' do
+    context 'valid map name' do
+      it 'returns the map' do
+        map = Map.load("Trainers Court")
 
-    expect(map.mobs.first[1].class).to eql(Mob)
+        expect(map.class).to eq(Map)
+      end
+    end
+
+    context 'invalid map name' do
+      it 'returns nil' do
+        map = Map.load("invalid map name")
+
+        expect(map).to eq(nil)
+      end
+    end
   end
 
-  it 'should move a player' do
-    map = build(:map)
-    player = build(:player)
+  describe '.names' do
+    it 'returns array of all map names' do
+      names = Map.names
 
-    map.load_current_map
-    map.find_player
-    old_loc = player.location
+      expect(names).not_to be_empty
+      expect(names).to all(be_a(String))
+      expect(names[0..2]).to eq(["Trainers Court", "Trainers Mansion", "Road To City"])
+    end
+  end
 
-    new_player_loc = player.find_new_loc(%w(w a d).sample)
-    map.move_player(player: player, new_player_loc: new_player_loc)
+  describe '.list_all' do
+    it 'lists all map names in the game window' do
+      #
+    end
+  end
 
-    expect(player.location).to_not eql(old_loc)
+  describe '#save' do
+    it 'saves map to yml database file' do
+      #
+    end
+  end
+
+  describe '#find_player' do
+    it 'returns location of the player' do
+      #
+    end
+  end
+
+  describe '#remove_at_loc' do
+    it 'turns a location into an open space' do
+      # 
+    end
   end
 end

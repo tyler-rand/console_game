@@ -18,7 +18,7 @@ class Map
   end
 
   def self.load(map)
-    map = Map.open_all.find { |m| m.name == map }
+    Map.open_all.detect { |m| m.name == map }
   end
 
   def self.names

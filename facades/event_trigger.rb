@@ -17,16 +17,19 @@ class EventTrigger
 
   def check_player_listeners
     player.listeners.each do |listener|
-      trigger = listener[:triggers].first
-      trigger_type = trigger.keys.first # ex. :killed_mob
+      trigger_type = listener[:triggers].first.keys.first # ex. :killed_mob
 
-      return unless trigger_type.to_s == @trigger[:type]
+      return unless listening_for_trigger_type?(trigger_type)
 
       case trigger_type
       when :killed_mob
         check_killed_mob(listener)
       end
     end
+  end
+
+  def listening_for_trigger_type?(trigger_type)
+    trigger_type.to_s == @trigger[:type]
   end
 
   def check_killed_mob(listener)

@@ -48,6 +48,8 @@ class Player
     end
   end
 
+  private_class_method :verify_credentials
+
   def save
     File.open('db/PlayersDB.yml', 'a') { |f| f.write(to_yaml) }
   end
@@ -63,17 +65,7 @@ class Player
     level_up if current_exp >= max_exp
   end
 
-  def level_up
-    @level += 1
-    @unused_skills += 1
-    @current_exp = current_exp - max_exp
-    increase_stats_after_lvl_up
-    update_max_exp_after_lvl_up
-    update_stats
-    display_level_up_msg
-  end
-
-  def complete_quest(quest)
+  def add_quest_rewards(quest)
     # TODO: handle item rewards
     # InventoryInteractor.new(player, 'add', quest.item_reward).execute if quest.item_reward
     inventory.money += quest.cash_reward
@@ -110,6 +102,16 @@ class Player
 
   def base_damage
     5 + @strength
+  end
+
+  def level_up
+    @level += 1
+    @unused_skills += 1
+    @current_exp = current_exp - max_exp
+    increase_stats_after_lvl_up
+    update_max_exp_after_lvl_up
+    update_stats
+    display_level_up_msg
   end
 
   def increase_stats_after_lvl_up

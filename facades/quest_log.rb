@@ -60,13 +60,13 @@ class QuestLog
   end
 
   def complete_quest(quest)
-    player.complete_quest(quest)
-    update_log(quest)
+    player.add_quest_rewards(quest)
+    update_log_completed_quest(quest)
     player.save
     display_completed_quest_text(quest)
   end
 
-  def update_log(quest)
+  def update_log_completed_quest(quest)
     completed_quests << quest.name
     player.listeners.delete_if { |listener| listener[:quest] == quest.name }
     quests.delete_if { |q| q.id == quest.id }

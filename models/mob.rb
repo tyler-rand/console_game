@@ -23,7 +23,7 @@ class Mob
     @map_name      = map || map.name
   end
 
-  def self.load(map_name:, location:)
+  def self.find(map_name:, location:)
     mobs = YAML.load_stream(open('db/MobsDB.yml'))
     mobs.detect { |mob| mob.map_name == map_name && mob.location == location }
   end

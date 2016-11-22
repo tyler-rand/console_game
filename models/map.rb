@@ -65,7 +65,7 @@ class Map
       mobs << Mob.new(map: self, location: location)
     end
     map_positions(Mob::NAMED_MAP_ICON).each do |location|
-      mobs << Mob.load(map_name: name, location: location)
+      mobs << Mob.find(map_name: name, location: location)
     end
 
     self.mobs = mobs

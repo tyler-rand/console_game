@@ -1,4 +1,3 @@
-# required for creating maps
 require 'YAML'
 require 'fileutils'
 

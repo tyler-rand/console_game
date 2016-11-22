@@ -1,9 +1,15 @@
 require 'spec_helper'
 
 describe Mob do
-  it 'should build a mob factory' do
-    mob = build(:mob)
+  describe '.find' do
+    it 'returns a mob given a map_name and location' do
+      #
+    end
+  end
 
-    expect(mob.name).to_not eql(nil)
+  describe '#save' do
+    it 'saves a mob to db' do
+      #
+    end
   end
 end

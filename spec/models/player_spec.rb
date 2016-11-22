@@ -1,38 +1,68 @@
 require 'spec_helper'
 
 describe Player do
-  it 'should build a new player' do
-    player = build(:player)
-    p player
+  describe '.open_all' do
+    it 'returns all players' do
+      Player.new(name: "Wally", password: "password", species: "Monster", type: "Green").save
+
+      players = Player.open_all
+
+      expect(players).not_to be_empty
+      expect(players).to all(be_a(Player))
+
+      # TODO: cleanup player.delete
+    end
   end
 
-  it 'should load a player by login info' do
-    player = build(:player)
-    player.save
+  describe '.load' do
+    context 'invalid username' do
+      it 'returns error for name not found' do
+        #
+      end
+    end
 
-    # loaded = Player.verify_credentials(player.name, player.password)
+    context 'valid username, but invalid password' do
+      it 'returns error for invalid password' do
+        #
+      end
+    end
+
+    context 'valid username and password' do
+      it 'returns the corresponding player' do
+        #
+      end
+    end
   end
 
-  # it 'should load a saved player by id' do
-  #   player = build(:player)
-  #   player.save
-
-  #   loaded = Player.load_by_id(player.id)
-  # end
-
-  it 'should update a players exp' do
-    player = build(:player)
-    exp    = player.current_exp
-    n      = [*1..5].sample
-
-    player.add_exp(n)
-
-    new_exp = player.current_exp
-
-    expect(exp + n).to eql(new_exp)
+  describe '#save' do
+    it 'saves a player to do' do
+      #
+    end
   end
 
-  it 'should update a players stats' do
-    # player.update_stats
+  describe '#update_stats' do
+    it 'saves updates to damage and defense' do
+      #
+    end
+  end
+
+  describe '#add_exp' do
+    context 'added xp is not enough to level up' do
+      it 'adds exp' do
+        #
+      end
+    end
+
+    context 'added xp is enough to level up' do
+      it 'adds exp and levels up player' do
+        #
+      end
+    end
+  end
+
+  describe '#add_quest_rewards' do
+    it 'gives player item, xp, and cash rewards for completing a quest' do
+      #
+    end
   end
 end

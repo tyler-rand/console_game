@@ -25,6 +25,8 @@ class Item
     end
   end
 
+  # private class methods
+
   def self.random_quality
     qualities = { 'Shitty' => 0.2, 'Normal' => 0.5, 'Magic' => 0.3, 'Rare' => 0.1,
                   'Unique' => 0.05, 'Legendary' => 0.01 }
@@ -52,4 +54,6 @@ class Item
       %w(cloth leather platemail chainmail).sample
     end
   end
+
+  private_class_method :random_quality, :random_name
 end

@@ -5,7 +5,7 @@ require 'YAML'
 FactoryGirl.find_definitions
 
 MODELS_TO_REQUIRE = ['armor_item', 'battle', 'equipped', 'inventory', 'item', 'map', 'message',
-  'mob', 'npc', 'player', 'quest', 'skill', 'vendor', 'weapon_item']
+  'mob', 'player', 'quest', 'skill', 'vendor', 'weapon_item']
 MODELS_TO_REQUIRE.each { |model| require_relative "../models/#{model}" }
 
 FACADES_TO_REQUIRE = ['battle_displayer', 'event_trigger', 'inventory_interactor',

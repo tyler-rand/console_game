@@ -9,8 +9,6 @@ describe Player do
 
       expect(players).not_to be_empty
       expect(players).to all(be_a(Player))
-
-      # TODO: cleanup player.delete
     end
   end
 

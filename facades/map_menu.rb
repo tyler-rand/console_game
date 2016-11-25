@@ -23,7 +23,6 @@ class MapMenu
     return if map_name.upcase == 'BACK'
 
     Curses.close_screen
-    binding.pry
     display_map(map_name)
     move_player_loop
   end

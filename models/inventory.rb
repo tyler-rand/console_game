@@ -9,7 +9,7 @@ class Inventory
     @money  = 0
   end
 
-  def list(window) # list items in inventory
+  def list(window)
     window.win.setpos(2, 2)
     window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
     window.win.setpos(3, 2)

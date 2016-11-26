@@ -1,6 +1,6 @@
 # a message in the log
 class Message
-  attr_accessor :text, :color
+  attr_reader :text, :color
 
   def initialize(text, color)
     @id = object_id

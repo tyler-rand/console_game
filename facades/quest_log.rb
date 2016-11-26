@@ -22,19 +22,17 @@ class QuestLog
   # adds a quest and its event triggers to QuestLog
   def add(quest)
     quests << quest
-    player.listeners << { quest: quest.name, triggers: quest.triggers, progress: quest.progress }
+    player.listeners << Listener.new(quest: quest)
 
     display_add_quest_text(quest)
   end
 
   def update_progress(listener:)
-    quest = quests.detect { |quest| quest.name == listener[:quest] }
-    listener_category = listener[:triggers].first.keys.first
-    listener_type = listener[:triggers].first.values.first.keys.first
+    quest = quests.detect { |quest| quest.name == listener.quest }
 
-    case listener_category
+    case listener.category
     when :killed_mob
-      if listener_type == :map
+      if listener.type == :map
         quest.progress[:kills] += 1
       else
         quest.progress[:mob_killed] += 1
@@ -74,7 +72,7 @@ class QuestLog
 
   def update_log_completed_quest(quest)
     completed_quests << quest.name
-    player.listeners.delete_if { |listener| listener[:quest] == quest.name }
+    player.listeners.delete_if { |listener| listener.quest == quest.name }
     quests.delete_if { |q| q.id == quest.id }
   end
 

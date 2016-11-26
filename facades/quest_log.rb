@@ -19,7 +19,6 @@ class QuestLog
     window.win.refresh
   end
 
-  # adds a quest and its event triggers to QuestLog
   def add(quest)
     quests << quest
     player.listeners << Listener.new(quest: quest)
@@ -28,18 +27,18 @@ class QuestLog
   end
 
   def update_progress(listener:)
-    quest = quests.detect { |quest| quest.name == listener.quest }
+    @quest = quests.detect { |quest| quest.name == listener.quest }
 
     case listener.category
     when :killed_mob
       if listener.type == :map
-        quest.progress[:kills] += 1
+        @quest.progress[:kills] += 1
       else
-        quest.progress[:mob_killed] += 1
+        @quest.progress[:mob_killed] += 1
       end
     end
 
-    complete_quest(quest) if quest.completed?
+    complete_quest if @quest.completed?
   end
 
   private
@@ -59,23 +58,23 @@ class QuestLog
     $message_win.display_messages(msgs)
   end
 
-  def complete_quest(quest)
-    display_completed_quest_text(quest)
-    player.add_quest_rewards(quest)
-    update_log_completed_quest(quest)
+  def complete_quest
+    display_completed_quest_text
+    player.add_quest_rewards(@quest)
+    log_completed_quest
     player.save
   end
 
-  def update_log_completed_quest(quest)
-    completed_quests << quest.name
-    player.listeners.delete_if { |listener| listener.quest == quest.name }
-    quests.delete_if { |q| q.id == quest.id }
+  def log_completed_quest
+    completed_quests << @quest.name
+    player.listeners.delete_if { |listener| listener.quest == @quest.name }
+    quests.delete_if { |q| q.id == @quest.id }
   end
 
-  def display_completed_quest_text(quest)
+  def display_completed_quest_text
     msgs = [Message.new("> Quest Completed - #{quest.name}", 'green'),
-            Message.new(quest.formatted_rewards, 'green'),
-            Message.new(quest.end_text, 'green')]
+            Message.new(@quest.formatted_rewards, 'green'),
+            Message.new(@quest.end_text, 'green')]
     $message_win.display_messages(msgs)
   end
 end

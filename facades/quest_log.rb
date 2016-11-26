@@ -39,7 +39,7 @@ class QuestLog
       end
     end
 
-    complete_quest(quest) if quest_completed?(quest)
+    complete_quest(quest) if quest.completed?
   end
 
   private
@@ -57,10 +57,6 @@ class QuestLog
     msgs = [Message.new(quest.start_text, 'yellow'),
             Message.new(quest.formatted_rewards, 'yellow')]
     $message_win.display_messages(msgs)
-  end
-
-  def quest_completed?(quest)
-    quest.progress == quest.requirements
   end
 
   def complete_quest(quest)

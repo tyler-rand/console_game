@@ -38,6 +38,10 @@ class Quest
     "> Rewards: #{xp_reward} XP, #{cash_reward} gold#{item_reward_string}"
   end
 
+  def completed?
+    progress == requirements
+  end
+
   private
 
   def item_reward_string

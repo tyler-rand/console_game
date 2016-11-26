@@ -41,4 +41,18 @@ describe Quest do
       #
     end
   end
+
+  describe '#completed?' do
+    context 'quest is completed' do
+      it 'returns true' do
+        #
+      end
+    end
+
+    context 'quest isn\'t completed' do
+      it 'returns false' do
+        #
+      end
+    end
+  end
 end

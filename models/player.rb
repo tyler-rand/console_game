@@ -26,15 +26,17 @@ class Player
     @quest_log = QuestLog.new(player: self)
   end
 
-  def self.open_all
-    YAML.load_stream(open('db/PlayersDB.yml'))
-  end
-
   def self.load(input_name, input_pass)
     # try to match input name
-    player = Player.open_all.reverse.find { |p| p.name == input_name }
+    player = open_all.reverse.find { |p| p.name == input_name }
     # then try to match password
-    Player.verify_credentials(player, input_pass)
+    verify_credentials(player, input_pass)
+  end
+
+  # private class methods
+
+  def self.open_all
+    YAML.load_stream(open('db/PlayersDB.yml'))
   end
 
   def self.verify_credentials(player, input_pass)
@@ -48,7 +50,7 @@ class Player
     end
   end
 
-  private_class_method :verify_credentials
+  private_class_method :open_all, :verify_credentials
 
   def save
     File.open('db/PlayersDB.yml', 'a') { |f| f.write(to_yaml) }

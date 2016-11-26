@@ -1,29 +1,29 @@
 class Quest
-  attr_accessor :id, :level, :name, :location, :map_name, :requirements, :start_text, :end_text, :xp_reward,
+  attr_accessor :id, :level, :name, :start_location, :map_name, :requirements, :start_text, :end_text, :xp_reward,
                 :cash_reward, :item_reward, :triggers, :progress
 
   MAP_ICON = 'Q'.freeze
 
   # TODO: fix this ridiculousness
-  def initialize(level:, name:, location:, map_name:, requirements:, start_text:, end_text:,
+  def initialize(level:, name:, start_location:, map_name:, requirements:, start_text:, end_text:,
                  xp_reward:, cash_reward: 0, item_reward: nil, triggers: [], progress:)
-    @id           = object_id
-    @level        = level
-    @name         = name
-    @location     = location
-    @map_name     = map_name
-    @requirements = requirements
-    @start_text   = start_text
-    @end_text     = end_text
-    @xp_reward    = xp_reward
-    @cash_reward  = cash_reward
-    @item_reward  = item_reward
-    @triggers     = triggers
-    @progress     = progress
+    @id             = object_id
+    @level          = level
+    @name           = name
+    @start_location = start_location
+    @map_name       = map_name
+    @requirements   = requirements
+    @start_text     = start_text
+    @end_text       = end_text
+    @xp_reward      = xp_reward
+    @cash_reward    = cash_reward
+    @item_reward    = item_reward
+    @triggers       = triggers
+    @progress       = progress
   end
 
-  def self.find(map_name, location)
-    Quest.all.find { |q| q.map_name == map_name && q.location == location }
+  def self.find(map_name, start_location)
+    Quest.all.find { |q| q.map_name == map_name && q.start_location == start_location }
   end
 
   def self.all

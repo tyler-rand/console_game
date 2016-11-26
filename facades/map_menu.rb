@@ -1,4 +1,4 @@
-require 'pry'# map specific interations from the games main menu
+# map specific interations from the games main menu
 class MapMenu
   MAP_LEGEND = 'l'.freeze
   QUEST_MENU = 'q'.freeze
@@ -22,7 +22,6 @@ class MapMenu
     @action_win.refresh_display
     return if map_name.upcase == 'BACK'
 
-    Curses.close_screen
     display_map(map_name)
     move_player_loop
   end
@@ -130,7 +129,7 @@ class MapMenu
   end
 
   def open_quest
-    quest = @map.quests.find { |q| q.location == @map_movement.new_player_loc }
+    quest = @map.quests.find { |q| q.start_location == @map_movement.new_player_loc }
 
     return quest_already_started(quest.name) if @player.quest_log.quests.map(&:name).include?(quest.name)
     return quest_already_completed if @player.quest_log.completed_quests.include?(quest.name)
@@ -146,7 +145,7 @@ class MapMenu
 
   def quest_already_completed
     $message_win.display_messages(
-      Message.new('> Whoops, you already completed that quest.', 'yellow')
+      Message.new('> You already completed that quest!', 'yellow')
     )
   end
 

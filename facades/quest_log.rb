@@ -27,12 +27,18 @@ class QuestLog
     display_add_quest_text(quest)
   end
 
-  def update_progress(quest_name:, trigger_type:)
-    quest = quests.detect { |quest| quest.name == quest_name }
+  def update_progress(listener:)
+    quest = quests.detect { |quest| quest.name == listener[:quest] }
+    listener_category = listener[:triggers].first.keys.first
+    listener_type = listener[:triggers].first.values.first.keys.first
 
-    case trigger_type
+    case listener_category
     when :killed_mob
-      quest.progress[:kills] += 1
+      if listener_type == :map
+        quest.progress[:kills] += 1
+      else
+        quest.progress[:mob_killed] += 1
+      end
     end
 
     complete_quest(quest) if quest_completed?(quest)
@@ -44,7 +50,7 @@ class QuestLog
     quests.each do |quest|
       win.addstr("#{quest.name}, #{quest.map_name}")
       win.setpos(win.cury, 3)
-      win.addstr("#{quest.progress.keys.first.capitalize}: #{quest.progress.values.first}/#{quest.requirements.values.first}")
+      win.addstr("#{quest.progress.keys.first.to_s.gsub('_', ' ').capitalize}: #{quest.progress.values.first}/#{quest.requirements.values.first}")
       win.setpos(win.cury + 1, 3)
     end
   end
@@ -60,10 +66,10 @@ class QuestLog
   end
 
   def complete_quest(quest)
+    display_completed_quest_text(quest)
     player.add_quest_rewards(quest)
     update_log_completed_quest(quest)
     player.save
-    display_completed_quest_text(quest)
   end
 
   def update_log_completed_quest(quest)

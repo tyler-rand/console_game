@@ -11,7 +11,6 @@ end
 ### RUN GAME ###
 ################
 
-binding.pry
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
 loop do

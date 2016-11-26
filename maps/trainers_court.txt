@@ -12,7 +12,7 @@ o_xx..xxMm..cxxxx__o
 o_xx..xxxxxxxxxxx__o
 o_xx..xxxN.....xx__o
 o_xx.......xxQ.xx__o
-o_xx...m...xx.Pxx__o
+o_xx...m..Qxx.Pxx__o
 o_xxxxxxxxxxxxxxx__o
 o__________________o
 o__________________o

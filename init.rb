@@ -18,7 +18,7 @@ File.open('./db/QuestsDB.yml', 'w') {}
 
 # create quests
 QUESTS.each do |quest|
-  Quest.new(name: quest[:name], level: quest[:level], location: quest[:location],
+  Quest.new(name: quest[:name], level: quest[:level], start_location: quest[:start_location],
             map_name: quest[:map_name], requirements: quest[:requirements],
             start_text: quest[:start_text], end_text: quest[:end_text], xp_reward: quest[:xp_reward],
             cash_reward: quest[:cash_reward], item_reward: quest[:item_reward],

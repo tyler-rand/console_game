@@ -10,7 +10,7 @@ class VendorSellInteraction
   # private class methods
 
   def self.sell_menu
-    @win.refresh_display { @player.inventory.list(@win) }
+    @win.refresh_display { @player.inventory.display(@win) }
 
     item_index = sell_prompt
     return VendorInteractor.close_vendor if item_index == 'back'

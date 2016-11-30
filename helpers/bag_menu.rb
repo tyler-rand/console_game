@@ -1,5 +1,5 @@
 def bag_menu
-  @action_win.refresh_display { @player.inventory.list(@action_win) }
+  @action_win.refresh_display { @player.inventory.display(@action_win) }
 
   command, item_num = prompt_user_bag_input
 

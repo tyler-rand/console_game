@@ -11,7 +11,7 @@ class VendorBuyInteraction
   # private class methods
 
   def self.buy_menu
-    @win.refresh_display { @vendor.inventory.list(@win) }
+    @win.refresh_display { @vendor.inventory.display(@win) }
 
     item_index = buy_prompt
     return VendorInteractor.close_vendor if item_index == 'back'

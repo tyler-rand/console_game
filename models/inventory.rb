@@ -9,12 +9,8 @@ class Inventory
     @money  = 0
   end
 
-  def list(window)
-    window.win.setpos(2, 2)
-    window.win.addstr("------ #{player.name.upcase}\'S BAG -------")
-    window.win.setpos(3, 2)
-
-    display_bag(window.win)
+  def display(window)
+    InventoryDisplayer.new(inventory: self, window: window).list
   end
 
   def add_money(money)
@@ -38,23 +34,5 @@ class Inventory
 
   def refresh_indexes
     self.items = items.map { |item, _| item }.each_with_index.map { |item, i| [item, i + 1] }
-  end
-
-  private
-
-  def display_bag(win)
-    items.each do |item, i|
-      print_item_attr(item, i, win)
-      win.setpos(win.cury + 1, 2)
-    end
-  end
-
-  def print_item_attr(item, i, win)
-    if item.type == 'weapon'
-      win.addstr("[#{i}] #{item.name}, dmg: #{item.damage},"\
-                        " speed: #{item.speed}")
-    else
-      win.addstr("[#{i}] #{item.name}, defense: #{item.defense}")
-    end
   end
 end

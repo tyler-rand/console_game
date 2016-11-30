@@ -14,7 +14,7 @@ def main_menu_query
 end
 
 def equipped_menu
-  @player.equipped.list(@action_win)
+  @player.equipped.display(@action_win)
   press_any_key
 end
 

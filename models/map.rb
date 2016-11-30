@@ -13,16 +13,12 @@ class Map
     @quests      = load_quests
   end
 
-  def self.open_all
-    YAML.load_stream(open('db/MapsDB.yml'))
-  end
-
   def self.load(map)
-    Map.open_all.detect { |m| m.name == map }
+    open_all.detect { |m| m.name == map }
   end
 
   def self.names
-    Map.open_all.map(&:name)
+    open_all.map(&:name)
   end
 
   def self.list_all(window)
@@ -30,11 +26,19 @@ class Map
     window.win.addstr('---- MAPS ----')
     window.win.setpos(3, 2)
 
-    Map.names.each do |map|
+    names.each do |map|
       window.win.addstr(map)
       window.win.setpos(window.win.cury + 1, 2)
     end
   end
+
+  # private class methods
+
+  def self.open_all
+    YAML.load_stream(open('db/MapsDB.yml'))
+  end
+
+  private_class_method :open_all
 
   def save
     File.open('db/MapsDB.yml', 'a') { |f| f.write(to_yaml) }

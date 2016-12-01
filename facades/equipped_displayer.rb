@@ -18,15 +18,15 @@ class EquippedDisplayer
 
   def display_all_equipped
     %w(weapon chest pants helm gloves boots).each do |item_slot|
-      display_item(item_slot)
+      item = @equipped.send(item_slot)
+
+      display_item(item)
       @win.setpos(@win.cury + 1, 3)
     end
   end
 
-  def display_item(item_slot)
-    item = @equipped.send(item_slot)
-
-    return @win.addstr("#{item_slot.capitalize} not equipped.") if item.nil?
+  def display_item(item)
+    return @win.addstr("#{item.type.capitalize} not equipped.") if item.nil?
     print_item_attributes(item)
   end
 

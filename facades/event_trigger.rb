@@ -19,7 +19,7 @@ class EventTrigger
     player.listeners.each do |listener|
       @listener = listener
 
-      return unless listening_for_trigger_category?
+      next unless listening_for_trigger_category?
 
       case @listener.category
       when :killed_mob
@@ -33,16 +33,17 @@ class EventTrigger
   end
 
   def check_killed_mob
-    listening_for_trigger =
-      case @listener.type
-      when :map
-        listening_for_map?
-      when :mob
-        listening_for_mob?
-      end
+    return unless listening_for_trigger?
 
-    if listening_for_trigger
-      player.quest_log.update_progress(listener: @listener)
+    player.quest_log.update_progress(listener: @listener)
+  end
+
+  def listening_for_trigger?
+    case @listener.type
+    when :map
+      listening_for_map?
+    when :mob
+      listening_for_mob?
     end
   end
 

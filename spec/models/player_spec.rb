@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Player do
   describe '.open_all' do
     it 'returns all players' do
-      Player.new(name: "Wally", password: "password", species: "Monster", type: "Green").save
+      Player.new(name: 'Wally', password: 'password', species: 'Monster', type: 'Green').save
 
       players = Player.open_all
 

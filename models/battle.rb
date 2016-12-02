@@ -55,7 +55,7 @@ class Battle
   end
 
   def attack_turn
-    AttackTurn.new(battle: self).execute
+    Attack.new(battle: self).player_attacks
   end
 
   def display_bag
@@ -76,7 +76,7 @@ class Battle
 
   def couldnt_escape
     $message_win.display_messages(Message.new('> Couldn\'t escape!', 'red'))
-    mob_attack
+    Attack.new(battle: self).mob_attacks
   end
 
   def battle_input_error

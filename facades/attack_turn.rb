@@ -1,4 +1,5 @@
-class AttackTurn
+# player chooses to attack in a battle
+class Attack
   attr_reader :battle, :player, :mob, :battle_displayer, :map
 
   def initialize(battle:)
@@ -9,7 +10,7 @@ class AttackTurn
     @map = battle.map
   end
 
-  def execute
+  def player_attacks
     player_attack
 
     if mob.health <= 0
@@ -17,6 +18,10 @@ class AttackTurn
     else
       mob_attack
     end
+  end
+
+  def mob_attacks
+    mob_attack
   end
 
   private
@@ -45,7 +50,7 @@ class AttackTurn
     0.4 # til method is fixed
   end
 
-  # def defense_dmg_reduction_table # FIXME: if defense doesnt fall into preset values... need a better way to do this
+  # def defense_dmg_reduction_table # FIXME: if defns doesnt fall into preset vals? need better way
   #   [
   #     { 'level' => 1, 0 => 1, 20 => 0.8, 40 => 0.6, 60 => 0.4, 80 => 0.2 },
   #     { 'level' => 2, 0 => 1, 40 => 0.8, 80 => 0.6, 120 => 0.4, 160 => 0.2 },

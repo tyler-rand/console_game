@@ -5,7 +5,7 @@ class Mob
 
   MAP_ICON = 'm'.freeze
   NAMED_MAP_ICON = 'M'.freeze
-  NAME_PREFIX= %w(Bloodthirsy Rabid Feral Angry Dreadful Fearless Violent Massive).freeze
+  NAME_PREFIX = %w(Bloodthirsy Rabid Feral Angry Dreadful Fearless Violent Massive).freeze
   NAME_SUFFIX = %w(Bear Zombie Werewolf Wolf Dragon Ape Ghoul Snake Lion Panther Shark).freeze
   TYPES = %w(Animal Undead Human).freeze
 

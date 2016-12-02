@@ -1,3 +1,4 @@
+# displays equipped items to the window
 class EquippedDisplayer
   def initialize(equipped:, window:)
     @equipped = equipped
@@ -20,13 +21,13 @@ class EquippedDisplayer
     %w(weapon chest pants helm gloves boots).each do |item_slot|
       item = @equipped.send(item_slot)
 
-      display_item(item)
+      display_item(item: item, item_slot: item_slot)
       @win.setpos(@win.cury + 1, 3)
     end
   end
 
-  def display_item(item)
-    return @win.addstr("#{item.type.capitalize} not equipped.") if item.nil?
+  def display_item(item:, item_slot:)
+    return @win.addstr("#{item_slot.capitalize} not equipped.") if item.nil?
     print_item_attributes(item)
   end
 

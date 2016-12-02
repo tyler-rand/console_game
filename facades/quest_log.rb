@@ -72,7 +72,7 @@ class QuestLog
   end
 
   def display_completed_quest_text
-    msgs = [Message.new("> Quest Completed - #{quest.name}", 'green'),
+    msgs = [Message.new("> Quest Completed - #{@quest.name}", 'green'),
             Message.new(@quest.formatted_rewards, 'green'),
             Message.new(@quest.end_text, 'green')]
     $message_win.display_messages(msgs)

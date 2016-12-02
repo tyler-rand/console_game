@@ -1,3 +1,4 @@
+# listens for event triggers
 class Listener
   attr_reader :quest, :category, :type, :trigger, :progress
 

@@ -1,3 +1,4 @@
+# quest which a player accepts and complets for item, cash, & xp rewards
 class Quest
   attr_accessor :id, :level, :name, :start_location, :map_name, :requirements, :start_text, :end_text, :xp_reward,
                 :cash_reward, :item_reward, :triggers, :progress

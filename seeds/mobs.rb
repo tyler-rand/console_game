@@ -12,4 +12,4 @@ MOBS = [
       defense: 40
     }
   }
-]
+].freeze

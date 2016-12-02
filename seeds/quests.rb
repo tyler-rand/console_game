@@ -47,4 +47,4 @@ QUESTS = [
     ],
     progress: { kills: 0 }
   }
-]
+].freeze

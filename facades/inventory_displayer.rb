@@ -1,3 +1,4 @@
+# prints inventory list to the window
 class InventoryDisplayer
   def initialize(inventory:, window:)
     @inventory = inventory

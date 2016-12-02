@@ -13,7 +13,7 @@ describe Map do
   describe '.load' do
     context 'valid map name' do
       it 'returns the map' do
-        map = Map.load("Trainers Court")
+        map = Map.load('Trainers Court')
 
         expect(map.class).to eq(Map)
       end
@@ -21,7 +21,7 @@ describe Map do
 
     context 'invalid map name' do
       it 'returns nil' do
-        map = Map.load("invalid map name")
+        map = Map.load('invalid map name')
 
         expect(map).to eq(nil)
       end
@@ -34,7 +34,7 @@ describe Map do
 
       expect(names).not_to be_empty
       expect(names).to all(be_a(String))
-      expect(names[0..2]).to eq(["Trainers Court", "Trainers Mansion", "Road To City"])
+      expect(names[0..2]).to eq(['Trainers Court', 'Trainers Mansion', 'Road To City'])
     end
   end
 
@@ -58,7 +58,7 @@ describe Map do
 
   describe '#remove_at_loc' do
     it 'turns a location into an open space' do
-      # 
+      #
     end
   end
 end

@@ -16,10 +16,6 @@ def create_all_skills
   skills_ary.each { |s| Skill.new(s[0], s[1], s[2]) }
 end
 
-def show_rules
-  puts '<< game info/rules goes here >>'
-end
-
 def species_info
   puts ' -------------'
   puts ' --- HERO SPECIES ---'

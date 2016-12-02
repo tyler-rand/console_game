@@ -14,8 +14,7 @@ end
 puts 'Shit, its ConsoleRPG. v0.0.1'.colorize(44)
 
 loop do
-  puts "\nEnter #{'NEW'.colorize(93)} for a new game, #{'LOAD'.colorize(93)} to resume progress"\
-       " or #{'RULES'.colorize(93)} to learn how to play."
+  puts "\nEnter #{'NEW'.colorize(93)} for a new game or #{'LOAD'.colorize(93)} to resume progress"
   print '-->'
 
   user_initialize_input = gets.chomp.upcase
@@ -25,12 +24,10 @@ loop do
     @player = prompt_player_create
   when 'LOAD'
     @player = load_player
-  when 'RULES'
-    show_rules
   when 'ADMIN77'
     admin_menu
   else
-    puts 'Must enter \'NEW\', \'LOAD\', or \'RULES\'.'.colorize(101)
+    puts 'Must enter \'NEW\' or \'LOAD\'.'.colorize(101)
   end
 
   break if @player

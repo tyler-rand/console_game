@@ -17,6 +17,12 @@ class InventoryInteractor
     send(method_name)
   end
 
+  def add_item(item)
+    index = inventory.items.length + 1
+    inventory.items << [item, index]
+    $message_win.display_messages(Message.new("> #{item.name} added to bag", 'green'))
+  end
+
   private
 
   def command_equip
@@ -38,14 +44,6 @@ class InventoryInteractor
     end
     true
   end
-
-  # not implemented yet... use case is adding specific items, unlike chest which rolls random ones
-  # def command_add
-  #   index = inventory.items.length + 1
-  #   inventory.items << [item, index]
-  #   msgs = [Message.new("> #{item.name} added to bag", 'green')]
-  #   $message_win.display_messages(msgs)
-  # end
 
   def command_drop
     inventory.items.slice!(item_num - 1)

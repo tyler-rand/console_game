@@ -1,6 +1,7 @@
 # map specific interations from the games main menu
 class MapMenu
-  attr_reader :map, :player, :action_win, :main_win, :map_displayer
+  attr_reader :player, :action_win, :main_win, :map_displayer
+  attr_accessor :map
 
   def initialize(action_win, main_win, player)
     @action_win = action_win
@@ -16,6 +17,18 @@ class MapMenu
 
     display_map(map_name)
     MapInputLoop.new(map_menu: self).execute
+  end
+
+  def display_map(map_name)
+    @map = Map.load(map_name)
+    @map_displayer = MapDisplayer.new(map, main_win.win)
+
+    main_win.build_map(map_displayer)
+    player.location = map.find_player
+
+    $message_win.display_messages(
+      Message.new("> #{map.name} loaded successfully, player: #{player.location}", 'green')
+    )
   end
 
   private
@@ -56,17 +69,5 @@ class MapMenu
       $message_win.display_messages(Message.new('> Map name error, try again.', 'red'))
       false
     end
-  end
-
-  def display_map(map_name)
-    @map = Map.load(map_name)
-    @map_displayer = MapDisplayer.new(map, main_win.win)
-
-    main_win.build_map(map_displayer)
-    player.location = map.find_player
-
-    $message_win.display_messages(
-      Message.new("> #{map.name} loaded successfully, player: #{player.location}", 'green')
-    )
   end
 end

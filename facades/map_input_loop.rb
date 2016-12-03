@@ -1,6 +1,6 @@
 # player input loop after a map has been loaded
 class MapInputLoop
-  attr_reader :map, :player, :main_win, :action_win, :map_displayer, :map_movement
+  attr_reader :map_menu, :map, :player, :main_win, :action_win, :map_displayer, :map_movement
 
   MAP_LEGEND = 'l'.freeze
   QUEST_MENU = 'q'.freeze
@@ -10,6 +10,7 @@ class MapInputLoop
   MOVE_PLAYER = %w(w a s d).freeze
 
   def initialize(map_menu:)
+    @map_menu = map_menu
     @map = map_menu.map
     @player = map_menu.player
     @main_win = map_menu.main_win
@@ -59,11 +60,17 @@ class MapInputLoop
 
   def map_movement_action(action)
     case action[0]
-    when :show_next_map then display_map(action[1])
+    when :show_next_map then refresh_map(map_name: action[1])
     when :engage_mob    then engage_mob
     when :open_shop     then open_shop
     when :open_quest    then open_quest
     end
+  end
+
+  def refresh_map(map_name:)
+    @map = Map.load(map_name)
+    @map_displayer = MapDisplayer.new(map, main_win.win)
+    @map_menu = MapMenu.new(action_win, main_win, player).display_map(action[1])
   end
 
   def engage_mob

@@ -9,7 +9,7 @@ QUESTS = [
     end_text: '> Good job completing your first quest!',
     xp_reward: 10,
     cash_reward: 100,
-    item_reward: nil,
+    item_reward: 'Boots of Health',
     triggers: [
       { killed_mob: { map: 'Trainers Court' } }
     ],

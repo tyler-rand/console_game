@@ -68,8 +68,7 @@ class Player
   end
 
   def add_quest_rewards(quest)
-    # TODO: handle item rewards
-    # InventoryInteractor.new(player, nil, nil).add_item(quest.item_reward) if quest.item_reward
+    InventoryInteractor.new(self, nil, nil).add_item(quest.item_reward) if quest.item_reward
     inventory.money += quest.cash_reward
     add_exp(quest.xp_reward)
   end

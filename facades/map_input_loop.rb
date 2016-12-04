@@ -70,7 +70,7 @@ class MapInputLoop
   def refresh_map(map_name:)
     @map = Map.load(map_name)
     @map_displayer = MapDisplayer.new(map, main_win.win)
-    @map_menu = MapMenu.new(action_win, main_win, player).display_map(action[1])
+    @map_menu = MapMenu.new(action_win, main_win, player).display_map(map_name)
   end
 
   def engage_mob

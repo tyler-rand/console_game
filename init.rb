@@ -1,7 +1,7 @@
 require 'YAML'
 require 'fileutils'
 
-seeds = %w(mobs quests)
+seeds = %w(mobs quests quest_items)
 seeds.each { |seed| load "seeds/#{seed}.rb" }
 
 folders = %w(models facades)
@@ -18,10 +18,25 @@ File.open('./db/QuestsDB.yml', 'w') {}
 
 # create quests
 QUESTS.each do |quest|
+  item_reward = QUEST_ITEMS.detect{|x| x[:name] == quest[:item_reward]}
+  item =
+    if item_reward == nil
+      nil
+    else
+      ArmorItem.new(
+        {ilvl: item_reward[:ilvl],
+        name: item_reward[:name],
+        type: item_reward[:type],
+        quality: item_reward[:quality],
+        value: item_reward[:value]},
+        defense: item_reward[:defense]
+      )
+    end
+
   Quest.new(name: quest[:name], level: quest[:level], start_location: quest[:start_location],
             map_name: quest[:map_name], requirements: quest[:requirements],
             start_text: quest[:start_text], end_text: quest[:end_text], xp_reward: quest[:xp_reward],
-            cash_reward: quest[:cash_reward], item_reward: quest[:item_reward],
+            cash_reward: quest[:cash_reward], item_reward: item,
             triggers: quest[:triggers], progress: quest[:progress]).save
 end
 

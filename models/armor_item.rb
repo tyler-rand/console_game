@@ -4,9 +4,9 @@ require_relative 'item'
 class ArmorItem < Item
   attr_accessor :defense
 
-  def initialize(args = {})
-    super
-    @defense = roll_defense
+  def initialize(args = {}, defense: nil)
+    super(args)
+    @defense = defense ||= roll_defense
   end
 
   private

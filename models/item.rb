@@ -2,6 +2,14 @@
 class Item
   attr_accessor :id, :ilvl, :name, :type, :quality, :value, :attributes
 
+  TYPES        = %w(weapon chest helm boots gloves pants).freeze
+  WEAPON_TYPES = %w(axe mace sword dagger).freeze
+  CHEST_TYPES  = %w(chainmail leather cloth plate).freeze
+  HELM_TYPES   = %w(cap mask horns visor).freeze
+  BOOT_TYPES   = %w(boots heavy\ boots plate\ boots treads).freeze
+  GLOVE_TYPES  = %w(gloves heavy\ gloves mitts plate\ gloves).freeze
+  PANT_TYPES   = %w(cloth leather platemail chainmail).freeze
+
   def initialize(ilvl:, name:, type:, quality:, value:, **attributes)
     @id         = object_id
     @ilvl       = ilvl.to_i
@@ -14,14 +22,15 @@ class Item
 
   def self.roll_new(ilvl)
     quality = random_quality
-    type    = %w(weapon chest helm boots gloves pants).sample
+    type    = TYPES.sample
     name    = random_name(type)
     value   = ilvl * 100
+    args    = {ilvl: ilvl, name: name, type: type, quality: quality, value: value}
 
     if type == 'weapon'
-      WeaponItem.new(ilvl: ilvl, name: name, type: type, quality: quality, value: value)
+      WeaponItem.new(args, damage: nil, speed: nil)
     else # any armor
-      ArmorItem.new(ilvl: ilvl, name: name, type: type, quality: quality, value: value)
+      ArmorItem.new(args, defense: nil)
     end
   end
 
@@ -40,18 +49,12 @@ class Item
 
   def self.random_name(type)
     case type
-    when 'weapon'
-      %w(axe mace sword dagger).sample
-    when 'chest'
-      %w(chainmail leather cloth plate).sample
-    when 'helm'
-      %w(cap mask horns visor).sample
-    when 'boots'
-      %w(boots heavy\ boots plate\ boots treads).sample
-    when 'gloves'
-      %w(gloves heavy\ gloves mitts plate\ gloves).sample
-    when 'pants'
-      %w(cloth leather platemail chainmail).sample
+    when 'weapon' then WEAPON_TYPES.sample
+    when 'chest'  then CHEST_TYPES.sample
+    when 'helm'   then HELM_TYPES.sample
+    when 'boots'  then BOOT_TYPES.sample
+    when 'gloves' then GLOVE_TYPES.sample
+    when 'pants'  then PANT_TYPES.sample
     end
   end
 

@@ -2,10 +2,10 @@
 class WeaponItem < Item
   attr_accessor :damage, :speed
 
-  def initialize(args = {})
-    super
-    @damage = roll_damage
-    @speed = roll_speed
+  def initialize(args = {}, damage: nil, speed: nil)
+    super(args)
+    @damage = damage ||= roll_damage
+    @speed = speed ||= roll_speed
   end
 
   private

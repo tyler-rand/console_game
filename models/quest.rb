@@ -46,6 +46,6 @@ class Quest
   private
 
   def item_reward_string
-    item_reward.nil? ? '.' : ", #{item_reward}"
+    item_reward.nil? ? '.' : ", #{item_reward.name}"
   end
 end

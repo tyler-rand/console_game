@@ -25,7 +25,7 @@ QUESTS = [
     end_text: '> Professor Gulbrand slain!',
     xp_reward: 15,
     cash_reward: 100,
-    item_reward: nil,
+    item_reward: 'Axe of Health',
     triggers: [
       { killed_mob: { mob: 'Professor Gulbrand' } }
     ],

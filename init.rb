@@ -24,9 +24,20 @@ File.open('./db/QuestsDB.yml', 'w') {}
 
 QUESTS.each do |quest|
   item_reward = QUEST_ITEMS.detect{|x| x[:name] == quest[:item_reward]}
-  item =
-    if item_reward == nil
-      nil
+
+  item = unless item_reward.nil?
+    if item_reward[:type] == 'weapon'
+      WeaponItem.new(
+        {
+          ilvl:    item_reward[:ilvl],
+          name:    item_reward[:name],
+          type:    item_reward[:type],
+          quality: item_reward[:quality],
+          value:   item_reward[:value]
+        },
+        damage: item_reward[:damage],
+        speed:  item_reward[:speed]
+      )
     else
       ArmorItem.new(
         {
@@ -39,6 +50,7 @@ QUESTS.each do |quest|
         defense: item_reward[:defense]
       )
     end
+  end
 
   Quest.new(
     name:           quest[:name],

@@ -9,5 +9,17 @@ QUEST_ITEMS = [
     attributes: [
       bonus_heatlh: 10
     ]
-  }
+  },
+  {
+    ilvl: 2,
+    name: 'Axe of Health',
+    type: 'weapon',
+    quality: 'Magic',
+    value: 200,
+    damage: 30,
+    speed: 1.5,
+    attributes: [
+      bonus_heatlh: 10
+    ]
+  },
 ]

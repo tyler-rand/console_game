@@ -1,6 +1,6 @@
 # base class for event triggers such as quest events, spawn mob, etc
 class EventTrigger
-  attr_accessor :player, :trigger
+  attr_reader :player, :trigger
 
   # TRIGGER_CATEGORIES = %w(killed_mob map_location).freeze
 

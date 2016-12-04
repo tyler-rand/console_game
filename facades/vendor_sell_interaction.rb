@@ -39,8 +39,10 @@ class VendorSellInteraction
   end
 
   def self.prompt_confirm_sell(item)
-    msgs = [Message.new("> Are you sure you want to sell #{item.name} for #{item.value}? (Y/N)", 'yellow'),
-            Message.new('--> ', 'normal')]
+    msgs = [
+      Message.new("> Really sell #{item.name} for #{item.value}? (Y/N)", 'yellow'),
+      Message.new('--> ', 'normal')
+    ]
     $message_win.display_messages(msgs)
 
     $message_win.get_input

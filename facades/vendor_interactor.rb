@@ -1,7 +1,7 @@
 # handles the 'main menu' or first level of interaction that is shared amongst
 # questgivers and vendors
 class VendorInteractor
-  attr_accessor :vendor, :player
+  attr_reader :vendor, :player
 
   def initialize(player:, vendor:, win:)
     @id     = object_id

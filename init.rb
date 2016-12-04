@@ -23,36 +23,37 @@ File.open('./db/QuestsDB.yml', 'w') {}
 #################
 
 QUESTS.each do |quest|
-  item_reward = QUEST_ITEMS.detect{|x| x[:name] == quest[:item_reward]}
+  item_reward = QUEST_ITEMS.detect { |x| x[:name] == quest[:item_reward] }
 
-  item = unless item_reward.nil?
-    if item_reward[:type] == 'weapon'
-      WeaponItem.new(
-        {
-          ilvl:    item_reward[:ilvl],
-          name:    item_reward[:name],
-          type:    item_reward[:type],
-          quality: item_reward[:quality],
-          value:   item_reward[:value]
-        },
-        damage: item_reward[:damage],
-        speed:  item_reward[:speed]
-      )
-    else
-      ArmorItem.new(
-        {
-          ilvl:    item_reward[:ilvl],
-          name:    item_reward[:name],
-          type:    item_reward[:type],
-          quality: item_reward[:quality],
-          value:   item_reward[:value]
-        },
-        defense: item_reward[:defense]
-      )
+  item =
+    unless item_reward.nil?
+      if item_reward[:type] == 'weapon'
+        WeaponItem.new(
+          {
+            ilvl:    item_reward[:ilvl],
+            name:    item_reward[:name],
+            type:    item_reward[:type],
+            quality: item_reward[:quality],
+            value:   item_reward[:value]
+          },
+          damage: item_reward[:damage],
+          speed:  item_reward[:speed]
+        )
+      else
+        ArmorItem.new(
+          {
+            ilvl:    item_reward[:ilvl],
+            name:    item_reward[:name],
+            type:    item_reward[:type],
+            quality: item_reward[:quality],
+            value:   item_reward[:value]
+          },
+          defense: item_reward[:defense]
+        )
+      end
     end
-  end
 
-  Quest.new(
+  quest_args = {
     name:           quest[:name],
     level:          quest[:level],
     start_location: quest[:start_location],
@@ -65,7 +66,8 @@ QUESTS.each do |quest|
     item_reward:    item,
     triggers:       quest[:triggers],
     progress:       quest[:progress]
-  ).save
+  }
+  Quest.new(quest_args).save
 end
 
 #####################
@@ -79,7 +81,6 @@ MOBS.each do |mob|
     options:  mob[:options]
   ).save
 end
-
 
 ###############
 # CREATE MAPS #

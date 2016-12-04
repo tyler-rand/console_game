@@ -1,6 +1,6 @@
 # displays and updates battle info
 class BattleDisplayer
-  attr_accessor :win
+  attr_reader :win
 
   def initialize(win)
     @win = win

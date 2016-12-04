@@ -1,7 +1,6 @@
 # map specific interations from the games main menu
 class MapMenu
-  attr_reader :player, :action_win, :main_win, :map_displayer
-  attr_accessor :map
+  attr_reader :map, :player, :action_win, :main_win, :map_displayer
 
   def initialize(action_win, main_win, player)
     @action_win = action_win

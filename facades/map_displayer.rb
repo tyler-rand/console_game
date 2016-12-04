@@ -1,6 +1,7 @@
 # displays and scrolls map in main window
 class MapDisplayer
-  attr_accessor :map, :win, :cur_x_range, :cur_y_range
+  attr_reader :map, :win
+  attr_accessor :cur_x_range, :cur_y_range
 
   MAP_HEIGHT = 19
   MAP_WIDTH = 20

@@ -1,6 +1,6 @@
 # weapon subclass of item
 class WeaponItem < Item
-  attr_accessor :damage, :speed
+  attr_reader :damage, :speed
 
   def initialize(args = {}, damage: nil, speed: nil)
     super(args)

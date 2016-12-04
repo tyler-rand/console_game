@@ -1,6 +1,6 @@
 # handles finding and setting the cur_x_range / cur_y_range of the MapDisplayer
 class MapDisplayRangeFinder
-  attr_accessor :map, :max_x, :max_y
+  attr_reader :map, :max_x, :max_y
 
   def initialize(map)
     @map = map

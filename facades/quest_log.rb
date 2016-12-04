@@ -1,6 +1,7 @@
 # keeps track of what quests a player has, as well as their progress
 class QuestLog
-  attr_accessor :id, :player, :quests, :completed_quests
+  attr_reader :player
+  attr_accessor :quests, :completed_quests
 
   def initialize(player:)
     @id        = object_id
@@ -47,7 +48,10 @@ class QuestLog
     quests.each do |quest|
       win.addstr("#{quest.name}, #{quest.map_name}")
       win.setpos(win.cury, 3)
-      win.addstr("#{quest.progress.keys.first.to_s.gsub('_', ' ').capitalize}: #{quest.progress.values.first}/#{quest.requirements.values.first}")
+      win.addstr(
+        "#{quest.progress.keys.first.to_s.gsub('_', ' ').capitalize}: " \
+        "#{quest.progress.values.first}/#{quest.requirements.values.first}"
+      )
       win.setpos(win.cury + 1, 3)
     end
   end

@@ -25,7 +25,7 @@ class Item
     type    = TYPES.sample
     name    = random_name(type)
     value   = ilvl * 100
-    args    = {ilvl: ilvl, name: name, type: type, quality: quality, value: value}
+    args    = { ilvl: ilvl, name: name, type: type, quality: quality, value: value }
 
     if type == 'weapon'
       WeaponItem.new(args, damage: nil, speed: nil)

@@ -2,7 +2,7 @@ require_relative 'item'
 
 # armor subclass of item
 class ArmorItem < Item
-  attr_accessor :defense
+  attr_reader :defense
 
   def initialize(args = {}, defense: nil)
     super(args)

@@ -21,5 +21,5 @@ QUEST_ITEMS = [
     attributes: [
       bonus_heatlh: 10
     ]
-  },
-]
+  }
+].freeze

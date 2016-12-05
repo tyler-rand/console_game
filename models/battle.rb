@@ -1,10 +1,13 @@
 # battle between player and mob
 class Battle
-  attr_accessor :state, :battle_displayer, :map_movement, :map, :player, :location, :mob
+  attr_reader :battle_displayer, :location, :map, :map_movement, :mob, :player
+  attr_accessor :state
+
+  STATES = %w(ONGOING COMPLETE).freeze
 
   def initialize(battle_displayer, map_movement)
     @id               = object_id
-    @state            = 0 # 0 is ongoing battle, 1 is battle ended
+    @state            = 'ONGOING'
     @battle_displayer = battle_displayer
     @map_movement     = map_movement
     @map              = map_movement.map
@@ -15,7 +18,7 @@ class Battle
 
   def engage
     loop do
-      break if state == 1
+      break if state == 'COMPLETE'
 
       user_input = prompt_battle_input
 
@@ -32,7 +35,10 @@ class Battle
   def prompt_battle_input
     battle_displayer.refresh(self)
 
-    msgs = [Message.new('> ATTACK | BAG | RUN', 'yellow'), Message.new('--> ', 'normal')]
+    msgs = [
+      Message.new('> ATTACK (A) | BAG (B) | RUN (R)', 'yellow'),
+      Message.new('--> ', 'normal')
+    ]
     $message_win.display_messages(msgs)
 
     user_input = $message_win.win.getstr.upcase
@@ -43,12 +49,9 @@ class Battle
 
   def choose_turn(turn)
     case turn
-    when 'ATTACK'
-      attack_turn
-    when 'BAG'
-      display_bag
-    when 'RUN'
-      attempt_run
+    when 'ATTACK', 'A' then attack_turn
+    when 'BAG',    'B' then display_bag
+    when 'RUN',    'R' then attempt_run
     else
       battle_input_error
     end
@@ -59,7 +62,7 @@ class Battle
   end
 
   def display_bag
-    #
+    # TODO
   end
 
   def attempt_run
@@ -71,7 +74,7 @@ class Battle
     msgs = [Message.new('> Got away!', 'green'),
             Message.new('> ', 'normal')]
     $message_win.display_messages(msgs)
-    self.state = 1
+    self.state = 'COMPLETE'
   end
 
   def couldnt_escape

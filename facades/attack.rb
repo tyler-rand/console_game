@@ -67,7 +67,7 @@ class Attack
     map.remove_at_loc(battle.location)
     player.add_exp(mob.level)
 
-    battle.state = 1
+    battle.state = 'COMPLETE'
 
     battle.map_movement.execute
 
@@ -87,7 +87,7 @@ class Attack
   def mob_kills_player
     battle_displayer.clear
     map.remove_at_loc(player.location)
-    battle.state = 1
+    battle.state = 'COMPLETE'
     player.health = 0
     player.location = []
 

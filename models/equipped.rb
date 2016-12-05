@@ -1,6 +1,7 @@
 # a player's equipped items
 class Equipped
-  attr_accessor :player, :weapon, :chest, :pants, :helm, :gloves, :boots
+  attr_reader :player
+  attr_accessor :weapon, :chest, :pants, :helm, :gloves, :boots
 
   def initialize(player:)
     @id     = object_id

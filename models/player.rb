@@ -1,9 +1,9 @@
 # tracks player stats and skills
 class Player
-  attr_accessor :id, :name, :species, :type, :password, :level, :current_exp, :max_exp,
-                :health, :max_health, :defense, :damage, :crit_chance, :listeners, :equipped,
-                :inventory, :quest_log, :location, :energy, :max_energy, :strength, :agility,
-                :intelligence, :unused_skills
+  attr_reader :name, :password, :species, :type
+  attr_accessor :level, :current_exp, :max_exp, :health, :max_health, :defense, :damage,
+                :crit_chance, :listeners, :equipped, :inventory, :quest_log, :location, :energy,
+                :max_energy, :strength, :agility, :intelligence, :unused_skills
 
   MAP_ICON = 'P'.freeze
 
@@ -128,8 +128,10 @@ class Player
   end
 
   def display_level_up_msg
-    msgs = [Message.new("> You've leveled up! Now level #{level}.", 'green'),
-            Message.new('> Strength, Agility, Intelligence, and Health all increased.', 'green')]
+    msgs = [
+      Message.new("> You've leveled up! Now level #{level}.", 'green'),
+      Message.new('> Strength, Agility, Intelligence, and Health all increased.', 'green')
+    ]
     $message_win.display_messages(msgs)
   end
 

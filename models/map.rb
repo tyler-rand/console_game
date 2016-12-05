@@ -1,6 +1,7 @@
 # map
 class Map
-  attr_accessor :id, :name, :level, :file, :current_map, :mobs, :vendors, :quests
+  attr_reader :file, :level, :name
+  attr_accessor :current_map, :mobs, :quests, :vendors
 
   def initialize(name:, level:, file:)
     @id          = object_id

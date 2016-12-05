@@ -1,6 +1,14 @@
 # player skill
 class Skill
-  attr_accessor :id, :name, :description, :effect
+  attr_reader :name, :description, :effect
+
+  def initialize(name, description, effect)
+    @id = object_id
+    @name = name
+    @description = description
+    @effect = effect
+    save
+  end
 
   def self.all
     YAML.load_stream(open('db/SkillsDB.yml'))
@@ -17,14 +25,6 @@ class Skill
       win.addstr(skill.description.to_s)
       win.setpos(win.cury + 2, 2)
     end
-  end
-
-  def initialize(name, description, effect)
-    @id = object_id
-    @name = name
-    @description = description
-    @effect = effect
-    save
   end
 
   def save

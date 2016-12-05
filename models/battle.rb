@@ -71,8 +71,10 @@ class Battle
 
   def got_away_safe
     battle_displayer.clear
-    msgs = [Message.new('> Got away!', 'green'),
-            Message.new('> ', 'normal')]
+    msgs = [
+      Message.new('> Got away!', 'green'),
+      Message.new('> ', 'normal')
+    ]
     $message_win.display_messages(msgs)
     self.state = 'COMPLETE'
   end

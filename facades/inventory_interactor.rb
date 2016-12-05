@@ -1,6 +1,6 @@
 # handles equipping, dropping, using an item in a players inventory
 class InventoryInteractor
-  attr_accessor :player, :equipped, :inventory, :command, :item, :item_num
+  attr_reader :command, :equipped, :item, :item_num, :inventory, :player
 
   def initialize(player, command, item_num)
     @id        = object_id

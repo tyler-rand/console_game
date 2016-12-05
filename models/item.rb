@@ -1,6 +1,6 @@
 # Item -- any armor, weapon, etc
 class Item
-  attr_accessor :id, :ilvl, :name, :type, :quality, :value, :attributes
+  attr_reader :attributes, :ilvl, :name, :type, :quality, :value
 
   TYPES        = %w(weapon chest helm boots gloves pants).freeze
   WEAPON_TYPES = %w(axe mace sword dagger).freeze

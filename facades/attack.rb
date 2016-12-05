@@ -76,12 +76,12 @@ class Attack
   end
 
   def mob_attack
-    damage = adjusted_attack_damage(mob, player)
-    player.health -= damage
+    attack_damage = adjusted_attack_damage(mob, player)
+    player.health -= attack_damage
     battle_displayer.refresh(self)
-    $message_win.display_messages(Message.new("> #{mob.name} hits you for #{damage}!", 'red'))
+    $message_win.display_messages(Message.new("> #{mob.name} hits for #{attack_damage}!", 'red'))
 
-    mob_kills_player if player.health <= 0 && mob.health > 0
+    mob_kills_player if player.health <= 0
   end
 
   def mob_kills_player

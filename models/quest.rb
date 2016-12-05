@@ -1,7 +1,8 @@
 # quest which a player accepts and complets for item, cash, & xp rewards
 class Quest
-  attr_accessor :id, :level, :name, :start_location, :map_name, :requirements, :start_text,
-                :end_text, :xp_reward, :cash_reward, :item_reward, :triggers, :progress
+  attr_reader :cash_reward, :end_text, :id, :item_reward, :level, :map_name, :name, :requirements,
+              :start_location, :start_text, :triggers, :xp_reward
+  attr_accessor :progress
 
   MAP_ICON = 'Q'.freeze
 
@@ -44,6 +45,10 @@ class Quest
   private
 
   def item_reward_string
-    item_reward.nil? ? '.' : ", #{item_reward.name}"
+    if item_reward.nil?
+      '.'
+    else
+      ", #{item_reward.name}"
+    end
   end
 end

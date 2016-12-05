@@ -1,7 +1,7 @@
 # npc monster
 class Mob
-  attr_accessor :id, :name, :type, :level, :health, :max_health, :damage, :defense, :map_name,
-                :movement_type, :location
+  attr_reader :level, :location, :map_name, :movement_type, :name, :type
+  attr_accessor :health, :max_health, :damage, :defense
 
   MAP_ICON = 'm'.freeze
   NAMED_MAP_ICON = 'M'.freeze

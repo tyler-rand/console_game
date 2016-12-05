@@ -1,6 +1,6 @@
 # handles a player moving on a map object, but not the display of the movement
 class MapMovement
-  attr_accessor :map, :player, :movement_input, :old_player_loc, :new_player_loc
+  attr_reader :map, :movement_input, :new_player_loc, :old_player_loc, :player
 
   def initialize(map, player, movement_input)
     @map = map

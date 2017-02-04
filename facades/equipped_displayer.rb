@@ -27,8 +27,11 @@ class EquippedDisplayer
   end
 
   def display_item(item:, item_slot:)
-    return @win.addstr("#{item_slot.capitalize} not equipped.") if item.nil?
-    print_item_attributes(item)
+    if item.nil?
+      @win.addstr("#{item_slot.capitalize} not equipped.")
+    else
+      print_item_attributes(item)
+    end
   end
 
   def print_item_attributes(item)

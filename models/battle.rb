@@ -3,11 +3,12 @@ class Battle
   attr_reader :battle_displayer, :location, :map, :map_movement, :mob, :player
   attr_accessor :state
 
-  STATES = %w(ONGOING COMPLETE).freeze
+  ONGOING = 'ONGOING'.freeze
+  COMPLETE = 'COMPLETE'.freeze
 
   def initialize(battle_displayer, map_movement)
     @id               = object_id
-    @state            = 'ONGOING'
+    @state            = ONGOING
     @battle_displayer = battle_displayer
     @map_movement     = map_movement
     @map              = map_movement.map
@@ -18,7 +19,7 @@ class Battle
 
   def engage
     loop do
-      break if state == 'COMPLETE'
+      break if state == COMPLETE
 
       user_input = prompt_battle_input
 
@@ -76,7 +77,7 @@ class Battle
       Message.new('> ', 'normal')
     ]
     $message_win.display_messages(msgs)
-    self.state = 'COMPLETE'
+    self.state = COMPLETE
   end
 
   def couldnt_escape

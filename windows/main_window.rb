@@ -23,19 +23,26 @@ class MainWindow
     box_with_title("Map: #{map_display.map.name}")
   end
 
-  def getch_no_echo
-    Curses.noecho
-    Curses.curs_set(0)
-    win.setpos(24, 2)
-    i = win.getch
-    input = i.class < Integer ? 'm' : i.downcase # set to unused char CHANGE IF m gets used
-    Curses.curs_set(1)
-    Curses.echo
-
-    input
+  def get_char_without_echo
+    input = curses_get_char_without_echo
+    if input.class < Integer
+      'm' # set to unused char, FIXME: this is dumb
+    else
+      input.downcase
+    end
   end
 
   private
+
+  def curses_get_char_without_echo
+    Curses.noecho
+    Curses.curs_set(0)
+    win.setpos(24, 2)
+    win.getch.tap do
+      Curses.curs_set(1)
+      Curses.echo
+    end
+  end
 
   def box_with_title(title)
     win.box('|', '-')

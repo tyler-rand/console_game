@@ -26,7 +26,7 @@ class MapInputLoop
 
   def input_loop
     loop do
-      map_input = main_win.getch_no_echo
+      map_input = main_win.get_char_without_echo
 
       case map_input
       when BAG_MENU      then next bag_menu

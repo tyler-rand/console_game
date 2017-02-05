@@ -19,22 +19,7 @@ class MainWindow
   def build_map(map_display)
     win.clear
     map_display.display_colored_map
-
-    win.setpos(22, 3)
-    win.attron(Curses.color_pair(2)) { win.addstr('WASD') }
-    win.addstr(' to move, ')
-    win.attron(Curses.color_pair(1)) { win.addstr('C') }
-    win.addstr(' to exit.')
-    win.setpos(23, 3)
-    win.attron(Curses.color_pair(3)) { win.addstr('B') }
-    win.addstr(' bag, ')
-    win.attron(Curses.color_pair(3)) { win.addstr('L') }
-    win.addstr(' map legend')
-    win.setpos(24, 3)
-    win.attron(Curses.color_pair(3)) { win.addstr('E') }
-    win.addstr(' equipped, ')
-    win.attron(Curses.color_pair(3)) { win.addstr('Q') }
-    win.addstr(' quest log')
+    display_controls
     box_with_title("Map: #{map_display.map.name}")
   end
 
@@ -57,5 +42,23 @@ class MainWindow
     title_indent = (13 - (title.length / 2)).floor
     win.setpos(0, title_indent)
     win.attron(Curses.color_pair(3)) { win.addstr(" #{title} ") }
+  end
+
+  def display_controls
+    win.setpos(22, 3)
+    win.attron(Curses.color_pair(2)) { win.addstr('WASD') }
+    win.addstr(' to move, ')
+    win.attron(Curses.color_pair(1)) { win.addstr('C') }
+    win.addstr(' to exit.')
+    win.setpos(23, 3)
+    win.attron(Curses.color_pair(3)) { win.addstr('B') }
+    win.addstr(' bag, ')
+    win.attron(Curses.color_pair(3)) { win.addstr('L') }
+    win.addstr(' map legend')
+    win.setpos(24, 3)
+    win.attron(Curses.color_pair(3)) { win.addstr('E') }
+    win.addstr(' equipped, ')
+    win.attron(Curses.color_pair(3)) { win.addstr('Q') }
+    win.addstr(' quest log')
   end
 end

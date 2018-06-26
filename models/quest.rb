@@ -30,6 +30,10 @@ class Quest
     YAML.load_stream(open('db/QuestsDB.yml'))
   end
 
+  def self.create(args)
+    new(args).save
+  end
+
   def save
     File.open('db/QuestsDB.yml', 'a') { |f| f.write(to_yaml) }
   end

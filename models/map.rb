@@ -14,8 +14,10 @@ class Map
     @quests      = load_quests
   end
 
-  def self.load(map)
-    open_all.detect { |m| m.name == map }
+  def self.load(map_name)
+    quest = open_all.detect { |map| map.name == map_name }
+    raise 'Invalid Map' if quest.nil?
+    quest
   end
 
   def self.names

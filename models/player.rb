@@ -1,8 +1,8 @@
 # tracks player stats and skills
 class Player
-  attr_reader :name, :password, :species, :type
+  attr_reader :name, :password, :species, :type, :quest_log
   attr_accessor :level, :current_exp, :max_exp, :health, :max_health, :defense, :damage,
-                :crit_chance, :listeners, :equipped, :inventory, :quest_log, :location, :energy,
+                :crit_chance, :listeners, :equipped, :inventory, :location, :energy,
                 :max_energy, :strength, :agility, :intelligence, :unused_skills
 
   MAP_ICON = 'P'.freeze

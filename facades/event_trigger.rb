@@ -33,9 +33,9 @@ class EventTrigger
   end
 
   def check_killed_mob
-    return unless listening_for_trigger?
-
-    player.quest_log.update_progress(listener: @listener)
+    if listening_for_trigger?
+      player.quest_log.update_progress(listener: @listener)
+    end
   end
 
   def listening_for_trigger?
@@ -48,7 +48,7 @@ class EventTrigger
   end
 
   def listening_for_map?
-    @listener.trigger[:killed_mob][:map] == @trigger[:mob].map_name.name
+    @listener.trigger[:killed_mob][:map] == @trigger[:mob].map.name
   end
 
   def listening_for_mob?

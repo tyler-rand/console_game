@@ -24,18 +24,6 @@ File.open('./db/QuestsDB.yml', 'w') {}
 
 QuestCreator.run
 
-#####################
-# CREATE NAMED MOBS #
-#####################
-
-MOBS.each do |mob|
-  Mob.new(
-    map:      mob[:map_name],
-    location: mob[:location],
-    options:  mob[:options]
-  ).save
-end
-
 ###############
 # CREATE MAPS #
 ###############
@@ -53,5 +41,18 @@ maps.each do |map|
     file:  map[:file]
   ).save
 end
+
+#####################
+# CREATE NAMED MOBS #
+#####################
+
+MOBS.each do |mob|
+  Mob.new(
+    map:      Map.load(mob[:map_name]),
+    location: mob[:location],
+    options:  mob[:options]
+  ).save
+end
+
 
 puts 'Created files successfully!'

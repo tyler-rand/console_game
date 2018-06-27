@@ -21,7 +21,7 @@ class Mob
     @damage        = options[:damage] || default_damage
     @defense       = options[:defense] || default_defense
     @movement_type = options[:movement_type] || 0
-    @map_name      = map || map.name
+    @map_name      = map
   end
 
   def self.find(map_name:, location:)
